@@ -20,7 +20,7 @@ export default function ConnectPage() {
         <div style={{fontSize:14,marginTop:6,color:"#414448"}}>Express Parking &amp; Mobility</div>
         <div style={{fontSize:12,fontWeight:500,letterSpacing:1.1,color:"#173c30",margin:"22px 0 16px"}}>PARKING MANAGEMENT &amp; MOBILITY SOLUTIONS</div>
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8}}>
-          <a href="tel:+12039410954" style={primary}>Call</a>
+          <a href="tel:+12038875411" style={primary}>Call</a>
           <a href="mailto:nebyat@expresparking.com" style={primary}>Email</a>
           <a href="/nebyat-shewaye.vcf" download style={light}>Save Contact</a>
         </div>
@@ -29,7 +29,7 @@ export default function ConnectPage() {
           <span>Garages</span><span>Surface Lots</span><span>Valet</span><span>Parking Ambassadors</span><span>Events</span><span style={{color:"#4c7b34"}}>Velor Car Care</span>
         </div>
         <div style={{marginTop:17}}><div style={{fontSize:10.5,letterSpacing:1.5,color:"#666",marginBottom:10}}>SHARE CONTACT</div><button onClick={shareCard} style={{color:"#ff5a00",border:"1px solid #f0c6ae",borderRadius:12,padding:"11px 18px",fontSize:12,fontWeight:500,background:"#fff",cursor:"pointer"}}>Share this card</button></div>
-        <div style={{color:"#666b70",fontSize:10.5,marginTop:15,lineHeight:1.6}}>Office (203) 887-5411 &nbsp; • &nbsp; Mobile (203) 941-0954<br/>nebyat@expresparking.com</div>
+        <div style={{color:"#666b70",fontSize:10.5,marginTop:15,lineHeight:1.6}}>Cell (203) 887-5411 &nbsp; • &nbsp; Office (203) 941-0954<br/>nebyat@expresparking.com</div>
         <div style={{margin:"20px -23px -20px",background:"#173c30",color:"#fff",padding:"14px 18px",borderRadius:"0 0 28px 28px",fontSize:10.5}}>Connecticut owned · Professional parking management since 2004</div>
       </section>
     </main>
