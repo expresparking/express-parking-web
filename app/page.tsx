@@ -1,39 +1,6 @@
 import Link from "next/link";
 import { ArrowIcon, CheckIcon } from "./ui";
 
-const divisions = [
-  {
-    label: "EXPRESS PARKING",
-    headline: "Vehicle Access. Smarter.",
-    role: "Garage management, hourly/daily parking, pay systems, and valet operations.",
-    href: "/parking-management",
-    cta: "Explore Parking",
-    image: "/images/modern-garage-interior.jpg",
-    accent: "#F97316",
-    className: "division-parking",
-  },
-  {
-    label: "EXPRESS PROPERTY CARE",
-    headline: "Properties Run Better.",
-    role: "On-site oversight, keyholding, routine site checks, vendor access, photo reporting, and 24/7 local dispatch.",
-    href: "/property-care",
-    cta: "Explore Property Care",
-    image: "/images/property-care-building.jpg",
-    accent: "#3B82F6",
-    className: "division-property",
-  },
-  {
-    label: "VELOR CAR CARE",
-    headline: "A Cleaner Drive Forward.",
-    role: "Waterless detailing, non-toxic interior cleaning, and eco-friendly vehicle care.",
-    href: "/velor",
-    cta: "Explore Velor",
-    image: "/images/velor-car-care.jpg",
-    accent: "#10B981",
-    className: "division-velor",
-  },
-];
-
 const industries = ["Commercial buildings", "Office campuses", "Hospitals", "Hotels", "Universities", "Municipalities", "Residential communities", "Shopping centers", "Special events", "Airports"];
 
 export default function Home() {
@@ -56,10 +23,48 @@ export default function Home() {
     <section className="home-positioning"><div className="shell"><span className="parking-tab">Express Parking</span><span className="property-tab">Express Property Care</span><span className="velor-tab">Velor Car Care</span></div></section>
 
     <section className="section shell division-section" id="services">
-      <div className="division-card-grid">
-        {divisions.map((division) => <article className={`division-card ${division.className}`} key={division.label} style={{"--division-accent": division.accent, "--division-image": `url(${division.image})`} as React.CSSProperties}>
-          <div className="division-card-content"><span className="division-label">{division.label}</span><h3>{division.headline}</h3><p>{division.role}</p><Link href={division.href}>{division.cta} <ArrowIcon /></Link></div>
-        </article>)}
+      <div className="division-card-grid approved-card-grid">
+        <article className="division-card division-parking" style={{"--division-accent":"#F97316","--division-image":"url(/images/modern-garage-interior.jpg)"} as React.CSSProperties}>
+          <div className="division-card-content">
+            <span className="division-label">EXPRESS PARKING</span>
+            <h3>Vehicle Access. Smarter.</h3>
+            <p>Garage management, hourly/daily parking, pay systems, and valet operations.</p>
+            <Link href="/parking-management">Explore Parking <ArrowIcon /></Link>
+          </div>
+        </article>
+
+        <article className="division-card division-property" style={{"--division-accent":"#3B82F6","--division-image":"url(/images/property-care-building.jpg)"} as React.CSSProperties}>
+          <div className="division-card-content">
+            <span className="division-label">EXPRESS PROPERTY CARE</span>
+            <h3>Properties Run Better.</h3>
+            <p>On-site oversight, keyholding, routine site checks, vendor access, photo reporting, and 24/7 local dispatch.</p>
+            <Link href="/property-care">Explore Property Care <ArrowIcon /></Link>
+          </div>
+        </article>
+
+        <article className="division-card division-velor velor-booking-card">
+          <div className="velor-booking-content">
+            <span className="division-label">VELOR CAR CARE</span>
+            <small>YOUR BOOKING</small>
+            <h3>One-time car care</h3>
+            <div className="velor-booking-grid">
+              <div className="velor-booking-details">
+                <div><b>LOCATION</b><span>96 Orange Street Garage</span></div>
+                <div><b>SCHEDULE</b><span>While parked today · 9 AM–5 PM</span></div>
+                <div><b>VEHICLE</b><span>Add plate and space</span></div>
+              </div>
+              <div className="velor-included">
+                <strong>Included with every visit</strong>
+                <span>✓ Eco-conscious process</span>
+                <span>✓ Zero-runoff service method</span>
+                <span>✓ Before-and-after photos</span>
+                <span>✓ Completion notification</span>
+              </div>
+            </div>
+            <p>Final service selection and price will be confirmed before payment.</p>
+            <Link className="velor-book-button" href="/velor">Book Now <ArrowIcon /></Link>
+          </div>
+        </article>
       </div>
     </section>
 
