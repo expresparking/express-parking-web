@@ -3,10 +3,37 @@
 import { FormEvent, useState } from "react";
 
 export default function PropertyIssuePage() {
-  const [submitted, setSubmitted] = useState(false);
-  function submit(e: FormEvent<HTMLFormElement>) { e.preventDefault(); setSubmitted(true); }
+  const [reference, setReference] = useState("");
+  const [error, setError] = useState("");
+  const [sending, setSending] = useState(false);
 
-  if (submitted) return <main className="property-care-theme"><section className="section shell"><div className="form-success" role="status"><span>✓</span><div><h1>Request recorded on this page.</h1><p>The live notification connection is the next setup step. Until that is activated, please call 203-941-0954, Ext. 3 for service.</p></div></div></section></main>;
+  async function submit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setError("");
+    setSending(true);
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const payload = Object.fromEntries(formData.entries());
+
+    try {
+      const response = await fetch("/api/property-care/request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Unable to submit request.");
+      setReference(data.reference || "Submitted");
+      form.reset();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unable to submit request. Please call 203-941-0954, Ext. 3.");
+    } finally {
+      setSending(false);
+    }
+  }
+
+  if (reference) return <main className="property-care-theme"><section className="section shell"><div className="form-success" role="status"><span>✓</span><div><h1>Request received.</h1><p>Your Express Property Care reference number is <strong>{reference}</strong>.</p><p>Our team will review the request and respond using the contact information you provided. For urgent property assistance, call 203-941-0954, Ext. 3.</p></div></div></section></main>;
 
   return <main className="property-care-theme">
     <section className="contact-hero property-care-request-hero"><div className="shell contact-grid">
@@ -31,9 +58,11 @@ export default function PropertyIssuePage() {
           <label className="form-wide"><span>Describe the issue</span><textarea required name="description" rows={5} placeholder="What happened? When did you notice it? Include any useful details." /></label>
           <label><span>Permission to enter</span><select required name="entry"><option>Call me first</option><option>Yes — authorized access</option><option>No — I must be present</option></select></label>
           <label><span>Best access time</span><input name="accessTime" placeholder="Example: weekdays after 3 PM" /></label>
+          <label style={{ position: "absolute", left: "-10000px", width: 1, height: 1, overflow: "hidden" }} aria-hidden="true"><span>Website</span><input name="companyWebsite" tabIndex={-1} autoComplete="off" /></label>
         </div>
-        <p><strong>Photo/video upload will be added when secure request storage is connected.</strong></p>
-        <button className="button property-care-button" type="submit">Submit Property Request →</button>
+        <p><strong>Photo/video upload is the next secure-storage upgrade.</strong></p>
+        {error && <p role="alert" style={{ color: "#a51d1d", fontWeight: 700 }}>{error}</p>}
+        <button className="button property-care-button" type="submit" disabled={sending}>{sending ? "Sending…" : "Submit Property Request →"}</button>
         <small>For urgent issues, submitting this form does not replace calling 203-941-0954, Ext. 3.</small>
       </form>
     </div></section>
