@@ -1,22 +1,39 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { InquiryForm } from "../components/InquiryForm";
-import { serviceList } from "../service-data";
-import { ArrowIcon, CheckIcon, ServiceIcon } from "../ui";
+import { ArrowIcon } from "../ui";
 
-export const metadata: Metadata = { title: "Services", description: "Parking management, property operations, concierge, parking and downtown ambassadors, street cleaning, light maintenance, and eco-friendly car care from Express Parking." };
+export const metadata: Metadata = {
+  title: "Services",
+  description: "Three focused divisions from Express Parking & Mobility: parking management, property care, and Velor Car Care.",
+};
+
+const divisions = [
+  {
+    name: "Express Parking",
+    copy: "Garage and lot management, hourly/daily/monthly parking, automated pay systems, access control, and valet operations.",
+    href: "/parking-management",
+    accent: "#C9A24A",
+    background: "#171A1F",
+  },
+  {
+    name: "Express Property Care",
+    copy: "Secure keyholding, site checks, vendor access supervision, photo reporting, issue coordination, and 24/7 local emergency dispatch.",
+    href: "/property-care",
+    accent: "#4B7FE6",
+    background: "#173A63",
+  },
+  {
+    name: "Velor Car Care",
+    copy: "Waterless mobile detailing, non-toxic interior cleaning, and eco-conscious vehicle preservation while the car is parked.",
+    href: "/velor",
+    accent: "#2F7D64",
+    background: "#090B0B",
+  },
+];
 
 export default function ServicesPage() {
   return <main>
-    <section className="inner-hero services-hero"><div className="shell inner-hero-grid"><div><span className="eyebrow light"><span className="eyebrow-line" />Services</span><h1>Everything between arrival and a well-run property.</h1><p>Build one focused program or combine services under a single local operating team.</p></div><div className="hero-index">{serviceList.map(s => <Link key={s.slug} href={`/services/${s.slug}`}><span>{s.number}</span><b>{s.eyebrow}</b><ArrowIcon /></Link>)}</div></div></section>
-    <section className="service-card-canvas"><div className="shell service-stack">
-      {serviceList.map(service => <article key={service.slug} className="service-row"><div className={`service-row-icon accent-${service.accent}`}><span>{service.number}</span><ServiceIcon name={service.icon} /></div><div><span className="eyebrow">{service.eyebrow}</span><h2>{service.title}</h2><p>{service.short}</p><div className="tag-row">{service.bestFor.map(item => <span key={item}>{item}</span>)}</div></div><Link href={`/services/${service.slug}`} className="round-link" aria-label={`View ${service.eyebrow}`}><ArrowIcon /></Link></article>)}
-    </div></section>
-    <section className="package-section"><div className="shell"><div className="section-heading split-heading"><div><span className="eyebrow light"><span className="eyebrow-line" />Ways to engage</span><h2>Start focused.<br /><em>Expand with proof.</em></h2></div><p>Pricing is tailored after a site walk. These package structures make it easy to test the relationship and scale only when the service is working.</p></div><div className="package-grid">{[
-      ["Complete Parking Operations", "Day-to-day parking leadership built around your facility.", ["Staffing and shift oversight", "Traffic and lane coordination", "Tenant and guest support", "Documented operating reports"]],
-      ["Welcome + Mobility", "Flexible staffed coverage where people need help most.", ["Ambassador or concierge post", "4-hour scheduling minimum", "Site-specific training", "Shift activity report"]],
-      ["Property + Amenity Partner", "A combined program with one assigned account lead.", ["Property and guest services", "Light maintenance coordination", "Optional mobile car care", "Quarterly property review"]]
-    ].map(([title, copy, items], index) => <article key={title as string}><span>0{index + 1}</span><h3>{title as string}</h3><p>{copy as string}</p><ul>{(items as string[]).map(i => <li key={i}><CheckIcon />{i}</li>)}</ul><Link href="/contact">Discuss this package <ArrowIcon /></Link></article>)}</div></div></section>
-    <section className="form-section"><div className="shell form-section-grid"><div><span className="eyebrow light"><span className="eyebrow-line" />Quick inquiry</span><h2>Not sure which service fits?</h2><p>Tell us about the property and we’ll recommend the simplest place to begin.</p></div><InquiryForm compact title="Find the right starting point" /></div></section>
+    <section className="inner-hero services-hero"><div className="shell"><span className="eyebrow light"><span className="eyebrow-line" />Services</span><h1>Three divisions. Three clear scopes.</h1><p>Choose the service line that matches the work you need.</p></div></section>
+    <section className="section shell"><div className="service-grid home-service-grid" style={{gridTemplateColumns:"repeat(3,1fr)"}}>{divisions.map((division, index) => <article className="service-card home-service-card" key={division.name} style={{background:division.background,color:"#fff",borderColor:division.background}}><div className="service-top"><span style={{color:division.accent}}>0{index+1}</span></div><h3 style={{color:"#fff"}}>{division.name}</h3><p style={{color:"#d9dde2"}}>{division.copy}</p><Link href={division.href} style={{color:division.accent}}>Explore {division.name} <ArrowIcon /></Link></article>)}</div></section>
   </main>;
 }
