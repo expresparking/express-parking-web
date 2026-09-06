@@ -27,7 +27,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               <Link href="/parking-management">Parking</Link>
               <Link href="/property-care">Property Care</Link>
               <Link href="/velor">Velor</Link>
-              <Link href="/approach">Approach</Link>
               <Link href="/about">Company</Link>
               <Link href="/contact">Contact</Link>
             </nav>
@@ -39,7 +38,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 <Link href="/property-care">Property Care</Link>
                 <Link href="/property-care/report">Report an Issue</Link>
                 <Link href="/velor">Velor</Link>
-                <Link href="/approach">Approach</Link>
                 <Link href="/about">Company</Link>
                 <Link href="/contact">Contact</Link>
               </div>
@@ -58,7 +56,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             </div>
             <div><h3>Parking</h3><Link href="/find-parking">Find Parking</Link><Link href="/parking-management">Parking Management</Link><Link href="/services/parking-ambassadors">Parking Ambassadors</Link></div>
             <div><h3>Property + Car Care</h3><Link href="/property-care">Property Care</Link><Link href="/property-care/report">Report an Issue</Link><Link href="/velor">Velor Car Care</Link></div>
-            <div><h3>Company</h3><Link href="/about">About</Link><Link href="/approach">Approach</Link><Link href="/contact">Contact</Link><a href="tel:+12039410954">203-941-0954</a></div>
+            <div><h3>Company</h3><Link href="/about">About</Link><Link href="/contact">Contact</Link><a href="tel:+12039410954">203-941-0954</a></div>
           </div>
           <div className="shell footer-bottom"><span>© 2026 Express Parking. All rights reserved.</span><span>New Haven, Connecticut</span></div>
         </footer>
