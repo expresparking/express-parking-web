@@ -3,33 +3,33 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Property Care & Maintenance",
-  description: "Local property support, keyholding, inspections, maintenance coordination, documentation, vendor access, and emergency response in New Haven.",
+  description: "Boots-on-the-ground property oversight, keyholding, site checks, vendor access, photo reporting, and local emergency response in New Haven.",
 };
 
-const propertyBlue = "#1F4E79";
-const propertyBlueSoft = "#F3F7FB";
+const propertyBlue = "#173A63";
+const propertyAccent = "#2F6FDB";
+const propertyBlueSoft = "#F3F7FC";
 
 const services = [
-  ["Secure Keyholding & Property Access", "Secure key storage and coordinated access for authorized contractors, service providers, utilities, and tenants."],
-  ["Routine Property Checks", "Scheduled visual checks of common areas, exterior conditions, vacant units, and other agreed-upon areas to identify problems early."],
-  ["Maintenance Response & Coordination", "We respond to maintenance requests, assess the issue, handle appropriate minor maintenance, or coordinate qualified service professionals when needed."],
-  ["Photo & Video Documentation", "Clear before-and-after documentation following property checks, maintenance visits, and service calls."],
-  ["Vendor Access & Oversight", "We can meet contractors and service providers, provide authorized access, and document completed work for the owner."],
-  ["24/7 Emergency Response", "A defined local escalation path for urgent situations requiring assessment, authorized access, or help securing the property."],
+  ["Secure Keyholding & Access", "Authorized local keyholding for owner-approved property entry, contractor access, and urgent response."],
+  ["Routine Site Checks", "Scheduled visual checks of exterior conditions, common areas, vacant units, and agreed-upon building areas."],
+  ["Vendor Access Supervision", "We meet approved vendors, provide authorized access, confirm arrival, and document completed work for the owner."],
+  ["Photo & Video Reporting", "Clear visual documentation from property checks, service visits, damage observations, and completed work."],
+  ["Local Issue Response", "A local point of contact to assess reported conditions and coordinate the appropriate next step."],
+  ["24/7 Emergency Dispatch", "Local dispatch for urgent property situations requiring assessment, authorized access, vendor coordination, or building security support."],
 ];
 
 export default function PropertyCarePage() {
   return (
     <main style={{ "--property-blue": propertyBlue } as React.CSSProperties}>
-      <section className="service-hero" style={{ borderTop: `5px solid ${propertyBlue}`, background: "#fff" }}>
+      <section className="service-hero" style={{ borderTop: `5px solid ${propertyAccent}`, background: propertyBlue, color: "white" }}>
         <div className="shell">
-          <span className="eyebrow" style={{ color: propertyBlue }}>EXPRESS PROPERTY CARE</span>
-          <h1>Property Care &amp; Maintenance</h1>
-          <p className="hero-lede">Local support for property owners who need reliable eyes, ears, and hands on the ground.</p>
-          <p>Whether you live across town or out of state, Express provides dependable local support to help protect your property and handle day-to-day issues without the overhead of a full-time on-site manager.</p>
+          <span className="eyebrow" style={{ color: "#AFC9FF" }}>EXPRESS PROPERTY CARE</span>
+          <h1 style={{ color: "white" }}>Local building oversight when you can’t be there.</h1>
+          <p className="hero-lede" style={{ color: "#DCE7F5" }}>Boots-on-the-ground property support for independent and absentee owners who need a trusted local presence.</p>
+          <p style={{ color: "#DCE7F5" }}>Express Property Care focuses on physical building oversight: keyholding, site checks, vendor access, visual reporting, and local emergency response. You remain in control of the property while we handle what needs attention on the ground.</p>
           <div className="button-row">
-            <Link className="button" style={{ background: propertyBlue, color: "white" }} href="/property-care/report">Report a Property Issue →</Link>
-            <a className="button button-quiet" href="tel:+12039410954">Call 203-941-0954 • Ext. 3</a>
+            <Link className="button" style={{ background: propertyAccent, color: "white" }} href="/property-care/report">Report a Property Issue →</Link>
           </div>
         </div>
       </section>
@@ -37,14 +37,14 @@ export default function PropertyCarePage() {
       <section className="section" style={{ background: propertyBlueSoft }}>
         <div className="shell">
           <div className="section-heading">
-            <span className="eyebrow" style={{ color: propertyBlue }}>LOCAL PROPERTY SUPPORT</span>
+            <span className="eyebrow" style={{ color: propertyAccent }}>PHYSICAL PROPERTY OVERSIGHT</span>
             <h2>Your property. Our local presence.</h2>
-            <p>From our downtown New Haven office at 96 Orange Street, Express gives independent property owners a reliable local point of contact when they cannot be there themselves.</p>
+            <p>From 96 Orange Street in downtown New Haven, Express provides a local operating presence for owners who need someone nearby to check, document, coordinate, and respond.</p>
           </div>
           <div className="owner-proof-grid">
             {services.map(([title, copy], i) => (
-              <article className="owner-proof-card" style={{ borderTop: `3px solid ${propertyBlue}`, background: "#fff" }} key={title}>
-                <span className="owner-proof-number" style={{ color: propertyBlue }}>{String(i + 1).padStart(2, "0")}</span>
+              <article className="owner-proof-card" style={{ borderTop: `3px solid ${propertyAccent}`, background: "#fff" }} key={title}>
+                <span className="owner-proof-number" style={{ color: propertyAccent }}>{String(i + 1).padStart(2, "0")}</span>
                 <h3>{title}</h3>
                 <p>{copy}</p>
               </article>
@@ -53,14 +53,14 @@ export default function PropertyCarePage() {
         </div>
       </section>
 
-      <section className="section shell cta-panel" style={{ borderTop: `4px solid ${propertyBlue}`, background: "#fff" }}>
+      <section className="section shell cta-panel" style={{ borderTop: `4px solid ${propertyAccent}`, background: "#fff" }}>
         <div>
-          <span className="eyebrow" style={{ color: propertyBlue }}>TENANTS &amp; OWNERS</span>
+          <span className="eyebrow" style={{ color: propertyAccent }}>TENANTS &amp; OWNERS</span>
           <h2>Something needs attention?</h2>
         </div>
         <div>
-          <p>Send the property address, unit, issue details, urgency, and access instructions online. For urgent property assistance, call 203-941-0954, Ext. 3.</p>
-          <Link className="button" style={{ background: propertyBlue, color: "white" }} href="/property-care/report">Submit a Request →</Link>
+          <p>Send the address, unit or area, issue details, urgency, and access instructions online. For urgent property assistance, call 203-941-0954, Ext. 3.</p>
+          <Link className="button" style={{ background: propertyAccent, color: "white" }} href="/property-care/report">Submit a Request →</Link>
         </div>
       </section>
     </main>
