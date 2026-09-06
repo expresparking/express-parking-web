@@ -36,14 +36,23 @@ const services = [
   },
   {
     number: "05",
-    title: "Hospitality Services",
-    copy: "Parking ambassadors and concierge professionals who make every arrival feel managed.",
-    points: ["Customer assistance", "Traffic direction", "Hospitality & wayfinding", "Security observation"],
+    title: "Parking Ambassadors",
+    copy: "Visible, professional support for drivers, pedestrians, wayfinding, and busy arrival areas.",
+    points: ["Customer assistance", "Traffic direction", "Wayfinding", "Incident observation"],
     href: "/services/parking-ambassadors",
     icon: "concierge" as const,
   },
   {
     number: "06",
+    title: "Property Care & Maintenance",
+    copy: "Reliable local support for property owners who need trusted eyes, ears, and hands on the ground.",
+    points: ["Secure keyholding", "Routine property checks", "Maintenance coordination", "24/7 emergency response"],
+    href: "/property-care",
+    icon: "building" as const,
+    propertyCare: true,
+  },
+  {
+    number: "07",
     title: "Velor Car Care",
     copy: "Premium eco-conscious car care completed conveniently while the vehicle is parked.",
     points: ["Eco-friendly wash", "Interior cleaning", "While-you-park service", "Monthly memberships"],
@@ -80,10 +89,10 @@ export default function Home() {
     <main className="parking-home">
       <section className="hero shell">
         <div className="hero-copy reveal">
-          <span className="eyebrow"><span className="eyebrow-line" />Parking operations + mobility services</span>
+          <span className="eyebrow"><span className="eyebrow-line" />Parking operations + property care + mobility services</span>
           <h1>Parking Made Simple. <em>Mobility Made Better.</em></h1>
           <p className="hero-lede">
-            Serving businesses, municipalities, hospitals, residential communities, and event venues with professional parking and mobility solutions.
+            Serving businesses, municipalities, hospitals, residential communities, and event venues with professional parking, property care, and mobility solutions.
           </p>
           <div className="button-row">
             <Link className="button button-primary" href="/find-parking">Find parking <ArrowIcon /></Link>
@@ -101,7 +110,7 @@ export default function Home() {
           <div className="hero-photo-label">
             <span>EXPRESS PARKING &amp; MOBILITY</span>
             <strong>Professional operations. Better arrivals.</strong>
-            <small>Parking • Valet • Events • Hospitality</small>
+            <small>Parking • Property Care • Valet • Events • Velor</small>
           </div>
           <div className="parking-mark"><b>P</b><span>ARRIVAL<br />MANAGED</span></div>
         </div>
@@ -110,7 +119,7 @@ export default function Home() {
       <section className="home-positioning">
         <div className="shell">
           <span>Parking Solutions.</span>
-          <span>Mobility Services.</span>
+          <span>Property Care.</span>
           <span>Premium Customer Experience.</span>
         </div>
       </section>
@@ -119,18 +128,19 @@ export default function Home() {
         <div className="section-heading split-heading">
           <div>
             <span className="eyebrow"><span className="eyebrow-line" />Our services</span>
-            <h2>Everything your arrival experience needs.</h2>
+            <h2>Local operations that keep properties moving.</h2>
           </div>
-          <p>From the garage entrance to the front door, Express brings parking, mobility, and hospitality together under one accountable operating team.</p>
+          <p>Express brings parking, property care, mobility, and car-care services together under one accountable local team.</p>
         </div>
         <div className="service-grid home-service-grid">
           {services.map((service) => (
-            <article className={`service-card home-service-card${service.velor ? " velor-card" : ""}`} key={service.number}>
+            <article className={`service-card home-service-card${service.velor ? " velor-card" : ""}${service.propertyCare ? " property-care-card" : ""}`} key={service.number}>
               <div className="service-top">
                 <span>{service.number}</span>
                 <ServiceIcon name={service.icon} />
               </div>
               {service.velor && <span className="powered-by">POWERED BY VELOR</span>}
+              {service.propertyCare && <span className="powered-by">EXPRESS PROPERTY CARE</span>}
               <h3>{service.title}</h3>
               <p>{service.copy}</p>
               <ul>
@@ -147,7 +157,7 @@ export default function Home() {
           <div>
             <span className="eyebrow"><span className="eyebrow-line" />Why choose Express</span>
             <h2>A stronger operation customers can feel.</h2>
-            <p>We combine disciplined parking management with the human service that makes properties safer, easier to navigate, and more welcoming.</p>
+            <p>We combine disciplined parking management with local property support and the human service that makes properties safer, easier to navigate, and more welcoming.</p>
           </div>
           <div className="strength-grid">
             {strengths.map((strength, index) => (
@@ -272,7 +282,7 @@ export default function Home() {
       <section className="section shell cta-panel">
         <div>
           <span className="eyebrow"><span className="eyebrow-line" />Let’s improve your operation</span>
-          <h2>One partner for parking, mobility, and hospitality.</h2>
+          <h2>One local partner for parking, property care, and mobility.</h2>
         </div>
         <div>
           <p>Tell us about your property, garage, lot, or event. We’ll recommend a practical operating plan built around your real needs.</p>
