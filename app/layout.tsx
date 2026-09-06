@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
+import "./polish.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: { default: "Express Parking & Mobility | Parking Made Simple", template: "%s | Express Parking & Mobility" },
-  description: "Professional parking garages, surface lots, valet, event parking, property care, and premium car-care amenities for Connecticut properties.",
+  description: "Connecticut parking management, local property care, and while-you-park vehicle care from Express Parking & Mobility.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -25,13 +26,23 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               <Link href="/find-parking">Find Parking</Link>
               <Link href="/parking-management">Parking</Link>
               <Link href="/property-care">Property Care</Link>
-              <Link href="/velor">Car Care</Link>
-              <Link href="/approach">Our approach</Link>
+              <Link href="/velor">Velor</Link>
+              <Link href="/approach">Approach</Link>
               <Link href="/about">Company</Link>
+              <Link href="/contact">Contact</Link>
             </nav>
             <details className="mobile-menu">
               <summary>Menu</summary>
-              <div><Link href="/find-parking">Find Parking</Link><Link href="/parking-management">Parking</Link><Link href="/property-care">Property Care</Link><Link href="/property-care/report">Report an Issue</Link><Link href="/velor">Car Care</Link><Link href="/approach">Our approach</Link><Link href="/about">Company</Link><Link href="/contact">Contact</Link></div>
+              <div>
+                <Link href="/find-parking">Find Parking</Link>
+                <Link href="/parking-management">Parking</Link>
+                <Link href="/property-care">Property Care</Link>
+                <Link href="/property-care/report">Report an Issue</Link>
+                <Link href="/velor">Velor</Link>
+                <Link href="/approach">Approach</Link>
+                <Link href="/about">Company</Link>
+                <Link href="/contact">Contact</Link>
+              </div>
             </details>
           </div>
         </header>
@@ -43,13 +54,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 <img className="brand-x" src="/images/express-x-logo.png" alt="" />
                 <span><b>EXPRESS</b><small>PARKING &amp; MOBILITY</small></span>
               </Link>
-              <p>Parking solutions, property care, mobility services, and premium customer experiences from one accountable local team.</p>
+              <p>Three focused divisions: parking management, local property care, and Velor vehicle care.</p>
             </div>
-            <div><h3>Parking</h3><Link href="/find-parking">Daily parking</Link><Link href="/find-parking">Monthly parking</Link><Link href="/parking-management">Garages</Link><Link href="/parking-management">Surface lots</Link></div>
-            <div><h3>Services</h3><Link href="/property-care">Property Care</Link><Link href="/property-care/report">Report an Issue</Link><Link href="/services/parking-ambassadors">Parking Ambassadors</Link><Link href="/velor">Velor Car Care</Link></div>
-            <div><h3>Company</h3><Link href="/about">About</Link><Link href="/contact">Careers</Link><Link href="/contact">Contact</Link><Link href="/contact">Request proposal</Link><a href="tel:+12039410954">203-941-0954</a></div>
+            <div><h3>Parking</h3><Link href="/find-parking">Find Parking</Link><Link href="/parking-management">Parking Management</Link><Link href="/services/parking-ambassadors">Parking Ambassadors</Link></div>
+            <div><h3>Property + Car Care</h3><Link href="/property-care">Property Care</Link><Link href="/property-care/report">Report an Issue</Link><Link href="/velor">Velor Car Care</Link></div>
+            <div><h3>Company</h3><Link href="/about">About</Link><Link href="/approach">Approach</Link><Link href="/contact">Contact</Link><a href="tel:+12039410954">203-941-0954</a></div>
           </div>
-          <div className="shell footer-bottom"><span>© 2026 Express Parking. All rights reserved.</span><span>Parking, property care &amp; mobility services for Connecticut.</span></div>
+          <div className="shell footer-bottom"><span>© 2026 Express Parking. All rights reserved.</span><span>New Haven, Connecticut</span></div>
         </footer>
       </body>
     </html>
