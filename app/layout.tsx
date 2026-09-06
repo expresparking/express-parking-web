@@ -9,7 +9,7 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 
 export const metadata: Metadata = {
   title: { default: "Express Parking & Mobility | Parking Made Simple", template: "%s | Express Parking & Mobility" },
-  description: "Professional parking garages, surface lots, valet, event parking, hospitality services, and premium car-care amenities for Connecticut properties.",
+  description: "Professional parking garages, surface lots, valet, event parking, property care, and premium car-care amenities for Connecticut properties.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -25,14 +25,14 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <nav aria-label="Primary navigation">
               <Link href="/find-parking">Find Parking</Link>
               <Link href="/parking-management">Parking</Link>
-              <Link href="/services">Mobility Services</Link>
+              <Link href="/property-care">Property Care</Link>
               <Link href="/velor">Car Care</Link>
               <Link href="/approach">Our approach</Link>
               <Link href="/about">Company</Link>
             </nav>
             <details className="mobile-menu">
               <summary>Menu</summary>
-              <div><Link href="/find-parking">Find Parking</Link><Link href="/parking-management">Parking</Link><Link href="/services">Mobility Services</Link><Link href="/velor">Car Care</Link><Link href="/approach">Our approach</Link><Link href="/about">Company</Link><Link href="/contact">Contact</Link></div>
+              <div><Link href="/find-parking">Find Parking</Link><Link href="/parking-management">Parking</Link><Link href="/property-care">Property Care</Link><Link href="/property-care/report">Report an Issue</Link><Link href="/velor">Car Care</Link><Link href="/approach">Our approach</Link><Link href="/about">Company</Link><Link href="/contact">Contact</Link></div>
             </details>
             <Link className="nav-cta" href="/contact">Partner with Express Parking: Request a Proposal <ArrowIcon /></Link>
           </div>
@@ -45,13 +45,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 <img className="brand-x" src="/images/express-x-logo.png" alt="" />
                 <span><b>EXPRESS</b><small>PARKING &amp; MOBILITY</small></span>
               </Link>
-              <p>Parking solutions, mobility services, and premium customer experiences from one accountable local team.</p>
+              <p>Parking solutions, property care, mobility services, and premium customer experiences from one accountable local team.</p>
             </div>
             <div><h3>Parking</h3><Link href="/find-parking">Daily parking</Link><Link href="/find-parking">Monthly parking</Link><Link href="/parking-management">Garages</Link><Link href="/parking-management">Surface lots</Link></div>
-            <div><h3>Services</h3><Link href="/contact">Valet parking</Link><Link href="/contact">Event parking</Link><Link href="/services/parking-ambassadors">Hospitality services</Link><Link href="/velor">Velor Car Care</Link></div>
+            <div><h3>Services</h3><Link href="/property-care">Property Care</Link><Link href="/property-care/report">Report an Issue</Link><Link href="/services/parking-ambassadors">Parking Ambassadors</Link><Link href="/velor">Velor Car Care</Link></div>
             <div><h3>Company</h3><Link href="/about">About</Link><Link href="/contact">Careers</Link><Link href="/contact">Contact</Link><Link href="/contact">Request proposal</Link><a href="tel:+12039410954">203-941-0954</a></div>
           </div>
-          <div className="shell footer-bottom"><span>© 2026 Express Parking. All rights reserved.</span><span>Parking &amp; mobility services for Connecticut.</span></div>
+          <div className="shell footer-bottom"><span>© 2026 Express Parking. All rights reserved.</span><span>Parking, property care &amp; mobility services for Connecticut.</span></div>
         </footer>
       </body>
     </html>
