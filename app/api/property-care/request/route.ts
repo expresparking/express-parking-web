@@ -26,11 +26,6 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    // Honeypot for basic bot filtering.
-    if (clean(body.companyWebsite, 200)) {
-      return NextResponse.json({ ok: true, reference: makeReference() });
-    }
-
     const role = clean(body.role, 80);
     const urgency = clean(body.urgency, 80);
     const name = clean(body.name, 120);
@@ -61,7 +56,8 @@ export async function POST(request: Request) {
 
     const reference = makeReference();
     const notifyEmail = process.env.PROPERTY_CARE_NOTIFY_EMAIL || "nebyat@expresparking.com";
-    const fromEmail = process.env.PROPERTY_CARE_FROM_EMAIL || "Express Property Care <onboarding@resend.dev>";
+    const configuredFrom = process.env.PROPERTY_CARE_FROM_EMAIL || "propertycare@expresparking.com";
+    const fromEmail = configuredFrom.includes("<") ? configuredFrom : `Express Property Care <${configuredFrom}>`;
 
     const safe = {
       reference: escapeHtml(reference), role: escapeHtml(role), urgency: escapeHtml(urgency),
@@ -102,11 +98,11 @@ export async function POST(request: Request) {
     });
 
     if (!notifyResponse.ok) {
-      console.error("Resend internal notification failed", await notifyResponse.text());
+      const resendError = await notifyResponse.text();
+      console.error("Resend internal notification failed", resendError);
       return NextResponse.json({ error: "We could not send the request. Please call 203-941-0954, Ext. 3." }, { status: 502 });
     }
 
-    // Send the requester a receipt. If this second email fails, the internal request is still accepted.
     await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: { Authorization: `Bearer ${resendKey}`, "Content-Type": "application/json" },
