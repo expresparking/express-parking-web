@@ -1,0 +1,108 @@
+/* Final polish layer: keep this file last in the cascade. */
+:root {
+  --express-orange: #ff5a00;
+  --parking-dark: #171a1f;
+  --parking-gold: #c9a24a;
+  --property-navy: #173a63;
+  --property-blue: #4b7fe6;
+  --velor-dark: #090b0b;
+  --velor-green: #2f7d64;
+  --text: #17191d;
+  --muted-clean: #5e6670;
+  --line-clean: #e5e8eb;
+  --surface-clean: #f7f8fa;
+}
+
+html, body { background: #fff !important; }
+body { color: var(--text); }
+.shell { width: min(1160px, calc(100% - 48px)); }
+
+.site-header { background: rgba(255,255,255,.97) !important; border-bottom: 1px solid var(--line-clean) !important; box-shadow: none !important; }
+.nav-wrap { min-height: 78px; gap: 24px; }
+.brand { min-width: 225px; gap: 11px; }
+.brand-x { width: 42px; height: 47px; }
+.brand b { font-size: 20px; letter-spacing: .02em; }
+.brand small { margin-top: 4px; font-size: 8px; }
+.nav-wrap nav { gap: 24px; }
+.nav-wrap nav a { font-size: 12px; font-weight: 700; }
+.nav-wrap nav a::after { bottom: -8px; height: 2px; }
+
+h1, h2, h3 { text-wrap: balance; }
+p { text-wrap: pretty; }
+.eyebrow { color: #69717a !important; font-size: 10px; letter-spacing: .14em; }
+.eyebrow-line { width: 28px !important; height: 2px !important; background: var(--express-orange) !important; }
+.section { padding-block: 96px !important; }
+.section-heading { margin-bottom: 40px !important; }
+.section h2, .section-heading h2, .approach-preview h2 { font-size: clamp(38px, 4.6vw, 60px) !important; line-height: 1 !important; letter-spacing: -.04em !important; }
+.hero-lede, .section-lede { color: var(--muted-clean) !important; line-height: 1.65 !important; }
+
+.button { min-height: 48px !important; padding: 0 20px !important; border-radius: 8px !important; box-shadow: none !important; font-size: 12px !important; font-weight: 800 !important; }
+.button-primary { color: #fff !important; background: var(--express-orange) !important; border-color: var(--express-orange) !important; }
+.button-primary:hover { background: #df4e00 !important; border-color: #df4e00 !important; transform: translateY(-2px) !important; }
+.button-quiet, .button-light { color: var(--text) !important; background: #fff !important; border: 1px solid #cfd5da !important; }
+.button-quiet:hover, .button-light:hover { border-color: #8d959e !important; transform: translateY(-2px) !important; }
+
+.hero, .inner-hero, .parking-landing-hero, .find-hero, .contact-hero, .service-hero { background: #fff !important; }
+.parking-home .hero { min-height: 620px !important; padding-block: 56px 64px !important; gap: 56px !important; }
+.parking-home .hero h1 { font-size: clamp(52px, 6vw, 78px) !important; line-height: .95 !important; letter-spacing: -.055em !important; }
+.hero-visual { border: 1px solid var(--line-clean) !important; border-radius: 12px !important; box-shadow: 0 18px 42px rgba(20,25,31,.10) !important; }
+
+.home-positioning { border-block: 1px solid var(--line-clean) !important; background: #fff !important; }
+.home-positioning span { padding: 22px !important; font-size: 12px !important; }
+.home-service-grid { gap: 18px !important; }
+.home-service-card { min-height: 430px !important; padding: 28px !important; border-radius: 12px !important; box-shadow: none !important; }
+.home-service-card:hover { transform: translateY(-3px) !important; box-shadow: 0 14px 30px rgba(17,20,24,.10) !important; }
+.home-service-card h3 { margin-top: 42px !important; font-size: 24px !important; }
+.home-service-card p { font-size: 13px !important; line-height: 1.6 !important; }
+.home-service-card li { font-size: 12px !important; }
+
+.why-express { padding-block: 92px !important; background: #fff !important; border-block: 1px solid var(--line-clean) !important; }
+.owner-proof-section { padding-block: 96px !important; background: var(--surface-clean) !important; }
+.owner-proof-card { border: 1px solid var(--line-clean) !important; border-radius: 10px !important; box-shadow: none !important; }
+.owner-proof-card:hover { transform: translateY(-2px) !important; box-shadow: 0 12px 26px rgba(20,25,31,.07) !important; }
+.industry-grid { border-color: var(--line-clean) !important; }
+.industry-grid > div { min-height: 115px !important; border-color: var(--line-clean) !important; }
+
+.inner-hero-grid, .parking-landing-grid, .contact-grid { gap: 64px !important; }
+.inner-hero h1, .parking-landing-hero h1, .find-hero h1, .contact-hero h1, .service-hero h1 { font-size: clamp(46px, 5.5vw, 72px) !important; line-height: .96 !important; letter-spacing: -.05em !important; }
+.about-quote, .inquiry-form, .reporting-visual, .location-card { border: 1px solid var(--line-clean) !important; border-radius: 12px !important; box-shadow: none !important; }
+.location-card { overflow: hidden; }
+
+.form-section, .standards-section, .parking-markets, .client-section, .parking-note { background: var(--surface-clean) !important; color: var(--text) !important; }
+.form-section h2, .standards-section h2, .parking-markets h2, .client-section h2, .parking-note h2 { color: var(--text) !important; }
+.form-section p, .standards-section p, .parking-markets p, .client-section p, .parking-note p { color: var(--muted-clean) !important; }
+.inquiry-form { background: #fff !important; }
+.inquiry-form input, .inquiry-form select, .inquiry-form textarea { border: 1px solid #d7dce1 !important; border-radius: 7px !important; background: #fff !important; }
+.inquiry-form input:focus, .inquiry-form select:focus, .inquiry-form textarea:focus { outline: 3px solid rgba(75,127,230,.12) !important; border-color: #93a7c8 !important; }
+
+.next-steps, .big-step-grid, .package-grid { gap: 18px !important; }
+.next-steps > div, .big-step-grid article, .package-grid article { border: 1px solid var(--line-clean) !important; border-radius: 10px !important; box-shadow: none !important; }
+
+.footer { background: #fff !important; border-top: 1px solid var(--line-clean) !important; }
+.footer-grid { gap: 42px !important; }
+.footer a { font-size: 12px !important; }
+
+.property-care-theme .contact-hero, .property-care-request-hero { background: #fff !important; }
+.property-care-theme .eyebrow, .property-care-request-hero .eyebrow { color: var(--property-blue) !important; }
+.property-care-theme .property-care-button, .property-care-button { background: var(--property-navy) !important; border-color: var(--property-navy) !important; color: #fff !important; }
+
+.velor-page > .velor-hero { background: var(--velor-dark) !important; }
+.velor-primary { color: #fff !important; background: var(--velor-green) !important; border-color: var(--velor-green) !important; }
+.velor-secondary { border-color: rgba(255,255,255,.35) !important; }
+
+@media (max-width: 960px) {
+  .shell { width: min(100% - 36px, 1160px); }
+  .nav-wrap { min-height: 72px; }
+  .parking-home .hero { gap: 38px !important; }
+  .section { padding-block: 76px !important; }
+}
+
+@media (max-width: 660px) {
+  .shell { width: min(100% - 28px, 1160px); }
+  .parking-home .hero { padding-block: 42px 54px !important; }
+  .parking-home .hero h1 { font-size: clamp(44px, 13vw, 60px) !important; }
+  .section { padding-block: 64px !important; }
+  .home-service-card { min-height: auto !important; }
+  .button { width: 100%; justify-content: center; }
+  .button-row { display: grid !important; grid-template-columns: 1fr !important; }
+}
