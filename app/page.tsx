@@ -7,16 +7,16 @@ export default function Home() {
   return <main className="parking-home">
     <section className="hero shell">
       <div className="hero-copy reveal">
-        <span className="eyebrow"><span className="eyebrow-line" />Parking • Property Care • Velor</span>
-        <h1>Parking Made Simple. <em>Mobility Made Better.</em></h1>
-        <p className="hero-lede">Three focused service divisions: parking operations, local property oversight, and while-you-park vehicle care.</p>
-        <div className="button-row"><Link className="button button-primary" href="/find-parking">Find parking <ArrowIcon /></Link></div>
-        <div className="trust-row"><span><CheckIcon />Established 2004</span><span><CheckIcon />Local operations</span><span><CheckIcon />Direct accountability</span></div>
+        <span className="eyebrow"><span className="eyebrow-line" />Commercial Garages • Daily & Monthly Parking</span>
+        <h1>Garage Operations. <em>Daily &amp; Monthly Parking.</em></h1>
+        <p className="hero-lede">Express Parking operates commercial garages and commuter parking with clear access, payment controls, monthly programs, and on-site accountability.</p>
+        <div className="button-row"><Link className="button button-primary" href="/find-parking">Find parking <ArrowIcon /></Link><Link className="button button-quiet" href="/parking-management">Garage management <ArrowIcon /></Link></div>
+        <div className="trust-row"><span><CheckIcon />Established 2004</span><span><CheckIcon />Daily &amp; monthly parking</span><span><CheckIcon />Local operations</span></div>
       </div>
       <div className="hero-visual hero-photo reveal reveal-delay">
-        <img src="/images/modern-garage-interior.jpg" alt="Bright, modern parking garage with organized driving lanes" />
-        <div className="hero-photo-label"><span>EXPRESS PARKING &amp; MOBILITY</span><strong>Parking. Property oversight. Vehicle care.</strong><small>Express Parking • Express Property Care • Velor</small></div>
-        <div className="parking-mark"><b>P</b><span>ARRIVAL<br />MANAGED</span></div>
+        <img src="/images/modern-garage-interior.jpg" alt="Bright, modern commercial parking garage with organized driving lanes" />
+        <div className="hero-photo-label"><span>EXPRESS PARKING</span><strong>Commercial garage operations.</strong><small>Access • Payments • Monthly parking • Valet</small></div>
+        <div className="parking-mark"><b>P</b><span>GARAGE<br />OPERATIONS</span></div>
       </div>
     </section>
 
@@ -28,7 +28,7 @@ export default function Home() {
           <div className="division-card-content">
             <span className="division-label">EXPRESS PARKING</span>
             <h3>Vehicle Access. Smarter.</h3>
-            <p>Garage management, hourly/daily parking, pay systems, and valet operations.</p>
+            <p>Garage management, daily/monthly parking, pay systems, and valet operations.</p>
             <Link href="/parking-management">Explore Parking <ArrowIcon /></Link>
           </div>
         </article>
@@ -45,23 +45,16 @@ export default function Home() {
         <article className="division-card division-velor velor-booking-card">
           <div className="velor-booking-content">
             <span className="division-label">VELOR CAR CARE</span>
-            <small>YOUR BOOKING</small>
+            <small>WHILE YOU PARK</small>
             <h3>One-time car care</h3>
-            <div className="velor-booking-grid">
-              <div className="velor-booking-details">
-                <div><b>LOCATION</b><span>96 Orange Street Garage</span></div>
-                <div><b>SCHEDULE</b><span>While parked today · 9 AM–5 PM</span></div>
-                <div><b>VEHICLE</b><span>Add plate and space</span></div>
-              </div>
-              <div className="velor-included">
-                <strong>Included with every visit</strong>
-                <span>✓ Eco-conscious process</span>
-                <span>✓ Zero-runoff service method</span>
-                <span>✓ Before-and-after photos</span>
-                <span>✓ Completion notification</span>
-              </div>
+            <div className="velor-included velor-included-full">
+              <strong>Included with every visit</strong>
+              <span>✓ Eco-conscious process</span>
+              <span>✓ Zero-runoff service method</span>
+              <span>✓ Before-and-after photos</span>
+              <span>✓ Completion notification</span>
             </div>
-            <p>Final service selection and price will be confirmed before payment.</p>
+            <p>Select your location, service window, and vehicle details on the Velor booking page.</p>
             <Link className="velor-book-button" href="/velor">Book Now <ArrowIcon /></Link>
           </div>
         </article>
