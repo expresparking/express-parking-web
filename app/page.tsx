@@ -1,74 +1,52 @@
 import Link from "next/link";
 import { ArrowIcon, CheckIcon, ServiceIcon } from "./ui";
 
-const services = [
+const divisions = [
   {
     number: "01",
-    title: "Parking Garages",
-    copy: "Professional garage operations built around revenue, access, safety, and customer service.",
-    points: ["Garage operations", "Revenue management", "Access control", "Customer service"],
+    title: "Express Parking",
+    role: "Vehicle access and parking management for drivers, shoppers, commuters, residents, and guests.",
+    points: ["Garage management", "Hourly & daily parking", "Monthly parking", "Automated pay systems", "Valet operations"],
     href: "/parking-management",
     icon: "parking" as const,
+    background: "#171A1F",
+    accent: "#C9A24A",
+    text: "#FFFFFF",
+    muted: "#D4D6DA",
   },
   {
     number: "02",
-    title: "Surface & Open Lots",
-    copy: "Reliable daily and monthly parking programs for open lots of every size.",
-    points: ["Daily parking", "Monthly parking", "Permit management", "Enforcement"],
-    href: "/find-parking",
-    icon: "parking" as const,
+    title: "Express Property Care",
+    role: "Physical building oversight and operational support for independent and absentee property owners.",
+    points: ["Secure keyholding", "Routine site checks", "Vendor access supervision", "Photo reporting", "24/7 local emergency dispatch"],
+    href: "/property-care",
+    icon: "building" as const,
+    background: "#173A63",
+    accent: "#4B7FE6",
+    text: "#FFFFFF",
+    muted: "#DCE7F5",
   },
   {
     number: "03",
-    title: "Event Parking",
-    copy: "Organized arrivals and departures for venues, campuses, festivals, and private events.",
-    points: ["Stadiums & festivals", "Universities", "Private events", "Traffic coordination"],
-    href: "/contact",
-    icon: "concierge" as const,
-  },
-  {
-    number: "04",
-    title: "Valet Parking",
-    copy: "A polished first and last impression for hospitality, healthcare, residential, and events.",
-    points: ["Hotels & restaurants", "Medical offices", "Residential buildings", "Luxury events"],
-    href: "/contact",
-    icon: "car" as const,
-  },
-  {
-    number: "05",
-    title: "Parking Ambassadors",
-    copy: "Visible, professional support for drivers, pedestrians, wayfinding, and busy arrival areas.",
-    points: ["Customer assistance", "Traffic direction", "Wayfinding", "Incident observation"],
-    href: "/services/parking-ambassadors",
-    icon: "concierge" as const,
-  },
-  {
-    number: "06",
-    title: "Property Care & Maintenance",
-    copy: "Reliable local support for property owners who need trusted eyes, ears, and hands on the ground.",
-    points: ["Secure keyholding", "Routine property checks", "Maintenance coordination", "24/7 emergency response"],
-    href: "/property-care",
-    icon: "building" as const,
-    propertyCare: true,
-  },
-  {
-    number: "07",
     title: "Velor Car Care",
-    copy: "Premium eco-conscious car care completed conveniently while the vehicle is parked.",
-    points: ["Eco-friendly wash", "Interior cleaning", "While-you-park service", "Monthly memberships"],
+    role: "Specialized vehicle appearance and detailing services while the vehicle is already parked.",
+    points: ["Waterless mobile detailing", "Non-toxic interior cleaning", "Eco-friendly vehicle preservation", "Photo-documented service"],
     href: "/velor",
     icon: "car" as const,
-    velor: true,
+    background: "#090B0B",
+    accent: "#2F7D64",
+    text: "#FFFFFF",
+    muted: "#D6E5DF",
   },
 ];
 
 const strengths = [
-  "Experienced parking professionals",
-  "Modern technology",
-  "Customer-first service",
-  "Sustainable solutions",
-  "Scalable operations",
-  "Local expertise",
+  "Established local operator",
+  "Modern parking technology",
+  "Direct local accountability",
+  "Documented operating controls",
+  "Scalable site coverage",
+  "Connecticut market knowledge",
 ];
 
 const industries = [
@@ -89,19 +67,18 @@ export default function Home() {
     <main className="parking-home">
       <section className="hero shell">
         <div className="hero-copy reveal">
-          <span className="eyebrow"><span className="eyebrow-line" />Parking operations + property care + mobility services</span>
+          <span className="eyebrow"><span className="eyebrow-line" />Parking • Property Care • Velor</span>
           <h1>Parking Made Simple. <em>Mobility Made Better.</em></h1>
           <p className="hero-lede">
-            Serving businesses, municipalities, hospitals, residential communities, and event venues with professional parking, property care, and mobility solutions.
+            Three focused service divisions: parking operations, local property oversight, and while-you-park vehicle care.
           </p>
           <div className="button-row">
             <Link className="button button-primary" href="/find-parking">Find parking <ArrowIcon /></Link>
-            <Link className="button button-quiet" href="/contact">Request management services</Link>
           </div>
           <div className="trust-row" aria-label="Express Parking service qualities">
-            <span><CheckIcon />Professional teams</span>
-            <span><CheckIcon />Local expertise</span>
-            <span><CheckIcon />Scalable operations</span>
+            <span><CheckIcon />Established 2004</span>
+            <span><CheckIcon />Local operations</span>
+            <span><CheckIcon />Direct accountability</span>
           </div>
         </div>
 
@@ -109,8 +86,8 @@ export default function Home() {
           <img src="/images/modern-garage-interior.jpg" alt="Bright, modern parking garage with organized driving lanes" />
           <div className="hero-photo-label">
             <span>EXPRESS PARKING &amp; MOBILITY</span>
-            <strong>Professional operations. Better arrivals.</strong>
-            <small>Parking • Property Care • Valet • Events • Velor</small>
+            <strong>Parking. Property oversight. Vehicle care.</strong>
+            <small>Express Parking • Express Property Care • Velor</small>
           </div>
           <div className="parking-mark"><b>P</b><span>ARRIVAL<br />MANAGED</span></div>
         </div>
@@ -118,35 +95,42 @@ export default function Home() {
 
       <section className="home-positioning">
         <div className="shell">
-          <span>Parking Solutions.</span>
-          <span>Property Care.</span>
-          <span>Premium Customer Experience.</span>
+          <span style={{ borderTop: "3px solid #C9A24A" }}>Express Parking</span>
+          <span style={{ borderTop: "3px solid #4B7FE6" }}>Express Property Care</span>
+          <span style={{ borderTop: "3px solid #2F7D64" }}>Velor Car Care</span>
         </div>
       </section>
 
       <section className="section shell" id="services">
         <div className="section-heading split-heading">
           <div>
-            <span className="eyebrow"><span className="eyebrow-line" />Our services</span>
-            <h2>Local operations that keep properties moving.</h2>
+            <span className="eyebrow"><span className="eyebrow-line" />Three distinct service lines</span>
+            <h2>Clear scope. Clear responsibility.</h2>
           </div>
-          <p>Express brings parking, property care, mobility, and car-care services together under one accountable local team.</p>
+          <p>Each division has a defined role, its own operating focus, and a separate visual identity.</p>
         </div>
-        <div className="service-grid home-service-grid">
-          {services.map((service) => (
-            <article className={`service-card home-service-card${service.velor ? " velor-card" : ""}${service.propertyCare ? " property-care-card" : ""}`} key={service.number}>
+        <div className="service-grid home-service-grid" style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
+          {divisions.map((division) => (
+            <article
+              className="service-card home-service-card"
+              key={division.number}
+              style={{
+                background: division.background,
+                color: division.text,
+                borderColor: division.background,
+                boxShadow: "0 18px 42px rgba(22,24,28,.12)",
+              }}
+            >
               <div className="service-top">
-                <span>{service.number}</span>
-                <ServiceIcon name={service.icon} />
+                <span style={{ color: division.accent }}>{division.number}</span>
+                <ServiceIcon name={division.icon} />
               </div>
-              {service.velor && <span className="powered-by">POWERED BY VELOR</span>}
-              {service.propertyCare && <span className="powered-by">EXPRESS PROPERTY CARE</span>}
-              <h3>{service.title}</h3>
-              <p>{service.copy}</p>
+              <h3 style={{ color: division.text }}>{division.title}</h3>
+              <p style={{ color: division.muted }}>{division.role}</p>
               <ul>
-                {service.points.map((point) => <li key={point}>{point}</li>)}
+                {division.points.map((point) => <li key={point} style={{ color: division.muted, borderColor: "rgba(255,255,255,.12)" }}>{point}</li>)}
               </ul>
-              <Link href={service.href} aria-label={`Learn more about ${service.title}`}>Explore service <ArrowIcon /></Link>
+              <Link href={division.href} aria-label={`Explore ${division.title}`} style={{ color: division.accent }}>Explore {division.title} <ArrowIcon /></Link>
             </article>
           ))}
         </div>
@@ -155,9 +139,9 @@ export default function Home() {
       <section className="why-express">
         <div className="shell why-grid">
           <div>
-            <span className="eyebrow"><span className="eyebrow-line" />Why choose Express</span>
-            <h2>A stronger operation customers can feel.</h2>
-            <p>We combine disciplined parking management with local property support and the human service that makes properties safer, easier to navigate, and more welcoming.</p>
+            <span className="eyebrow"><span className="eyebrow-line" />Why Express</span>
+            <h2>Local operating control without national-company distance.</h2>
+            <p>Express combines local decision-making, documented procedures, modern parking tools, and direct owner communication across Connecticut properties.</p>
           </div>
           <div className="strength-grid">
             {strengths.map((strength, index) => (
@@ -170,13 +154,11 @@ export default function Home() {
       <section className="owner-proof-section">
         <div className="shell owner-proof-inner">
           <div className="owner-proof-header">
-            <span className="eyebrow"><span className="eyebrow-line" />Built for property owners</span>
-            <h2>A parking partnership built around your asset.</h2>
+            <span className="eyebrow"><span className="eyebrow-line" />Built for parking owners</span>
+            <h2>Parking management with financial visibility.</h2>
             <p>
-              Express Parking &amp; Mobility combines responsive local leadership,
-              transparent financial controls, and flexible technology integration.
-              Every operating plan is structured around your property&apos;s revenue
-              goals, customer experience, and long-term value.
+              Express Parking &amp; Mobility structures parking operations around revenue controls,
+              access, payment systems, customer flow, and clearly defined contract responsibilities.
             </p>
           </div>
 
@@ -186,14 +168,13 @@ export default function Home() {
               <h3>Financial &amp; Contract Models</h3>
               <strong>Flexible agreements. Clear financial alignment.</strong>
               <p>
-                Choose a management agreement, including fee-based and cost-plus
-                structures, or explore a lease option designed around the property&apos;s
-                operating and ownership priorities.
+                Choose a management agreement, including fee-based and cost-plus structures,
+                or explore a lease option designed around the parking asset&apos;s operating priorities.
               </p>
               <ul className="owner-proof-list">
                 <li>Management fee and cost-plus options</li>
                 <li>Fixed-rent and participation lease options</li>
-                <li>Property-specific budgets and operating plans</li>
+                <li>Parking-specific budgets and operating plans</li>
                 <li>Clear responsibilities and performance expectations</li>
               </ul>
               <Link href="/contact">Discuss the right contract model <ArrowIcon /></Link>
@@ -202,18 +183,17 @@ export default function Home() {
             <article className="owner-proof-card">
               <span className="owner-proof-number">02</span>
               <h3>Revenue Protection &amp; Auditing</h3>
-              <strong>Every transaction accounted for.</strong>
+              <strong>Every parking transaction accounted for.</strong>
               <p>
-                Our zero-leakage control approach uses disciplined reconciliation,
-                payment-channel review, and exception tracking to strengthen
-                accountability and owner visibility.
+                Reconciliation, payment-channel review, and exception tracking strengthen
+                accountability across gated, ungated, mobile-pay, and staffed operations.
               </p>
               <ul className="owner-proof-list">
-                <li>Daily revenue reconciliation</li>
+                <li>Daily parking revenue reconciliation</li>
                 <li>Cash, mobile-pay, and PARCS transaction review</li>
                 <li>Validation and exception monitoring</li>
                 <li>Monthly owner reporting</li>
-                <li>Audit-ready operational records</li>
+                <li>Audit-ready operating records</li>
               </ul>
               <Link href="/contact">Request a revenue review <ArrowIcon /></Link>
             </article>
@@ -224,7 +204,7 @@ export default function Home() {
       <section className="section shell industries-section">
         <div className="section-heading">
           <span className="eyebrow"><span className="eyebrow-line" />Industries we serve</span>
-          <h2>Built for places where every arrival matters.</h2>
+          <h2>Built for places where vehicle access and property operations matter.</h2>
         </div>
         <div className="industry-grid">
           {industries.map((industry, index) => (
@@ -233,30 +213,14 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="velor-feature">
-        <div className="shell velor-feature-grid">
-          <div>
-            <span className="velor-kicker">VELOR CAR CARE</span>
-            <h2>Your car is already parked.</h2>
-            <p>Why not have it professionally cleaned before you leave? Velor adds premium, eco-conscious car care directly to the parking experience.</p>
-            <Link className="button velor-button" href="/velor">Book Velor Car Care <ArrowIcon /></Link>
-          </div>
-          <div className="velor-promise">
-            <span>WHILE-YOU-PARK CONVENIENCE</span>
-            <strong>Clean car.<br />No extra trip.</strong>
-            <small>Eco-friendly wash • Interior care • Memberships</small>
-          </div>
-        </div>
-      </section>
-
       <section className="section shell cta-panel">
         <div>
-          <span className="eyebrow"><span className="eyebrow-line" />Let’s improve your operation</span>
-          <h2>One local partner for parking, property care, and mobility.</h2>
+          <span className="eyebrow"><span className="eyebrow-line" />Choose the right division</span>
+          <h2>Parking, property oversight, and car care—kept separate by design.</h2>
         </div>
         <div>
-          <p>Tell us about your property, garage, lot, or event. We’ll recommend a practical operating plan built around your real needs.</p>
-          <Link className="button button-primary" href="/contact">Request a proposal <ArrowIcon /></Link>
+          <p>Tell us which service you need and we’ll route the request to the right Express team.</p>
+          <Link className="button button-primary" href="/contact">Contact Express <ArrowIcon /></Link>
         </div>
       </section>
     </main>
