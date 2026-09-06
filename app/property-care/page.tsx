@@ -6,9 +6,9 @@ export const metadata: Metadata = {
   description: "Local property oversight, secure keyholding, site checks, vendor access, photo reporting, and emergency response in New Haven.",
 };
 
-const propertyBlue = "#173A63";
-const propertyAccent = "#4B7FE6";
-const propertyBlueSoft = "#F4F7FB";
+const propertyBlue = "#0F2742";
+const propertyAccent = "#3B82F6";
+const propertyBlueSoft = "#F5F8FC";
 
 const services = [
   ["Secure Keyholding", "Authorized key storage and controlled access when owners cannot be on site."],
@@ -21,19 +21,19 @@ const services = [
 
 export default function PropertyCarePage() {
   return (
-    <main style={{ "--property-blue": propertyBlue } as React.CSSProperties}>
+    <main className="property-care-theme" style={{ "--property-blue": propertyBlue } as React.CSSProperties}>
       <section className="service-hero" style={{ borderTop: `5px solid ${propertyAccent}`, background: "#fff" }}>
         <div className="shell">
           <span className="eyebrow" style={{ color: propertyAccent }}>EXPRESS PROPERTY CARE</span>
           <h1>Local oversight when you cannot be there.</h1>
           <p className="hero-lede">Physical building support for independent and absentee property owners.</p>
-          <p>From our downtown New Haven office, Express provides boots-on-the-ground access, site checks, documentation, vendor coordination, and local response.</p>
-          <div className="button-row"><Link className="button" style={{ background: propertyBlue, color: "white" }} href="/property-care/report">Report a Property Issue →</Link></div>
-          <p style={{ marginTop: 18, color: "#5e6670" }}>Urgent property assistance: <a href="tel:+12039410954"><strong>203-941-0954 • Ext. 3</strong></a></p>
+          <p>Express provides boots-on-the-ground access, site checks, documentation, vendor coordination, and local response.</p>
+          <div className="button-row"><Link className="button property-care-button" href="/property-care/report">Report a Property Issue →</Link></div>
+          <p className="property-care-phone">Urgent property assistance: <a href="tel:+12039410954"><strong>203-941-0954 • Ext. 3</strong></a></p>
         </div>
       </section>
 
-      <section className="section" style={{ background: propertyBlueSoft }}>
+      <section className="section property-care-services" style={{ background: propertyBlueSoft }}>
         <div className="shell">
           <div className="section-heading">
             <span className="eyebrow" style={{ color: propertyAccent }}>PROPERTY OVERSIGHT</span>
