@@ -3,35 +3,51 @@
 import { FormEvent, useState } from "react";
 
 export function InquiryForm({ compact = false, title = "Request a site assessment", defaultService = "" }: { compact?: boolean; title?: string; defaultService?: string }) {
-  const [submitted, setSubmitted] = useState(false);
+  const [reference, setReference] = useState("");
+  const [error, setError] = useState("");
+  const [sending, setSending] = useState(false);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSubmitted(true);
+    setError("");
+    setSending(true);
+    const form = event.currentTarget;
+    const payload = Object.fromEntries(new FormData(form).entries());
+
+    try {
+      const response = await fetch("/api/contact/request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Unable to send inquiry.");
+      setReference(data.reference || "Submitted");
+      form.reset();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unable to send inquiry. Please call 203-941-0954.");
+    } finally {
+      setSending(false);
+    }
   }
 
-  if (submitted) {
-    return (
-      <div className={`form-success ${compact ? "compact" : ""}`} role="status">
-        <span>✓</span>
-        <div><h3>Thank you—your inquiry is ready.</h3><p>This demonstration does not send data yet. Connect the form to your business email or CRM before launch.</p></div>
-      </div>
-    );
+  if (reference) {
+    return <div className={`form-success ${compact ? "compact" : ""}`} role="status"><span>✓</span><div><h3>Inquiry received.</h3><p>Your reference number is <strong>{reference}</strong>. We will reply using the contact information you provided.</p></div></div>;
   }
 
   return (
     <form className={`inquiry-form ${compact ? "compact" : ""}`} onSubmit={handleSubmit}>
-      <div className="form-head"><span>Site inquiry</span><h2>{title}</h2><p>Tell us what you manage and where the gaps are. We’ll recommend a practical next step.</p></div>
+      <div className="form-head"><span>Inquiry</span><h2>{title}</h2><p>Share the essentials. We’ll route it to the right Express team.</p></div>
       <div className="form-grid">
         <label htmlFor="inquiry-name"><span>Name</span><input id="inquiry-name" required name="name" placeholder="Your name" /></label>
-        <label htmlFor="inquiry-email"><span>Work email</span><input id="inquiry-email" required type="email" name="email" placeholder="name@company.com" /></label>
+        <label htmlFor="inquiry-email"><span>Email</span><input id="inquiry-email" required type="email" name="email" placeholder="name@company.com" /></label>
         {!compact && <label htmlFor="inquiry-phone"><span>Phone</span><input id="inquiry-phone" type="tel" name="phone" placeholder="(000) 000-0000" /></label>}
-        <label htmlFor="inquiry-property"><span>Property type</span><select id="inquiry-property" name="property"><option>Choose one</option><option>Parking facility</option><option>Mixed-use building</option><option>Office or medical</option><option>Residential property</option><option>Campus or district</option><option>Other</option></select></label>
-        <label className="form-wide" htmlFor="inquiry-service"><span>Services of interest</span><select id="inquiry-service" name="service" defaultValue={defaultService}><option value="">Choose a service</option><option>Parking management</option><option>Property operations</option><option>Concierge services</option><option>Parking ambassadors</option><option>Downtown and street cleaning ambassadors</option><option>Light maintenance</option><option>Eco-friendly car care</option><option>Combined program</option></select></label>
-        {!compact && <label className="form-wide" htmlFor="inquiry-message"><span>What would you like help with?</span><textarea id="inquiry-message" name="message" rows={4} placeholder="Describe the property, current challenge, or coverage you are considering." /></label>}
+        <label htmlFor="inquiry-property"><span>Property type</span><select id="inquiry-property" name="property"><option value="">Choose one</option><option>Parking facility</option><option>Commercial property</option><option>Residential property</option><option>Healthcare or campus</option><option>Hospitality or event venue</option><option>Other</option></select></label>
+        <label className="form-wide" htmlFor="inquiry-service"><span>Service</span><select id="inquiry-service" required name="service" defaultValue={defaultService}><option value="">Choose one</option><option>Parking management</option><option>Parking ambassadors</option><option>Property Care</option><option>Velor Car Care</option><option>General inquiry</option></select></label>
+        {!compact && <label className="form-wide" htmlFor="inquiry-message"><span>Message</span><textarea id="inquiry-message" name="message" rows={4} placeholder="Location, current need, and timing." /></label>}
       </div>
-      <button className="button button-primary" type="submit">Send inquiry <span aria-hidden="true">→</span></button>
-      <small>Placeholder form for demonstration. No information is transmitted.</small>
+      {error && <p role="alert" style={{ color: "#a51d1d", fontWeight: 700 }}>{error}</p>}
+      <button className="button button-primary" type="submit" disabled={sending}>{sending ? "Sending…" : "Send inquiry →"}</button>
     </form>
   );
 }
