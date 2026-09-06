@@ -6,15 +6,15 @@ export default function PropertyIssuePage() {
   const [submitted, setSubmitted] = useState(false);
   function submit(e: FormEvent<HTMLFormElement>) { e.preventDefault(); setSubmitted(true); }
 
-  if (submitted) return <main><section className="section shell"><div className="form-success" role="status"><span>✓</span><div><h1>Request recorded on this page.</h1><p>The live notification connection is the next setup step. Until that is activated, please call 203-941-0954 for service.</p></div></div></section></main>;
+  if (submitted) return <main className="property-care-theme"><section className="section shell"><div className="form-success" role="status"><span>✓</span><div><h1>Request recorded on this page.</h1><p>The live notification connection is the next setup step. Until that is activated, please call 203-941-0954, Ext. 3 for service.</p></div></div></section></main>;
 
-  return <main>
-    <section className="contact-hero"><div className="shell contact-grid">
+  return <main className="property-care-theme">
+    <section className="contact-hero property-care-request-hero"><div className="shell contact-grid">
       <div className="contact-copy">
         <span className="eyebrow light"><span className="eyebrow-line" />Express Property Care</span>
         <h1>Report a Property Issue</h1>
         <p>For tenants and property owners. Tell us what is happening, where it is happening, and how urgent it is.</p>
-        <div className="contact-details"><div><small>URGENT PROPERTY ASSISTANCE</small><a href="tel:+12039410954">203-941-0954</a></div><div><small>OFFICE</small><span>96 Orange Street, New Haven, CT 06510</span></div></div>
+        <div className="contact-details"><div><small>URGENT PROPERTY ASSISTANCE</small><a href="tel:+12039410954">203-941-0954 • Ext. 3</a></div><div><small>OFFICE</small><span>96 Orange Street, New Haven, CT 06510</span></div></div>
         <p><strong>Fire, suspected gas leak, medical emergency, or immediate danger:</strong> call 911 first.</p>
       </div>
       <form className="inquiry-form" onSubmit={submit}>
@@ -33,8 +33,8 @@ export default function PropertyIssuePage() {
           <label><span>Best access time</span><input name="accessTime" placeholder="Example: weekdays after 3 PM" /></label>
         </div>
         <p><strong>Photo/video upload will be added when secure request storage is connected.</strong></p>
-        <button className="button button-primary" type="submit">Submit Property Request →</button>
-        <small>For urgent issues, submitting this form does not replace calling 203-941-0954.</small>
+        <button className="button property-care-button" type="submit">Submit Property Request →</button>
+        <small>For urgent issues, submitting this form does not replace calling 203-941-0954, Ext. 3.</small>
       </form>
     </div></section>
   </main>;
