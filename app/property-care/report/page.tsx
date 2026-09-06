@@ -58,7 +58,6 @@ export default function PropertyIssuePage() {
           <label className="form-wide"><span>Describe the issue</span><textarea required name="description" rows={5} placeholder="What happened? When did you notice it? Include any useful details." /></label>
           <label><span>Permission to enter</span><select required name="entry"><option>Call me first</option><option>Yes — authorized access</option><option>No — I must be present</option></select></label>
           <label><span>Best access time</span><input name="accessTime" placeholder="Example: weekdays after 3 PM" /></label>
-          <label style={{ position: "absolute", left: "-10000px", width: 1, height: 1, overflow: "hidden" }} aria-hidden="true"><span>Website</span><input name="companyWebsite" tabIndex={-1} autoComplete="off" /></label>
         </div>
         <p><strong>Photo/video upload is the next secure-storage upgrade.</strong></p>
         {error && <p role="alert" style={{ color: "#a51d1d", fontWeight: 700 }}>{error}</p>}
