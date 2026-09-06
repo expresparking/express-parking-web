@@ -51,11 +51,6 @@ export default function PropertyCarePage() {
           </div>
         </div>
       </section>
-
-      <section className="section shell cta-panel" style={{ borderTop: `4px solid ${propertyAccent}`, background: "#fff" }}>
-        <div><span className="eyebrow" style={{ color: propertyAccent }}>TENANTS &amp; OWNERS</span><h2>Something needs attention?</h2></div>
-        <div><p>Submit the property address, unit, issue details, urgency, and access instructions online.</p><Link className="button" style={{ background: propertyBlue, color: "white" }} href="/property-care/report">Submit a Request →</Link></div>
-      </section>
     </main>
   );
 }
