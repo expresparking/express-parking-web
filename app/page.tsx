@@ -217,36 +217,6 @@ export default function Home() {
               </ul>
               <Link href="/contact">Request a revenue review <ArrowIcon /></Link>
             </article>
-
-            <article className="owner-proof-card">
-              <span className="tech-badge">Tech &amp; PARCS agnostic</span>
-              <h3>Keep what works. Modernize what doesn&apos;t.</h3>
-              <p>
-                Express can operate with your existing parking technology or help
-                evaluate practical upgrades without locking your property into one
-                equipment manufacturer or payment platform.
-              </p>
-              <ul className="owner-proof-list">
-                <li>Gated and ungated facilities</li>
-                <li>PARCS and pay-on-foot systems</li>
-                <li>License Plate Recognition cameras</li>
-                <li>Mobile-pay and digital permit platforms</li>
-                <li>Validation and access-control hardware</li>
-              </ul>
-              <Link href="/contact">Review your parking technology <ArrowIcon /></Link>
-            </article>
-          </div>
-
-          <div className="owner-proof-cta">
-            <div>
-              <span className="eyebrow"><span className="eyebrow-line" />Local insight. Immediate value.</span>
-              <h3>Is your parking asset reaching its full potential?</h3>
-              <p>In 15 minutes, we can identify operational gaps, revenue risks, customer-service concerns, and immediate improvement opportunities.</p>
-            </div>
-            <div className="owner-proof-actions">
-              <Link className="button button-primary" href="/contact">Request a 15-Minute Site Audit <ArrowIcon /></Link>
-              <a className="owner-proof-phone" href="tel:+12039410954">Call 203-941-0954</a>
-            </div>
           </div>
         </div>
       </section>
