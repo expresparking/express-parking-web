@@ -17,16 +17,16 @@ const services = [
 
 export default function PropertyCarePage() {
   return (
-    <main>
-      <section className="service-hero">
+    <main className="property-care-theme">
+      <section className="service-hero property-care-hero">
         <div className="shell">
           <span className="eyebrow"><span className="eyebrow-line" />Express Property Care</span>
           <h1>Property Care &amp; Maintenance</h1>
           <p className="hero-lede">Local support for property owners who need reliable eyes, ears, and hands on the ground.</p>
           <p>Whether you live across town or out of state, Express provides dependable local support to help protect your property and handle day-to-day issues without the overhead of a full-time on-site manager.</p>
           <div className="button-row">
-            <Link className="button button-primary" href="/property-care/report">Report a Property Issue →</Link>
-            <a className="button button-quiet" href="tel:+12039410954">Call 203-941-0954</a>
+            <Link className="button property-care-button" href="/property-care/report">Report a Property Issue →</Link>
+            <a className="button button-quiet" href="tel:+12039410954">Call 203-941-0954 • Ext. 3</a>
           </div>
         </div>
       </section>
@@ -39,7 +39,7 @@ export default function PropertyCarePage() {
         </div>
         <div className="owner-proof-grid">
           {services.map(([title, copy], i) => (
-            <article className="owner-proof-card" key={title}>
+            <article className="owner-proof-card property-care-card" key={title}>
               <span className="owner-proof-number">{String(i + 1).padStart(2, "0")}</span>
               <h3>{title}</h3><p>{copy}</p>
             </article>
@@ -47,9 +47,9 @@ export default function PropertyCarePage() {
         </div>
       </section>
 
-      <section className="section shell cta-panel">
+      <section className="section shell cta-panel property-care-cta">
         <div><span className="eyebrow"><span className="eyebrow-line" />Tenants &amp; owners</span><h2>Something needs attention?</h2></div>
-        <div><p>Send the property address, unit, issue details, urgency, and access instructions online. For urgent property assistance, call our office.</p><Link className="button button-primary" href="/property-care/report">Submit a Request →</Link></div>
+        <div><p>Send the property address, unit, issue details, urgency, and access instructions online. For urgent property assistance, call 203-941-0954, Ext. 3.</p><Link className="button property-care-button" href="/property-care/report">Submit a Request →</Link></div>
       </section>
     </main>
   );
