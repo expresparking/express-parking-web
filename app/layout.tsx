@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
-import { ArrowIcon } from "./ui";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -34,7 +33,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               <summary>Menu</summary>
               <div><Link href="/find-parking">Find Parking</Link><Link href="/parking-management">Parking</Link><Link href="/property-care">Property Care</Link><Link href="/property-care/report">Report an Issue</Link><Link href="/velor">Car Care</Link><Link href="/approach">Our approach</Link><Link href="/about">Company</Link><Link href="/contact">Contact</Link></div>
             </details>
-            <Link className="nav-cta" href="/contact">Partner with Express Parking: Request a Proposal <ArrowIcon /></Link>
           </div>
         </header>
         {children}
