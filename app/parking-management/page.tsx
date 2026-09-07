@@ -14,14 +14,14 @@ const garageServices = [
 ];
 
 const sectors = [
-  ["01", "Class A Office", "Parking programs for office buildings and corporate properties, including tenant access, monthly parking, visitor flow, and validations."],
-  ["02", "Commercial & Mixed Use", "Garage and surface-lot operations for properties balancing tenants, visitors, retail activity, and recurring parkers."],
-  ["03", "Healthcare", "Organized patient, visitor, employee, and valet parking programs built around high-turnover arrival and departure patterns."],
-  ["04", "Hospitality & Valet", "Guest-arrival, valet, event, and parking operations designed around service, traffic flow, and property presentation."],
-  ["05", "Residential", "Resident, guest, permit, access, and parking-control programs for apartment, condominium, and mixed-use communities."],
-  ["06", "Universities & Education", "Daily, permit, visitor, event, and special-use parking support for campuses and educational properties."],
-  ["07", "Municipal & District", "Public parking operations, commuter programs, permit administration, payment controls, and customer-facing support."],
-  ["08", "Events & Venues", "Temporary and recurring event parking, traffic staging, cashiering, valet, and arrival/departure coordination."],
+  ["01", "Class A Office", "High-capacity garage operations, tenant commuter programs, and executive monthly passes."],
+  ["02", "Commercial & Mixed-Use", "Transient rate management, mobile pay setups, and customer validation workflows."],
+  ["03", "Healthcare & Clinics", "Dedicated parking solutions serving clinic patients, employees, and daily visitors."],
+  ["04", "Hospitality & Valet", "Professional front-door greeting, uniformed attendants, and special event coordination."],
+  ["05", "Residential & Condos", "Resident permit tracking, visitor access enforcement, and controlled keycard entry programs."],
+  ["06", "Universities & Education", "Campus perimeter management, event traffic direction, and student permit oversight."],
+  ["07", "Municipal & District", "Transparent accounting, city lot management, district compliance, and public access."],
+  ["08", "Events & Venues", "High-volume arrival management, staff direction, and rapid payment processing."],
 ];
 
 const capabilities = [
@@ -67,13 +67,14 @@ export default function ParkingLandingPage() {
     <section className="section parking-sector-section">
       <div className="shell">
         <div className="parking-sector-heading">
-          <span className="eyebrow"><span className="eyebrow-line" />Specialized Parking Solutions</span>
+          <span className="parking-sector-kicker">Target Sectors</span>
           <h2>Parking expertise across the sectors we serve.</h2>
-          <p>Different properties create different arrival patterns, customer expectations, access requirements, and revenue priorities. Express adapts the parking operation to the property instead of forcing every site into the same model.</p>
         </div>
         <div className="parking-sector-grid">
           {sectors.map(([number,title,copy]) => <article className="parking-sector-card" key={title}>
-            <span>{number}</span><h3>{title}</h3><p>{copy}</p><Link href="/contact">Discuss this sector <ArrowIcon /></Link>
+            <span className="parking-sector-number">{number}</span>
+            <h3>{title}</h3>
+            <p>{copy}</p>
           </article>)}
         </div>
       </div>
