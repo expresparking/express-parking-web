@@ -24,22 +24,23 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               <span><b>EXPRESS</b><small>PARKING &amp; MOBILITY</small></span>
             </Link>
             <nav aria-label="Primary navigation">
-              <Link href="/parking-management#services">Services</Link>
-              <Link href="/parking-management#sectors">Sectors</Link>
-              <Link href="/about">About</Link>
-              <Link href="/parking-management#locations">96 Orange St</Link>
+              <Link href="/find-parking">Find Parking</Link>
+              <Link href="/parking-management">Parking</Link>
+              <Link href="/property-care">Property Care</Link>
+              <Link href="/velor">Velor</Link>
+              <Link href="/about">Company</Link>
+              <Link href="/contact">Contact</Link>
             </nav>
             <Link className="nav-cta" href="/parking-management#partner">Partner with Express</Link>
             <details className="mobile-menu">
               <summary>Menu</summary>
               <div>
-                <Link href="/parking-management#services">Services</Link>
-                <Link href="/parking-management#sectors">Sectors</Link>
-                <Link href="/about">About</Link>
-                <Link href="/parking-management#locations">96 Orange St</Link>
                 <Link href="/find-parking">Find Parking</Link>
+                <Link href="/parking-management">Parking</Link>
                 <Link href="/property-care">Property Care</Link>
                 <Link href="/velor">Velor</Link>
+                <Link href="/about">Company</Link>
+                <Link href="/contact">Contact</Link>
                 <Link className="mobile-nav-cta" href="/parking-management#partner">Partner with Express</Link>
               </div>
             </details>
@@ -55,24 +56,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               </Link>
               <p>Commercial parking operations, daily and monthly parking, and local property care from one Connecticut operating company.</p>
             </div>
-            <div>
-              <h3>PARKING OPERATIONS</h3>
-              <Link href="/find-parking">Find Parking</Link>
-              <Link href="/parking-management">Garage Management</Link>
-              <Link href="/parking-management#locations">96 Orange St Garage</Link>
-            </div>
-            <div>
-              <h3>PROPERTY &amp; CARE</h3>
-              <Link href="/property-care">Property Care</Link>
-              <Link href="/property-care/report">Report an Issue</Link>
-              <Link href="/velor">Velor Car Care</Link>
-            </div>
-            <div>
-              <h3>COMPANY</h3>
-              <Link href="/about">About Express</Link>
-              <Link className="footer-partner-link" href="/parking-management#partner">Partner with Express</Link>
-              <a className="footer-main-phone" href="tel:+12039410954">203-941-0954</a>
-            </div>
+            <div><h3>PARKING OPERATIONS</h3><Link href="/find-parking">Find Parking</Link><Link href="/parking-management">Garage Management</Link><Link href="/parking-management#locations">96 Orange St Garage</Link></div>
+            <div><h3>PROPERTY &amp; CARE</h3><Link href="/property-care">Property Care</Link><Link href="/property-care/report">Report an Issue</Link><Link href="/velor">Velor Car Care</Link></div>
+            <div><h3>COMPANY</h3><Link href="/about">About Express</Link><Link className="footer-partner-link" href="/parking-management#partner">Partner with Express</Link><a className="footer-main-phone" href="tel:+12039410954">203-941-0954</a></div>
           </div>
           <div className="shell footer-bottom"><span>© 2026 Express Parking. All rights reserved.</span><span>New Haven, Connecticut</span></div>
         </footer>
