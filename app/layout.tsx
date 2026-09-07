@@ -24,25 +24,23 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               <span><b>EXPRESS</b><small>PARKING &amp; MOBILITY</small></span>
             </Link>
             <nav aria-label="Primary navigation">
-              <Link href="/find-parking">Find Parking</Link>
-              <Link href="/parking-management">Parking</Link>
-              <Link href="/property-care">Property Care</Link>
-              <Link href="/velor">Velor</Link>
-              <Link href="/about">Company</Link>
-              <Link href="/contact">Contact</Link>
+              <Link href="/parking-management#services">Services</Link>
+              <Link href="/parking-management#sectors">Sectors</Link>
+              <Link href="/about">About</Link>
+              <Link href="/parking-management#locations">96 Orange St</Link>
             </nav>
-            <Link className="nav-cta" href="/contact">Get a Management Quote</Link>
+            <Link className="nav-cta" href="/contact">Partner with Express</Link>
             <details className="mobile-menu">
               <summary>Menu</summary>
               <div>
+                <Link href="/parking-management#services">Services</Link>
+                <Link href="/parking-management#sectors">Sectors</Link>
+                <Link href="/about">About</Link>
+                <Link href="/parking-management#locations">96 Orange St</Link>
                 <Link href="/find-parking">Find Parking</Link>
-                <Link href="/parking-management">Parking</Link>
                 <Link href="/property-care">Property Care</Link>
-                <Link href="/property-care/report">Report an Issue</Link>
                 <Link href="/velor">Velor</Link>
-                <Link href="/about">Company</Link>
-                <Link href="/contact">Contact</Link>
-                <Link className="mobile-nav-cta" href="/contact">Get a Management Quote</Link>
+                <Link className="mobile-nav-cta" href="/contact">Partner with Express</Link>
               </div>
             </details>
           </div>
