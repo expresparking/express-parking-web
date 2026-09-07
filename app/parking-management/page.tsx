@@ -42,7 +42,7 @@ export default function ParkingLandingPage() {
           <h1>Parking operations built around the property.</h1>
           <p>Express Parking manages commercial garages, surface lots, daily and monthly parking, valet operations, payment systems, and vehicle access with direct local accountability.</p>
           <div className="button-row refined-hero-actions">
-            <Link className="button button-primary" href="#partner">Partner with Express <ArrowIcon /></Link>
+            <Link className="button button-primary" href="/contact">Partner with Express <ArrowIcon /></Link>
             <Link className="button button-quiet" href="/find-parking">Find Parking Locations <ArrowIcon /></Link>
           </div>
         </div>
@@ -72,11 +72,7 @@ export default function ParkingLandingPage() {
           <h2>Parking expertise across the sectors we serve.</h2>
         </div>
         <div className="parking-sector-grid">
-          {sectors.map(([number,title,copy]) => <article className="parking-sector-card" key={title}>
-            <span className="parking-sector-number">{number}</span>
-            <h3>{title}</h3>
-            <p>{copy}</p>
-          </article>)}
+          {sectors.map(([number,title,copy]) => <article className="parking-sector-card" key={title}><span className="parking-sector-number">{number}</span><h3>{title}</h3><p>{copy}</p></article>)}
         </div>
       </div>
     </section>
@@ -89,15 +85,6 @@ export default function ParkingLandingPage() {
     <section className="section shell parking-local-proof" id="locations">
       <div className="parking-local-photo"><img src="/images/96-orange-interior.jpeg" alt="Express Parking operating location at 96 Orange Street in New Haven" /></div>
       <div className="parking-local-copy"><span className="eyebrow"><span className="eyebrow-line" />Express in Operation</span><h2>Local experience, not a remote operating model.</h2><p>Express Parking has operated in Connecticut since 2004. Our approach combines hands-on local accountability with the operating controls property owners expect from a professional parking manager.</p><div className="parking-local-facts"><span><b>20+</b> Years operating</span><span><b>CT</b> Local accountability</span><span><b>96</b> Orange Street</span></div><Link className="button button-quiet" href="/find-parking">View operating locations <ArrowIcon /></Link></div>
-    </section>
-
-    <section className="parking-partner-cta" id="partner">
-      <div className="parking-partner-inner">
-        <span>Get Started</span>
-        <h2>Looking for a better parking operator?</h2>
-        <p>Tell us about your garage, lot, or facility requirements. We will discuss an operating model designed around your property.</p>
-        <Link className="parking-partner-button" href="/contact">Partner with Express</Link>
-      </div>
     </section>
   </main>;
 }
