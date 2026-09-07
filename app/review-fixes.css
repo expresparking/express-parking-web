@@ -1,0 +1,59 @@
+/* Review-branch fixes requested September 7. Loaded after polish.css. */
+
+/* The layout contains one header only. Make it non-sticky so full-page captures and scrolling never repeat/overlay it mid-page. */
+.site-header {
+  position: relative !important;
+  top: auto !important;
+  z-index: 1000;
+}
+
+/* Match Garage Operations numbering to the large amber sector-card numerals. */
+.garage-highlight-services article > span {
+  display: block !important;
+  color: #f59e0b !important;
+  font-family: inherit !important;
+  font-size: 2.25rem !important;
+  line-height: 1 !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.04em !important;
+  margin-bottom: 18px !important;
+}
+
+/* Dark, high-contrast footer. */
+.footer {
+  background: #0f172a !important;
+  border-top: 1px solid #1e293b !important;
+  color: #fff !important;
+}
+
+.footer .brand b,
+.footer-grid h3,
+.footer-main-phone,
+.footer-bottom {
+  color: #fff !important;
+}
+
+.footer .brand small {
+  color: #fb923c !important;
+}
+
+.footer-grid a,
+.footer-grid p {
+  color: #cbd5e1 !important;
+}
+
+.footer-grid a:hover {
+  color: #fff !important;
+}
+
+.footer-main-phone {
+  color: #fff !important;
+}
+
+.footer-bottom {
+  border-top-color: #334155 !important;
+}
+
+.footer-bottom span {
+  color: #94a3b8 !important;
+}
