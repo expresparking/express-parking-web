@@ -80,6 +80,31 @@ create index if not exists idx_permits_status on parking_permits(status, paid);
 create index if not exists idx_vehicle_plate on parking_vehicles(upper(plate), upper(state));
 create index if not exists idx_activity_permit_created on parking_activity(permit_id, created_at desc);
 
+create table if not exists parking_sessions (
+  id uuid primary key default gen_random_uuid(),
+  location_code text not null,
+  plate text not null,
+  plate_state text not null default 'CT',
+  email text not null,
+  parking_option text not null,
+  option_label text not null,
+  amount_cents integer not null check (amount_cents > 0),
+  starts_at timestamptz not null,
+  expires_at timestamptz not null,
+  status text not null default 'pending' check (status in ('pending','active','expired','declined','failed','cancelled')),
+  clover_checkout_session_id text unique,
+  clover_payment_id text,
+  paid_at timestamptz,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists idx_parking_sessions_plate on parking_sessions(upper(plate), upper(plate_state), expires_at desc);
+create index if not exists idx_parking_sessions_status_expiry on parking_sessions(status, expires_at desc);
+create index if not exists idx_parking_sessions_clover_checkout on parking_sessions(clover_checkout_session_id);
+
+alter table parking_sessions enable row level security;
+
 -- Important security direction:
 -- The QR code should contain only parking_permits.permit_token.
 -- Never embed customer name, phone, email, plate, payment status, or other PII directly in the QR code.
