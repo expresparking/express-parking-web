@@ -1,12 +1,17 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 export default function PropertyIssuePage() {
   const [reference, setReference] = useState("");
   const [error, setError] = useState("");
   const [sending, setSending] = useState(false);
   const [mediaSummary, setMediaSummary] = useState("");
+  const [formStartedAt, setFormStartedAt] = useState("");
+
+  useEffect(() => {
+    setFormStartedAt(String(Date.now()));
+  }, []);
 
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -26,6 +31,7 @@ export default function PropertyIssuePage() {
       setReference(data.reference || "Submitted");
       form.reset();
       setMediaSummary("");
+      setFormStartedAt(String(Date.now()));
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unable to submit request. Please call 203-941-0954, Ext. 2.");
     } finally {
@@ -51,6 +57,10 @@ export default function PropertyIssuePage() {
         <p><strong>Fire, suspected gas leak, medical emergency, or immediate danger:</strong> call 911 first.</p>
       </div>
       <form className="inquiry-form" onSubmit={submit} encType="multipart/form-data">
+        <input type="hidden" name="formStartedAt" value={formStartedAt} />
+        <label aria-hidden="true" style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }}>
+          <span>Website</span><input name="website" tabIndex={-1} autoComplete="off" />
+        </label>
         <div className="form-head"><span>Service request</span><h2>What needs attention?</h2><p>Provide enough information for our team to assess the right next step.</p></div>
         <div className="form-grid">
           <label><span>I am a</span><select required name="role" defaultValue=""><option value="" disabled>Choose one</option><option>Tenant</option><option>Property owner</option><option>Authorized representative</option></select></label>
@@ -64,11 +74,11 @@ export default function PropertyIssuePage() {
           <label className="form-wide"><span>Describe the issue</span><textarea required name="description" rows={5} placeholder="What happened? When did you notice it? Include any useful details." /></label>
           <label><span>Permission to enter</span><select required name="entry"><option>Call me first</option><option>Yes — authorized access</option><option>No — I must be present</option></select></label>
           <label><span>Best access time</span><input name="accessTime" placeholder="Example: weekdays after 3 PM" /></label>
-          <label className="form-wide media-upload-field"><span>Photos or short video</span><input type="file" name="media" accept="image/jpeg,image/png,image/webp,video/mp4,video/quicktime" multiple onChange={(e) => handleFiles(e.currentTarget.files)} /><small>Add up to 4 files. For this review version, keep the combined upload under 3.5 MB so the files can be securely delivered with the request email.</small>{mediaSummary && <strong>{mediaSummary}</strong>}</label>
+          <label className="form-wide media-upload-field"><span>Photos or short video</span><input type="file" name="media" accept="image/jpeg,image/png,image/webp,video/mp4,video/quicktime" multiple onChange={(e) => handleFiles(e.currentTarget.files)} /><small>Add up to 4 files and keep the combined upload under 3.5 MB.</small>{mediaSummary && <strong>{mediaSummary}</strong>}</label>
         </div>
         {error && <p role="alert" style={{ color: "#a51d1d", fontWeight: 700 }}>{error}</p>}
-        <button className="button property-care-button" type="submit" disabled={sending}>{sending ? "Sending…" : "Submit Property Request →"}</button>
-        <small>For urgent issues, submitting this form does not replace calling 203-941-0954, Ext. 2.</small>
+        <button className="button property-care-button" type="submit" disabled={sending || !formStartedAt}>{sending ? "Sending…" : "Submit Property Request →"}</button>
+        <small>Spam protection limits this form to 2 accepted requests per browser within 24 hours. For urgent issues, call 203-941-0954, Ext. 2.</small>
       </form>
     </div></section>
   </main>;
