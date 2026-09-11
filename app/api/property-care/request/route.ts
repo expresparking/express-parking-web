@@ -1,9 +1,13 @@
-import { NextResponse } from "next/server";
+import { createHmac, timingSafeEqual } from "crypto";
+import { NextRequest, NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
 const MAX_FILES = 4;
 const MAX_TOTAL_BYTES = 3.5 * 1024 * 1024;
+const MAX_SUBMISSIONS = 2;
+const LIMIT_WINDOW_MS = 24 * 60 * 60 * 1000;
+const MIN_FORM_TIME_MS = 3000;
 const ALLOWED_MEDIA_TYPES = new Set(["image/jpeg", "image/png", "image/webp", "video/mp4", "video/quicktime"]);
 
 function clean(value: unknown, max = 1000) {
@@ -26,9 +30,78 @@ function makeReference() {
   return `EPC-${stamp}-${code}`;
 }
 
-export async function POST(request: Request) {
+function signLimitPayload(payload: string, secret: string) {
+  return createHmac("sha256", secret).update(payload).digest("hex");
+}
+
+function readSubmissionLimit(request: NextRequest, secret: string) {
+  const raw = request.cookies.get("epc_submission_limit")?.value;
+  if (!raw) return { startedAt: Date.now(), count: 0 };
+
+  const [startedAtRaw, countRaw, signature] = raw.split(".");
+  const payload = `${startedAtRaw}.${countRaw}`;
+  const expected = signLimitPayload(payload, secret);
+
   try {
+    const a = Buffer.from(signature || "", "hex");
+    const b = Buffer.from(expected, "hex");
+    if (a.length !== b.length || !timingSafeEqual(a, b)) return { startedAt: Date.now(), count: 0 };
+  } catch {
+    return { startedAt: Date.now(), count: 0 };
+  }
+
+  const startedAt = Number(startedAtRaw);
+  const count = Number(countRaw);
+  if (!Number.isFinite(startedAt) || !Number.isFinite(count) || Date.now() - startedAt >= LIMIT_WINDOW_MS) {
+    return { startedAt: Date.now(), count: 0 };
+  }
+
+  return { startedAt, count };
+}
+
+function setSubmissionLimit(response: NextResponse, startedAt: number, count: number, secret: string) {
+  const payload = `${startedAt}.${count}`;
+  const signature = signLimitPayload(payload, secret);
+  response.cookies.set("epc_submission_limit", `${payload}.${signature}`, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "lax",
+    path: "/",
+    maxAge: Math.floor(LIMIT_WINDOW_MS / 1000),
+  });
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const resendKey = process.env.RESEND_API_KEY;
+    if (!resendKey) {
+      return NextResponse.json(
+        { error: "Online notifications are being connected. Please call 203-941-0954, Ext. 2." },
+        { status: 503 }
+      );
+    }
+
+    const limit = readSubmissionLimit(request, resendKey);
+    if (limit.count >= MAX_SUBMISSIONS) {
+      return NextResponse.json(
+        { error: "For spam protection, this form allows no more than 2 requests in 24 hours. For additional help, call 203-941-0954, Ext. 2." },
+        { status: 429 }
+      );
+    }
+
     const formData = await request.formData();
+
+    // Hidden bot trap. Real customers never see or fill this field.
+    if (clean(formData.get("website"), 200)) {
+      return NextResponse.json({ ok: true, reference: "Received" });
+    }
+
+    // Reject submissions that arrive unrealistically fast or use an old/stale form.
+    const formStartedAt = Number(clean(formData.get("formStartedAt"), 30));
+    const formAge = Date.now() - formStartedAt;
+    if (!Number.isFinite(formStartedAt) || formAge < MIN_FORM_TIME_MS || formAge > 2 * 60 * 60 * 1000) {
+      return NextResponse.json({ error: "Please reload the form and try again." }, { status: 400 });
+    }
 
     const role = clean(formData.get("role"), 80);
     const urgency = clean(formData.get("urgency"), 80);
@@ -57,21 +130,13 @@ export async function POST(request: Request) {
 
     const totalBytes = media.reduce((sum, file) => sum + file.size, 0);
     if (totalBytes > MAX_TOTAL_BYTES) {
-      return NextResponse.json({ error: "Photo/video files must be under 3.5 MB combined for this review version." }, { status: 400 });
+      return NextResponse.json({ error: "Photo/video files must be under 3.5 MB combined." }, { status: 400 });
     }
 
     for (const file of media) {
       if (!ALLOWED_MEDIA_TYPES.has(file.type)) {
         return NextResponse.json({ error: "Uploads must be JPG, PNG, WebP, MP4, or MOV files." }, { status: 400 });
       }
-    }
-
-    const resendKey = process.env.RESEND_API_KEY;
-    if (!resendKey) {
-      return NextResponse.json(
-        { error: "Online notifications are being connected. Please call 203-941-0954, Ext. 2." },
-        { status: 503 }
-      );
     }
 
     const reference = makeReference();
@@ -131,18 +196,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "We could not send the request. Please call 203-941-0954, Ext. 2." }, { status: 502 });
     }
 
-    await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${resendKey}`, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        from: fromEmail,
-        to: [email],
-        subject: `Express Property Care request received — ${reference}`,
-        html: `<div style="font-family:Arial,sans-serif;max-width:620px;margin:auto;color:#17324D"><h2>We received your property request.</h2><p>Reference: <strong>${safe.reference}</strong></p><p>Property: ${safe.address}${unit ? `, ${safe.unit}` : ""}</p><p>Issue: ${safe.issue}</p><p>Our team will review the request and respond using the contact information you provided.</p><p>For Property Care assistance, call <strong>203-941-0954, Ext. 2</strong>.</p><p>For fire, suspected gas leak, medical emergency, or immediate danger, call 911.</p><hr /><p>Express Property Care<br />96 Orange Street, New Haven, CT 06510</p></div>`,
-      }),
-    }).catch(() => undefined);
-
-    return NextResponse.json({ ok: true, reference });
+    // Only one outbound email is sent per accepted request. The customer receives
+    // the reference number immediately on the website instead of a second email.
+    const response = NextResponse.json({ ok: true, reference });
+    setSubmissionLimit(response, limit.startedAt, limit.count + 1, resendKey);
+    return response;
   } catch (error) {
     console.error("Property Care request error", error);
     return NextResponse.json({ error: "Unable to process the request. Please call 203-941-0954, Ext. 2." }, { status: 500 });
