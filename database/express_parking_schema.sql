@@ -85,6 +85,7 @@ create table if not exists parking_sessions (
   location_code text not null,
   plate text not null,
   plate_state text not null default 'CT',
+  space_number text not null,
   email text not null,
   parking_option text not null,
   option_label text not null,
@@ -98,6 +99,8 @@ create table if not exists parking_sessions (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+alter table parking_sessions add column if not exists space_number text;
 
 create index if not exists idx_parking_sessions_plate on parking_sessions(upper(plate), upper(plate_state), expires_at desc);
 create index if not exists idx_parking_sessions_status_expiry on parking_sessions(status, expires_at desc);

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
-type Session = { status: string; plate: string; plateState: string; optionLabel: string; amountCents: number; startsAt: string; expiresAt: string; locationName: string };
+type Session = { status: string; plate: string; plateState: string; spaceNumber: string; optionLabel: string; amountCents: number; startsAt: string; expiresAt: string; locationName: string };
 
 export function ConfirmationStatus() {
   const params = useSearchParams();
@@ -41,6 +41,7 @@ export function ConfirmationStatus() {
         <h1>Parking active</h1>
         <dl>
           <div><dt>Plate</dt><dd>{session.plateState} · {session.plate}</dd></div>
+          <div><dt>Parking space</dt><dd>{session.spaceNumber}</dd></div>
           <div><dt>Location</dt><dd>{session.locationName}</dd></div>
           <div><dt>Started</dt><dd>{format(session.startsAt)}</dd></div>
           <div><dt>Expires</dt><dd>{format(session.expiresAt)}</dd></div>
