@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { randomUUID } from "node:crypto";
-import { GRANT_GARAGE, normalizePlate, optionByCode } from "../../../lib/self-pay";
+import { GRANT_GARAGE, normalizePlate, normalizeSpaceNumber, optionByCode } from "../../../lib/self-pay";
 import { hasParkingDatabase, supabaseRequest } from "../../../lib/supabase-rest";
 
 export const runtime = "nodejs";
@@ -11,9 +11,10 @@ export async function POST(request: Request) {
     const body = await request.json();
     const plate = normalizePlate(String(body.plate || ""));
     const plateState = String(body.state || "CT").toUpperCase().replace(/[^A-Z]/g, "").slice(0, 3);
+    const spaceNumber = normalizeSpaceNumber(String(body.spaceNumber || ""));
     const email = String(body.email || "").trim().toLowerCase();
     const option = optionByCode(String(body.option || ""));
-    if (body.location !== GRANT_GARAGE.code || plate.length < 2 || !plateState || !/^\S+@\S+\.\S+$/.test(email) || !option) {
+    if (body.location !== GRANT_GARAGE.code || plate.length < 2 || !plateState || !spaceNumber || !/^\S+@\S+\.\S+$/.test(email) || !option) {
       return NextResponse.json({ error: "That parking selection is no longer available. Please review your information." }, { status: 400 });
     }
 
@@ -33,6 +34,7 @@ export async function POST(request: Request) {
         location_code: GRANT_GARAGE.code,
         plate,
         plate_state: plateState,
+        space_number: spaceNumber,
         email,
         parking_option: option.code,
         option_label: option.label,
@@ -56,7 +58,7 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         pageConfigUuid: process.env.CLOVER_PAGE_CONFIG_UUID || "B1SEXQJM5TXGP",
         customer: { email },
-        shoppingCart: { lineItems: [{ name: `${GRANT_GARAGE.name} — ${option.label}`, note: `Plate ${plateState} ${plate}`, price: option.amountCents, unitQty: 1 }] },
+        shoppingCart: { lineItems: [{ name: `${GRANT_GARAGE.name} — ${option.label}`, note: `Plate ${plateState} ${plate} · Space ${spaceNumber}`, price: option.amountCents, unitQty: 1 }] },
         redirectUrls: {
           success: `${siteUrl}/pay/confirmation?session=${id}`,
           failure: `${siteUrl}/pay/grant-garage?payment=failed`,

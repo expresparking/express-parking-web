@@ -108,6 +108,10 @@ export function normalizePlate(value: string) {
   return value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 10);
 }
 
+export function normalizeSpaceNumber(value: string) {
+  return value.toUpperCase().replace(/[^A-Z0-9-]/g, "").slice(0, 8);
+}
+
 export function optionByCode(code: string, now = new Date()) {
   return getParkingOptions(now).find((option) => option.code === code);
 }

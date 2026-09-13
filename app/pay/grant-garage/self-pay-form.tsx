@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
-import { GRANT_GARAGE, getParkingOptions, normalizePlate } from "../../lib/self-pay";
+import { GRANT_GARAGE, getParkingOptions, normalizePlate, normalizeSpaceNumber } from "../../lib/self-pay";
 
 const STATES = ["CT", "NY", "MA", "NJ", "RI", "PA", "ME", "NH", "VT", "DE", "MD", "VA", "DC", "Other"];
 
@@ -10,6 +10,7 @@ export function SelfPayForm() {
   const [mounted, setMounted] = useState(false);
   const [plate, setPlate] = useState("");
   const [state, setState] = useState("CT");
+  const [spaceNumber, setSpaceNumber] = useState("");
   const [email, setEmail] = useState("");
   const [selected, setSelected] = useState("");
   const [loading, setLoading] = useState(false);
@@ -22,8 +23,9 @@ export function SelfPayForm() {
     event.preventDefault();
     setError("");
     const cleanPlate = normalizePlate(plate);
-    if (cleanPlate.length < 2 || !selected || !email) {
-      setError("Enter your license plate, state, email, and parking option.");
+    const cleanSpaceNumber = normalizeSpaceNumber(spaceNumber);
+    if (cleanPlate.length < 2 || !cleanSpaceNumber || !selected || !email) {
+      setError("Enter your license plate, state, space number, email, and parking option.");
       return;
     }
     setLoading(true);
@@ -31,7 +33,7 @@ export function SelfPayForm() {
       const response = await fetch("/api/self-pay/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plate: cleanPlate, state, email, option: selected, location: GRANT_GARAGE.code }),
+        body: JSON.stringify({ plate: cleanPlate, state, spaceNumber: cleanSpaceNumber, email, option: selected, location: GRANT_GARAGE.code }),
       });
       const result = await response.json();
       if (!response.ok || !result.checkoutUrl) throw new Error(result.error || "Unable to start checkout.");
@@ -70,6 +72,9 @@ export function SelfPayForm() {
                   </select>
                 </label>
               </div>
+              <label>Parking space number
+                <input value={spaceNumber} onChange={(event) => setSpaceNumber(normalizeSpaceNumber(event.target.value))} autoCapitalize="characters" autoCorrect="off" inputMode="text" placeholder="Example: 125" maxLength={8} required />
+              </label>
               <label>Email for receipt
                 <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} autoComplete="email" placeholder="you@example.com" required />
               </label>
@@ -90,7 +95,7 @@ export function SelfPayForm() {
 
             <label className="self-pay-agreement">
               <input type="checkbox" required />
-              <span>I confirm my plate is correct and agree to exit by the time shown after payment.</span>
+              <span>I confirm my plate and parking space are correct and agree to exit by the time shown after payment.</span>
             </label>
             {error ? <p className="self-pay-error" role="alert">{error}</p> : null}
             <button className="self-pay-submit" type="submit" disabled={loading}>{loading ? "Opening secure checkout…" : "Pay securely with Clover"}</button>
