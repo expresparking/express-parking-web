@@ -37,7 +37,8 @@ export async function POST(request: Request) {
     const merchantId = process.env.CLOVER_MERCHANT_ID;
     const privateKey = process.env.CLOVER_PRIVATE_KEY;
     const pageConfigUuid = process.env.CLOVER_VELOR_PAGE_CONFIG_UUID;
-    if (!merchantId || !privateKey || !pageConfigUuid || !hasParkingDatabase()) {
+    const webhookSecret = process.env.CLOVER_VELOR_WEBHOOK_SECRET;
+    if (!merchantId || !privateKey || !pageConfigUuid || !webhookSecret || !hasParkingDatabase()) {
       return NextResponse.json({ error: "Online Velor booking is being connected. Please call 203-941-0954." }, { status: 503 });
     }
 
