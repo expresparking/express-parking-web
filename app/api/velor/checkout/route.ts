@@ -43,7 +43,7 @@ export async function POST(request: Request) {
     }
 
     const staleBefore = new Date(Date.now() - 20 * 60 * 1000).toISOString();
-    await supabaseRequest(`velor_bookings?status=eq.pending&created_at=lt.${encodeURIComponent(staleBefore)}`, {
+    await supabaseRequest(`velor_bookings?status=eq.pending&created_at=lt.${staleBefore}`, {
       method: "PATCH",
       headers: { Prefer: "return=minimal" },
       body: JSON.stringify({ status: "cancelled", updated_at: new Date().toISOString() }),
