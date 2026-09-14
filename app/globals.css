@@ -902,7 +902,7 @@ html, body { background: #fff !important; color: #16181c; }
 .velor-form-head p { color: #606966; }
 .velor-booking-form fieldset { margin: 0 0 38px; padding: 0; border: 0; }
 .velor-booking-form legend { width: 100%; margin-bottom: 18px; padding-bottom: 12px; color: #26322f; border-bottom: 1px solid #e0e7e4; font-size: 13px; font-weight: 800; }
-.velor-plan-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.velor-plan-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .velor-plan-options label { display: flex; gap: 12px; padding: 20px; border: 1px solid #d8e0dd; border-radius: 12px; cursor: pointer; }
 .velor-plan-options label.selected { border-color: var(--velor-2); background: var(--velor-paper); box-shadow: inset 0 0 0 1px var(--velor-2); }
 .velor-plan-options input { accent-color: var(--velor); }
@@ -918,6 +918,7 @@ html, body { background: #fff !important; color: #16181c; }
 .velor-consent input { margin-top: 2px; accent-color: var(--velor); }
 .velor-submit { width: 100%; min-height: 58px; display: flex; justify-content: space-between; align-items: center; margin-top: 22px; padding: 0 22px; color: #fff; border: 0; border-radius: 9px; background: var(--velor); font: 800 12px var(--font-geist-sans); cursor: pointer; text-transform: uppercase; }
 .velor-submit:hover { background: var(--velor-2); }
+.velor-submit:disabled { opacity: .65; cursor: wait; }
 .velor-order-card { position: sticky; top: 118px; padding: 32px; color: #fff; border-radius: 16px; background: var(--velor); box-shadow: 0 24px 52px rgba(5,46,43,.2); }
 .velor-order-card > span { color: var(--velor-mint); }
 .velor-order-card h3 { margin: 42px 0 26px; color: #fff; font-size: 29px; }
