@@ -14,6 +14,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 type ExistingSlot = { capacity_slot: number };
+type PendingHold = { id: string; created_at: string };
 
 export async function POST(request: Request) {
   let bookingId = "";
@@ -43,11 +44,16 @@ export async function POST(request: Request) {
     }
 
     const staleBefore = new Date(Date.now() - 20 * 60 * 1000).toISOString();
-    await supabaseRequest(`velor_bookings?status=eq.pending&created_at=lt.${staleBefore}`, {
-      method: "PATCH",
-      headers: { Prefer: "return=minimal" },
-      body: JSON.stringify({ status: "cancelled", updated_at: new Date().toISOString() }),
-    });
+    const pendingHolds = await supabaseRequest<PendingHold[]>(
+      `velor_bookings?select=id,created_at&location_code=eq.${VELOR_LOCATION.code}&service_date=eq.${serviceDate}&window_code=eq.${window.window.code}&status=eq.pending`,
+    );
+    await Promise.all(pendingHolds
+      .filter((hold) => hold.created_at < staleBefore)
+      .map((hold) => supabaseRequest(`velor_bookings?id=eq.${hold.id}`, {
+        method: "PATCH",
+        headers: { Prefer: "return=minimal" },
+        body: JSON.stringify({ status: "cancelled", updated_at: new Date().toISOString() }),
+      })));
 
     const occupied = await supabaseRequest<ExistingSlot[]>(
       `velor_bookings?select=capacity_slot&location_code=eq.${VELOR_LOCATION.code}&service_date=eq.${serviceDate}&window_code=eq.${window.window.code}&status=in.(pending,paid,scheduled,in_progress)`,
