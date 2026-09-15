@@ -1,4 +1,7 @@
-const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseUrl = process.env.SUPABASE_URL
+  ?.trim()
+  .replace(/\/+$/, "")
+  .replace(/\/rest\/v1$/i, "");
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 export function hasParkingDatabase() {
@@ -25,4 +28,3 @@ export async function supabaseRequest<T>(path: string, init: RequestInit = {}): 
   if (response.status === 204) return undefined as T;
   return response.json() as Promise<T>;
 }
-
