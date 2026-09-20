@@ -51,6 +51,7 @@ export function ConfirmationStatus() {
         </dl>
         <strong className="no-ticket">No ticket needs to be displayed.</strong>
         <p>Make sure your vehicle exits before the expiration time shown above.</p>
+        <a className="self-pay-submit" href={`/pay/extend?session=${sessionId}`}>Extend Parking</a>
       </div>}
   </section></main>;
 }
