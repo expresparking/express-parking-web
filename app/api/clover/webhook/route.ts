@@ -68,7 +68,7 @@ export async function POST(request: Request) {
       await supabaseRequest(`parking_sessions?id=eq.${extension.parking_session_id}`, {
         method: "PATCH",
         headers: { Prefer: "return=minimal" },
-        body: JSON.stringify({ expires_at: extension.new_expires_at, updated_at: paidAt }),
+        body: JSON.stringify({ expires_at: extension.new_expires_at, updated_at: paidAt, reminder_sent_at: null, expiration_notice_sent_at: null }),
       });
     } else {
       await supabaseRequest(`parking_session_extensions?id=eq.${extension.id}`, {
