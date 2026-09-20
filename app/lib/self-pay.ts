@@ -15,6 +15,16 @@ export type ParkingOption = {
   expiresAt: string;
 };
 
+export type ParkingExtensionOptionCode = "plus-one-hour" | "plus-two-hours" | "plus-three-hours";
+
+export type ParkingExtensionOption = {
+  code: ParkingExtensionOptionCode;
+  label: string;
+  detail: string;
+  amountCents: number;
+  expiresAt: string;
+};
+
 type LocalParts = { year: number; month: number; day: number; hour: number; minute: number; weekday: number };
 
 function localParts(date: Date): LocalParts {
@@ -104,6 +114,41 @@ export function getParkingOptions(now = new Date()): ParkingOption[] {
   return options;
 }
 
+export function getExtensionOptions(currentExpiresAt: string, now = new Date()): ParkingExtensionOption[] {
+  const currentExpiry = new Date(currentExpiresAt);
+  if (Number.isNaN(currentExpiry.getTime()) || currentExpiry <= now) return [];
+
+  const parts = localParts(currentExpiry);
+  if (parts.weekday === 0) return [];
+
+  const expiryMinutes = parts.hour * 60 + parts.minute;
+  const dayEndMinutes = 17 * 60;
+
+  // Daytime hourly sessions can be extended only up to the 5 PM day-parking cutoff.
+  // Evening and overnight options already run to their permitted exit time.
+  if (expiryMinutes >= dayEndMinutes) return [];
+
+  const dayEnd = easternDate(parts, 17);
+  const choices = [
+    { code: "plus-one-hour" as const, minutes: 60, label: "+1 Hour", amountCents: 500 },
+    { code: "plus-two-hours" as const, minutes: 120, label: "+2 Hours", amountCents: 1000 },
+    { code: "plus-three-hours" as const, minutes: 180, label: "+3 Hours", amountCents: 1500 },
+  ];
+
+  return choices
+    .map((choice) => {
+      const expiresAt = new Date(currentExpiry.getTime() + choice.minutes * 60_000);
+      return {
+        code: choice.code,
+        label: choice.label,
+        detail: `New expiration: ${new Intl.DateTimeFormat("en-US", { timeZone: GRANT_GARAGE.timeZone, timeStyle: "short" }).format(expiresAt)}`,
+        amountCents: choice.amountCents,
+        expiresAt: expiresAt.toISOString(),
+      };
+    })
+    .filter((choice) => new Date(choice.expiresAt) <= dayEnd);
+}
+
 export function normalizePlate(value: string) {
   return value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 10);
 }
@@ -116,3 +161,6 @@ export function optionByCode(code: string, now = new Date()) {
   return getParkingOptions(now).find((option) => option.code === code);
 }
 
+export function extensionOptionByCode(code: string, currentExpiresAt: string, now = new Date()) {
+  return getExtensionOptions(currentExpiresAt, now).find((option) => option.code === code);
+}
