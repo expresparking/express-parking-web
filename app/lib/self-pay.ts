@@ -15,6 +15,8 @@ export type ParkingOption = {
   expiresAt: string;
 };
 
+export type NotificationMethod = "email" | "sms";
+
 export type ParkingExtensionOptionCode = "plus-one-hour" | "plus-two-hours" | "plus-three-hours";
 
 export type ParkingExtensionOption = {
@@ -155,6 +157,10 @@ export function normalizePlate(value: string) {
 
 export function normalizeSpaceNumber(value: string) {
   return value.toUpperCase().replace(/[^A-Z0-9-]/g, "").slice(0, 8);
+}
+
+export function normalizePhone(value: string) {
+  return value.replace(/\D/g, "").slice(0, 15);
 }
 
 export function optionByCode(code: string, now = new Date()) {
