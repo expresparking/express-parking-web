@@ -16,27 +16,71 @@ function validSignature(header: string, rawBody: string, secret: string) {
   return actualBuffer.length === expectedBuffer.length && timingSafeEqual(actualBuffer, expectedBuffer);
 }
 
+type SessionMatch = { id: string };
+type ExtensionMatch = { id: string; parking_session_id: string; new_expires_at: string };
+
 export async function POST(request: Request) {
   try {
     const secret = process.env.CLOVER_WEBHOOK_SECRET;
     const signature = request.headers.get("clover-signature") || "";
     const rawBody = await request.text();
     if (!secret || !validSignature(signature, rawBody, secret)) return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
+
     const event = JSON.parse(rawBody);
     const checkoutSessionId = String(event.Data || event.data || "");
     const status = String(event.Status || event.status || "").toUpperCase();
     const type = String(event.Type || event.type || "").toUpperCase();
     if (!checkoutSessionId || type !== "PAYMENT") return NextResponse.json({ received: true });
-    const update = status === "APPROVED" ? { status: "active", paid_at: new Date().toISOString(), clover_payment_id: String(event.Id || event.id || "") } : { status: "declined" };
-    await supabaseRequest(`parking_sessions?clover_checkout_session_id=eq.${encodeURIComponent(checkoutSessionId)}`, {
-      method: "PATCH",
-      headers: { Prefer: "return=minimal" },
-      body: JSON.stringify(update),
-    });
+
+    const paymentId = String(event.Id || event.id || "");
+
+    // Normal self-pay transactions are checked first so existing parking checkout
+    // continues to work even if the extension migration has not been applied yet.
+    const sessions = await supabaseRequest<SessionMatch[]>(
+      `parking_sessions?clover_checkout_session_id=eq.${encodeURIComponent(checkoutSessionId)}&select=id&limit=1`,
+    );
+    if (sessions[0]) {
+      const update = status === "APPROVED"
+        ? { status: "active", paid_at: new Date().toISOString(), clover_payment_id: paymentId }
+        : { status: "declined" };
+
+      await supabaseRequest(`parking_sessions?id=eq.${sessions[0].id}`, {
+        method: "PATCH",
+        headers: { Prefer: "return=minimal" },
+        body: JSON.stringify(update),
+      });
+      return NextResponse.json({ received: true });
+    }
+
+    const extensions = await supabaseRequest<ExtensionMatch[]>(
+      `parking_session_extensions?clover_checkout_session_id=eq.${encodeURIComponent(checkoutSessionId)}&select=id,parking_session_id,new_expires_at&limit=1`,
+    );
+    const extension = extensions[0];
+    if (!extension) return NextResponse.json({ received: true });
+
+    if (status === "APPROVED") {
+      const paidAt = new Date().toISOString();
+      await supabaseRequest(`parking_session_extensions?id=eq.${extension.id}`, {
+        method: "PATCH",
+        headers: { Prefer: "return=minimal" },
+        body: JSON.stringify({ status: "active", paid_at: paidAt, clover_payment_id: paymentId }),
+      });
+      await supabaseRequest(`parking_sessions?id=eq.${extension.parking_session_id}`, {
+        method: "PATCH",
+        headers: { Prefer: "return=minimal" },
+        body: JSON.stringify({ expires_at: extension.new_expires_at, updated_at: paidAt }),
+      });
+    } else {
+      await supabaseRequest(`parking_session_extensions?id=eq.${extension.id}`, {
+        method: "PATCH",
+        headers: { Prefer: "return=minimal" },
+        body: JSON.stringify({ status: "declined" }),
+      });
+    }
+
     return NextResponse.json({ received: true });
   } catch (error) {
     console.error("Clover webhook error", error);
     return NextResponse.json({ error: "Webhook failed" }, { status: 500 });
   }
 }
-
