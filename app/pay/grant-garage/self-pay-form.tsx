@@ -6,6 +6,8 @@ import { GRANT_GARAGE, getParkingOptions, normalizePhone, normalizePlate, normal
 
 const STATES = ["CT", "NY", "MA", "NJ", "RI", "PA", "ME", "NH", "VT", "DE", "MD", "VA", "DC", "Other"];
 
+const REMINDERS_ENABLED = process.env.NEXT_PUBLIC_PARKING_REMINDERS_ENABLED === "true";
+
 export function SelfPayForm() {
   const [mounted, setMounted] = useState(false);
   const [plate, setPlate] = useState("");
@@ -85,23 +87,27 @@ export function SelfPayForm() {
               <label>Email for receipt
                 <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} autoComplete="email" placeholder="you@example.com" required />
               </label>
-              <div className="self-pay-reminder-choice">
-                <span>Expiration reminder</span>
-                <label>
-                  <input type="radio" name="notification-method" value="email" checked={notificationMethod === "email"} onChange={() => setNotificationMethod("email")} />
-                  Email
-                </label>
-                <label>
-                  <input type="radio" name="notification-method" value="sms" checked={notificationMethod === "sms"} onChange={() => setNotificationMethod("sms")} />
-                  Text message
-                </label>
-              </div>
-              {notificationMethod === "sms" ? (
-                <label>Mobile number for reminder
-                  <input type="tel" value={phone} onChange={(event) => setPhone(event.target.value)} autoComplete="tel" inputMode="tel" placeholder="2035550123" required />
-                </label>
+              {REMINDERS_ENABLED ? (
+                <>
+                  <div className="self-pay-reminder-choice">
+                    <span>Expiration reminder</span>
+                    <label>
+                      <input type="radio" name="notification-method" value="email" checked={notificationMethod === "email"} onChange={() => setNotificationMethod("email")} />
+                      Email
+                    </label>
+                    <label>
+                      <input type="radio" name="notification-method" value="sms" checked={notificationMethod === "sms"} onChange={() => setNotificationMethod("sms")} />
+                      Text message
+                    </label>
+                  </div>
+                  {notificationMethod === "sms" ? (
+                    <label>Mobile number for reminder
+                      <input type="tel" value={phone} onChange={(event) => setPhone(event.target.value)} autoComplete="tel" inputMode="tel" placeholder="2035550123" required />
+                    </label>
+                  ) : null}
+                  <small className="self-pay-reminder-note">We will use your choice only for parking expiration and extension reminders.</small>
+                </>
               ) : null}
-              <small className="self-pay-reminder-note">We will use your choice only for parking expiration and extension reminders.</small>
             </fieldset>
 
             <fieldset>
