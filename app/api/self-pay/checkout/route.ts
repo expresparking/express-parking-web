@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { randomUUID } from "node:crypto";
-import { GRANT_GARAGE, normalizePlate, normalizeSpaceNumber, optionByCode } from "../../../lib/self-pay";
+import { GRANT_GARAGE, normalizePhone, normalizePlate, normalizeSpaceNumber, optionByCode } from "../../../lib/self-pay";
 import { hasParkingDatabase, supabaseRequest } from "../../../lib/supabase-rest";
 
 export const runtime = "nodejs";
@@ -13,8 +13,10 @@ export async function POST(request: Request) {
     const plateState = String(body.state || "CT").toUpperCase().replace(/[^A-Z]/g, "").slice(0, 3);
     const spaceNumber = normalizeSpaceNumber(String(body.spaceNumber || ""));
     const email = String(body.email || "").trim().toLowerCase();
+    const notificationMethod = body.notificationMethod === "sms" ? "sms" : "email";
+    const phone = normalizePhone(String(body.phone || ""));
     const option = optionByCode(String(body.option || ""));
-    if (body.location !== GRANT_GARAGE.code || plate.length < 2 || !plateState || !spaceNumber || !/^\S+@\S+\.\S+$/.test(email) || !option) {
+    if (body.location !== GRANT_GARAGE.code || plate.length < 2 || !plateState || !spaceNumber || !/^\S+@\S+\.\S+$/.test(email) || (notificationMethod === "sms" && phone.length < 10) || !option) {
       return NextResponse.json({ error: "That parking selection is no longer available. Please review your information." }, { status: 400 });
     }
 
@@ -36,6 +38,8 @@ export async function POST(request: Request) {
         plate_state: plateState,
         space_number: spaceNumber,
         email,
+        phone: notificationMethod === "sms" ? phone : null,
+        notification_method: notificationMethod,
         parking_option: option.code,
         option_label: option.label,
         amount_cents: option.amountCents,

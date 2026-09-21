@@ -3,7 +3,9 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
-type Session = { status: string; plate: string; plateState: string; spaceNumber: string; optionLabel: string; amountCents: number; startsAt: string; expiresAt: string; locationName: string };
+type Session = { status: string; plate: string; plateState: string; spaceNumber: string; optionLabel: string; amountCents: number; startsAt: string; expiresAt: string; locationName: string; notificationMethod: "email" | "sms" };
+
+const REMINDERS_ENABLED = process.env.NEXT_PUBLIC_PARKING_REMINDERS_ENABLED === "true";
 
 export function ConfirmationStatus() {
   const params = useSearchParams();
@@ -47,9 +49,11 @@ export function ConfirmationStatus() {
           <div><dt>Expires</dt><dd>{format(session.expiresAt)}</dd></div>
           <div><dt>Parking purchased</dt><dd>{session.optionLabel}</dd></div>
           <div><dt>Payment</dt><dd className="paid-label">PAID · ${(session.amountCents / 100).toFixed(2)}</dd></div>
+          {REMINDERS_ENABLED ? <div><dt>Expiration reminder</dt><dd>{session.notificationMethod === "sms" ? "Text message" : "Email"}</dd></div> : null}
         </dl>
         <strong className="no-ticket">No ticket needs to be displayed.</strong>
         <p>Make sure your vehicle exits before the expiration time shown above.</p>
+        <a className="self-pay-submit" href={`/pay/extend?session=${sessionId}`}>Extend Parking</a>
       </div>}
   </section></main>;
 }
