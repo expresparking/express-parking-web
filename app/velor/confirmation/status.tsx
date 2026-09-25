@@ -61,7 +61,7 @@ export function VelorConfirmationStatus() {
           <div><dt>Payment</dt><dd className="paid-label">PAID · ${(booking.amountCents / 100).toFixed(2)}</dd></div>
         </dl>
         <strong className="no-ticket">Leave your vehicle parked in the space shown above.</strong>
-        <p>Velor will contact you if the crew needs help locating the vehicle and again when service is complete.</p>
+        <p>Keep your vehicle in the space shown above during the reserved service window. Velor will contact you if the crew needs help locating the vehicle.</p>
       </div>}
   </section></main>;
 }
