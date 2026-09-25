@@ -116,7 +116,7 @@ export default function VelorBooking() {
           <div><dt>Schedule</dt><dd>{summary.schedule}</dd></div>
           <div><dt>Vehicle</dt><dd>{summary.vehicle}</dd></div>
         </dl>
-        <div className="velor-included"><b>Included with every visit</b><span>Eco-conscious process</span><span>Zero-runoff service method</span><span>Before-and-after photos</span><span>Completion notification</span></div>
+        <div className="velor-included"><b>Included with every visit</b><span>Eco-conscious process</span><span>Zero-runoff service method</span><span>Before-and-after photos</span><span>Service status tracked by Velor</span></div>
         <small>Service prices and availability can be updated as Velor expands.</small>
       </aside>
     </div>
