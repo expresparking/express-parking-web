@@ -25,10 +25,16 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
     }
     const event = JSON.parse(rawBody);
-    const checkoutSessionId = String(event.Data || event.data || "");
+    const data = event.Data ?? event.data;
+    const checkoutSessionId = String(typeof data === "string" ? data : data?.checkoutSessionId ?? data?.checkout_session_id ?? event.checkoutSessionId ?? event.checkout_session_id ?? "");
     const status = String(event.Status || event.status || "").toUpperCase();
     const type = String(event.Type || event.type || "").toUpperCase();
-    if (!checkoutSessionId || type !== "PAYMENT") return NextResponse.json({ received: true });
+    console.info("Clover Velor webhook received", { type, status, hasCheckoutSessionId: Boolean(checkoutSessionId), checkoutSessionSuffix: checkoutSessionId ? checkoutSessionId.slice(-6) : "" });
+    if (!checkoutSessionId || type !== "PAYMENT") {
+      console.warn("Clover Velor webhook ignored", { type, status, hasCheckoutSessionId: Boolean(checkoutSessionId) });
+      console.info("Clover Velor booking update attempted", { checkoutSessionSuffix: checkoutSessionId.slice(-6), status: update.status });
+    return NextResponse.json({ received: true });
+    }
 
     const update = status === "APPROVED"
       ? { status: "paid", paid_at: new Date().toISOString(), clover_payment_id: String(event.Id || event.id || ""), updated_at: new Date().toISOString() }
