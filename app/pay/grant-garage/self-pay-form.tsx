@@ -78,9 +78,6 @@ export function SelfPayForm() {
               <label>Email for receipt
                 <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} autoComplete="email" placeholder="you@example.com" required />
               </label>
-                  <small className="self-pay-reminder-note">We will use your choice only for parking expiration and extension reminders.</small>
-                </>
-              ) : null}
             </fieldset>
 
             <fieldset>
