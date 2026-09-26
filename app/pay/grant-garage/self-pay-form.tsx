@@ -2,11 +2,9 @@
 
 import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
-import { GRANT_GARAGE, getParkingOptions, normalizePhone, normalizePlate, normalizeSpaceNumber } from "../../lib/self-pay";
+import { GRANT_GARAGE, getParkingOptions, normalizePlate, normalizeSpaceNumber } from "../../lib/self-pay";
 
 const STATES = ["CT", "NY", "MA", "NJ", "RI", "PA", "ME", "NH", "VT", "DE", "MD", "VA", "DC", "Other"];
-
-const REMINDERS_ENABLED = process.env.NEXT_PUBLIC_PARKING_REMINDERS_ENABLED === "true";
 
 export function SelfPayForm() {
   const [mounted, setMounted] = useState(false);
@@ -14,8 +12,6 @@ export function SelfPayForm() {
   const [state, setState] = useState("CT");
   const [spaceNumber, setSpaceNumber] = useState("");
   const [email, setEmail] = useState("");
-  const [notificationMethod, setNotificationMethod] = useState<"email" | "sms">("email");
-  const [phone, setPhone] = useState("");
   const [selected, setSelected] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -28,13 +24,8 @@ export function SelfPayForm() {
     setError("");
     const cleanPlate = normalizePlate(plate);
     const cleanSpaceNumber = normalizeSpaceNumber(spaceNumber);
-    const cleanPhone = normalizePhone(phone);
     if (cleanPlate.length < 2 || !cleanSpaceNumber || !selected || !email) {
       setError("Enter your license plate, state, space number, email, and parking option.");
-      return;
-    }
-    if (notificationMethod === "sms" && cleanPhone.length < 10) {
-      setError("Enter a valid mobile number for text reminders.");
       return;
     }
     setLoading(true);
@@ -42,7 +33,7 @@ export function SelfPayForm() {
       const response = await fetch("/api/self-pay/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plate: cleanPlate, state, spaceNumber: cleanSpaceNumber, email, notificationMethod, phone: notificationMethod === "sms" ? cleanPhone : "", option: selected, location: GRANT_GARAGE.code }),
+        body: JSON.stringify({ plate: cleanPlate, state, spaceNumber: cleanSpaceNumber, email, notificationMethod: "email", phone: "", option: selected, location: GRANT_GARAGE.code }),
       });
       const result = await response.json();
       if (!response.ok || !result.checkoutUrl) throw new Error(result.error || "Unable to start checkout.");
@@ -87,27 +78,6 @@ export function SelfPayForm() {
               <label>Email for receipt
                 <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} autoComplete="email" placeholder="you@example.com" required />
               </label>
-              {REMINDERS_ENABLED ? (
-                <>
-                  <div className="self-pay-reminder-choice">
-                    <span>Expiration reminder</span>
-                    <label>
-                      <input type="radio" name="notification-method" value="email" checked={notificationMethod === "email"} onChange={() => setNotificationMethod("email")} />
-                      Email
-                    </label>
-                    <label>
-                      <input type="radio" name="notification-method" value="sms" checked={notificationMethod === "sms"} onChange={() => setNotificationMethod("sms")} />
-                      Text message
-                    </label>
-                  </div>
-                  {notificationMethod === "sms" ? (
-                    <label>Mobile number for reminder
-                      <input type="tel" value={phone} onChange={(event) => setPhone(event.target.value)} autoComplete="tel" inputMode="tel" placeholder="2035550123" required />
-                    </label>
-                  ) : null}
-                  <small className="self-pay-reminder-note">We will use your choice only for parking expiration and extension reminders.</small>
-                </>
-              ) : null}
             </fieldset>
 
             <fieldset>
