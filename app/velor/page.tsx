@@ -1,38 +1,37 @@
-import type { Metadata } from "next";
-import { ArrowIcon, CheckIcon } from "../ui";
-import VelorBooking from "./VelorBooking";
-
-export const metadata: Metadata = {
-  title: "Velor Car Care | While-You-Park Service",
-  description: "Waterless mobile detailing and non-toxic interior care while your vehicle is parked.",
-};
-
-export default function VelorPage() {
-  return (
-    <main className="velor-page">
-      <section className="velor-hero">
-        <div className="shell velor-hero-grid">
-          <div>
-            <span className="velor-wordmark">VELOR <small>CAR CARE</small></span>
-            <h1>Vehicle care without the extra trip.</h1>
-            <p>Waterless mobile detailing, non-toxic interior cleaning, and eco-conscious vehicle preservation completed where your car is already parked.</p>
-            <div className="button-row"><a className="button velor-primary" href="#book-velor">Book Velor <ArrowIcon /></a></div>
-            <div className="velor-trust"><span><CheckIcon />Waterless method</span><span><CheckIcon />Non-toxic interior care</span><span><CheckIcon />Photo-documented service</span></div>
-          </div>
-          <div className="velor-hero-art" aria-label="Velor while-you-park car care"><div className="velor-car-line"><span /></div><div className="velor-hero-ticket"><span>EXPRESS PARKING × VELOR</span><b>Park. Book. Return to clean.</b><small>New Haven, Connecticut</small></div></div>
-        </div>
-      </section>
-
-      <section className="velor-how"><div className="shell"><div className="velor-section-head"><span>HOW IT WORKS</span><h2>Four simple steps.</h2></div><div className="velor-steps">
-        <article><span>01</span><h3>Park</h3><p>Leave your vehicle at a participating Express location.</p></article>
-        <article><span>02</span><h3>Book</h3><p>Select the service window and enter your vehicle and space details.</p></article>
-        <article><span>03</span><h3>We care</h3><p>Velor verifies the vehicle, documents it, and completes the service.</p></article>
-        <article><span>04</span><h3>Return</h3><p>Receive completion confirmation and return to a cared-for vehicle.</p></article>
-      </div></div></section>
-
-      <section className="velor-standard"><div className="shell velor-standard-grid"><div><span>THE VELOR STANDARD</span><h2>Low-impact care for active parking environments.</h2></div><div><p>Velor is designed to work cleanly inside garages and lots without creating unnecessary water runoff or disruption.</p><div className="velor-standard-list"><span>Waterless exterior process</span><span>Non-toxic interior products</span><span>Property-approved service zones</span><span>Photo-documented completion</span></div></div></div></section>
-
-      <section className="velor-booking-section" id="book-velor"><div className="shell"><VelorBooking /></div></section>
-    </main>
-  );
-}
+import type { Metadata } from 'next';
+import VelorBooking, { VelorInquiry, InquiryLink } from './VelorBooking';
+import { addons, packages, sizes, parkingBenefit } from '../lib/velor-menu';
+import './velor-refresh.css';
+export const metadata: Metadata = { title: 'Velor Car Care | Vehicle care without the extra trip', description: 'Premium car care at participating Express garages. Exterior care from $39, interior refresh, complete care, fleet inquiries and corporate car care days in New Haven.' };
+const faqs = [
+  ['Where can I request service?', 'Start with 96 Orange Street Garage in New Haven. Service at other garages and lots depends on participation and availability; ask us about your location.'],
+  ['What is included?', 'Compare the three packages above. Heavy buildup, stains, pet hair, extraction and restoration are outside routine care. Any additional work is quoted and approved before starting.'],
+  ['How do keys and interior access work?', 'We arrange access before confirming interior service. Do not leave your vehicle unlocked or keys unattended. We verify the vehicle and space before work; any necessary vehicle movement must be agreed with you in advance.'],
+  ['How long does service take?', 'Timing depends on vehicle size, condition, package and add-ons. Tell us your arrival and expected departure. We confirm a suitable window before accepting the appointment; submitting a request does not reserve a time.'],
+  ['Are parking charges included?', parkingBenefit],
+  ['How do monthly plans work?', 'Each plan covers one registered vehicle and two scheduled visits per month, subject to availability. Ask about enrollment. We provide final rollover, rescheduling, cancellation and visit-expiry terms before you join; this page does not enroll or bill you.'],
+  ['Can I reschedule or report something missed?', 'Call 203-941-0954 as soon as possible to request a schedule change or report a service concern. Include your appointment details and what needs attention. Rescheduling terms are provided with confirmation.'],
+  ['How are photos and screens handled?', 'Before-and-after photos are kept private as a service record, not used for marketing without permission. Screens receive gentle care with a dedicated display microfiber cloth, following vehicle instructions. No steam service or added fragrance unless you request fragrance.'],
+];
+const propertyFaqs = [
+  ['Can we start with a pilot Velor Day?', 'Yes—request a pilot to discuss demand, a suitable service area, access, dates and capacity before a recurring arrangement.'],
+  ['What does property staff need to do?', 'We agree on a site contact, access arrangements and resident or employee communications. Staff responsibilities are defined before the pilot.'],
+  ['How is parking flow protected?', 'We review designated spaces, pedestrian and vehicle routes, access and permitted working hours with the property before scheduling service.'],
+  ['Who handles bookings and support?', 'Velor coordinates service requests, confirmations, payment arrangements and customer support under the agreed property arrangement.'],
+  ['What does it cost the property?', 'Costs, sponsorship, commercial terms and any parking benefits are agreed in advance; they vary by location and program.'],
+  ['What about insurance and schedule changes?', 'Request insurance documentation during onboarding. Site requirements, weather contingencies and schedule-change procedures are agreed before operations begin.'],
+];
+export default function VelorPage() { return <main className="vr-page">
+  <section className="vr-hero vr-wrap"><span className="vr-kicker">EXPRESS / VELOR CAR CARE</span><h1>Vehicle care<br/>without the<br/><em>extra trip.</em></h1><p className="vr-lead">Premium care, right where you park. Make your workday, evening out or everyday stop an opportunity to return to a cleaner car.</p><div className="vr-actions"><a className="vr-button" href="#book-velor">Request your visit</a><a className="vr-button vr-outline" href="#menu">Explore the menu</a></div><div className="vr-tags"><span>Exterior care from $39</span><span>No fragrance by default</span><span>Private service photos</span></div></section>
+  <div className="vr-wrap">
+  <section className="vr-section"><span className="vr-kicker">THE VELOR EXPERIENCE</span><h2>Park. Plan. Return to clean.</h2><div className="vr-grid">{[['01 / Request','Tell us your vehicle, space and expected departure. We confirm a suitable service window.'],['02 / Care','We verify the vehicle, arrange access and document its condition. Extra work always needs your approval.'],['03 / Complete','Receive completion confirmation and a record of the work, with private before-and-after photos. Something missed? Contact us.']].map(([title,text])=><article className="vr-card" key={title}><h3>{title}</h3><p>{text}</p></article>)}</div></section>
+  <section className="vr-section" id="menu"><span className="vr-kicker">ONE-TIME CARE</span><h2>A clear menu. A considered finish.</h2><div className="vr-grid">{packages.map(p=><article className="vr-card" key={p.name}><h3>{p.name}</h3><p>{p.description}</p></article>)}</div><div className="vr-table"><table><caption>One-time service prices</caption><thead><tr><th scope="col">Vehicle size</th>{packages.map(p=><th scope="col" key={p.name}>{p.name}</th>)}</tr></thead><tbody>{sizes.map(s=><tr key={s.id}><th scope="row">{s.name}<small>{s.detail}</small></th>{s.prices.map((p,i)=><td key={i}>${p}</td>)}</tr>)}<tr><th scope="row">Oversized, commercial or specialty</th><td>Quote</td><td>Quote</td><td>Quote</td></tr></tbody></table></div><p>Heavy buildup, stains, pet hair, extraction and restoration are additional work. We assess suitability before waterless exterior care. Screens are cleaned gently with a dedicated display microfiber cloth, following vehicle instructions. No steam cleaning. No added fragrance unless requested.</p></section>
+  <section className="vr-section"><span className="vr-kicker">MAKE IT YOURS</span><h2>A little extra attention.</h2><p>Available with Interior Refresh or Complete Care. Scope and suitability are confirmed before work.</p><div className="vr-grid vr-grid-four">{addons.map(a=><article className="vr-card" key={a.name}><span className="vr-price">${a.price}</span><h3>{a.name}</h3><p>{a.scope}</p></article>)}</div><p>Heavy pet hair, deep extraction, odor treatment, pickup-bed cleaning and commercial work require a separate assessment and quote. Availability depends on suitable methods, equipment and service capability.</p></section>
+  <section className="vr-section"><span className="vr-kicker">A REGULAR RESET</span><h2>Two visits. Every month.</h2><p>Monthly plans for one registered vehicle, with two scheduled visits subject to availability. Inquire to arrange your plan.</p><div className="vr-table"><table><caption>Monthly plan prices — two visits per month</caption><thead><tr><th>Vehicle size</th><th>Exterior Care</th><th>Complete Care</th></tr></thead><tbody>{sizes.map(s=><tr key={s.id}><th scope="row">{s.name}</th>{s.plans.map((p,i)=><td key={i}>${p}<small>per month</small></td>)}</tr>)}</tbody></table></div><p>Enrollment opens after service availability and membership terms are confirmed. Final rollover, rescheduling, cancellation and expiry terms will be supplied before enrollment. No automatic billing or membership purchase on this page.</p><InquiryLink interest="Monthly Exterior Care plan">Ask about a monthly plan</InquiryLink></section>
+  <section className="vr-section" id="book-velor"><VelorBooking/></section>
+  <section className="vr-section"><span className="vr-kicker">FOR YOUR ORGANIZATION</span><h2>Care beyond the daily drive.</h2><div className="vr-grid vr-grid-two"><article className="vr-card"><h3>Fleet &amp; Business Vehicle Care</h3><ul><li>Local business and service vehicles</li><li>Delivery and transportation fleets</li><li>Rideshare vehicles</li><li>Rideshare and shared bicycles</li><li>Municipal and state passenger vehicles, SUVs and light-duty trucks</li></ul><p>Scheduled exterior, interior or combined care. Quotes reflect vehicle type, quantity, condition, frequency and location. Bicycles have their own component-appropriate scope and pricing. Government inquiries are subject to purchasing and vendor requirements.</p><InquiryLink interest="Fleet & Business Vehicle Care">Request a Fleet Quote</InquiryLink></article><article className="vr-card"><h3>Corporate Clean Car Day</h3><p>Give your employees a clean car while they work.</p><p>Arrange a scheduled care day at your workplace or participating garage. Sponsor a service as an appreciation gift, contribute part of the cost or arrange individual service vouchers.</p><p>We agree on packages, vehicle count, schedule and company budget in advance. Employees reserve available appointments; personal upgrades require their approval.</p><InquiryLink interest="Corporate Clean Car Day">Request a Corporate Clean Car Day</InquiryLink></article></div></section>
+  <section className="vr-section vr-card" id="coach"><span className="vr-kicker">96 ORANGE STREET / NEW HAVEN</span><h2>Tour &amp; coach buses.<br/>Park overnight. Refresh for the road.</h2><p>For operators bringing groups to New Haven tours, Yale campus visits, athletic trips and other group events.</p><div className="vr-grid"><div><h3>Overnight Coach Parking</h3><p>Advance reservations with confirmed vehicle fit, space and arrival/departure arrangements. Coach parking is separately quoted.</p></div><div><h3>Parking + Cabin Refresh</h3><p>Request parking plus trash collection, aisle and floor cleaning, accessible surfaces and interior glass.</p></div><div><h3>Additional Coach Cleaning</h3><p>Upholstery spots, luggage compartments and suitable exterior cleaning quoted separately after assessment.</p></div></div><p>Provide bus count, length, width, total height including roof equipment, arrival/departure times and cleaning needs. Every booking requires fit and access confirmation. No walk-in coach availability is guaranteed.</p><InquiryLink interest="Bus Parking &amp; Cleaning">Request Bus Parking &amp; Cleaning</InquiryLink></section>
+  <section className="vr-section"><h2>Good to know.</h2>{faqs.map(([q,a])=><details key={q}><summary>{q}</summary><p>{a}</p></details>)}</section>
+  <section className="vr-section"><span className="vr-kicker">PROPERTY PARTNERSHIPS</span><h2>Bring Velor to Your Property.</h2><p>A useful amenity for workplaces, residential properties, garages and lots. Start with a pilot Velor Day.</p>{propertyFaqs.map(([q,a])=><details key={q}><summary>{q}</summary><p>{a}</p></details>)}<div className="vr-actions"><InquiryLink interest="Bring Velor to Your Property">Plan a pilot Velor Day</InquiryLink></div></section>
+  <section className="vr-section"><VelorInquiry/></section><p className="vr-support">Questions or something missed? <a href="tel:2039410954">Call 203-941-0954</a>.</p>
+  </div></main>; }
