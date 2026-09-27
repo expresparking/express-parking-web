@@ -1,6 +1,7 @@
 'use client';
 import { FormEvent, useState, useEffect } from 'react';
 import { addons, packages, sizes } from '../lib/velor-menu';
+import { VELOR_WINDOWS } from '../lib/velor-booking';
 
 export default function VelorBooking() {
   const [size, setSize] = useState(0);
@@ -14,7 +15,6 @@ export default function VelorBooking() {
     event.preventDefault();
     const form = event.currentTarget;
     const data = new FormData(form);
-    if (String(data.get('departure')) <= String(data.get('arrival'))) { setResult('Departure must be later than arrival.'); return; }
     setBusy(true); setResult('');
     try {
       const response = await fetch('/api/contact/request', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
@@ -33,14 +33,14 @@ export default function VelorBooking() {
       <label>Service<select value={service} onChange={e => { setService(Number(e.target.value)); setExtras([]); }}>{packages.map((p,i) => <option key={p.name} value={i}>{p.name}</option>)}</select></label>
       {service > 0 && <fieldset className="vr-full"><legend>Optional add-ons</legend>{addons.map((a,i) => <label className="vr-check" key={a.name}><input type="checkbox" checked={extras.includes(i)} onChange={e => setExtras(e.target.checked ? [...extras,i] : extras.filter(v => v !== i))}/><span>{a.name} · ${a.price}<small>{a.scope}</small></span></label>)}</fieldset>}
       <label className="vr-full">Location<input value="96 Orange Street Garage, New Haven" readOnly/><small>Other properties: use the inquiry form below. Any parking benefit is confirmed with your appointment; standard parking rates otherwise apply.</small></label>
-      <label>Preferred arrival (New Haven time)<input name="arrival" type="datetime-local" required min={new Date().toLocaleDateString('en-CA', { timeZone: 'America/New_York' }) + 'T00:00'}/></label>
-      <label>Expected departure (New Haven time)<input name="departure" type="datetime-local" required/></label>
+      <label>Service date<input name="service date" type="date" required min={new Date().toLocaleDateString('en-CA', { timeZone: 'America/New_York' })}/></label>
+      <label>Preferred service window<select name="service window" required defaultValue=""><option value="">Choose a window</option>{VELOR_WINDOWS.map(window => <option key={window.code} value={window.label}>{window.label}</option>)}</select></label>
       <label>License plate + state<input name="plate and state" required maxLength={30}/></label><label>Space number<input name="space" required maxLength={30} placeholder="Enter “not yet parked” if needed"/></label>
       <label>Vehicle make, model and color<input name="vehicle" required maxLength={120}/></label>
       <label>Interior access<select name="interior access" required><option value="">Choose an arrangement</option><option>Meet the Velor attendant</option><option>Please contact me to arrange key handoff</option>{service === 0 && <option>Exterior only — no interior access needed</option>}</select></label>
       <label>Name<input name="name" autoComplete="name" required maxLength={100}/></label><label>Email<input name="email" type="email" autoComplete="email" required/></label><label>Phone<input name="phone" type="tel" autoComplete="tel" required/></label>
       <label className="vr-full">Anything we should know?<textarea name="notes" rows={3} maxLength={2000} placeholder="Vehicle condition, access needs or fragrance request. No added fragrance is our default."/></label>
-      <div className="vr-full vr-total"><strong>Service total: ${total}</strong><p>{extras.length ? `Includes up to ${extras.reduce((s,i) => s + addons[i].minutes, 0)} additional minutes of add-on work. ` : ''}We confirm the full service duration and final payable amount, including any applicable tax, before payment. Parking is separate unless a location offer applies. Additional work requires your approval.</p></div>
+      <div className="vr-full vr-total"><strong>Service total: ${total}</strong><p>{extras.length ? `Includes up to ${extras.reduce((s,i) => s + addons[i].minutes, 0)} additional minutes of add-on work. ` : ''}We confirm your service window, full service duration and final payable amount, including any applicable tax, before payment. Parking is separate unless a location offer applies. Additional work requires your approval.</p></div>
       <label className="vr-check vr-full"><input type="checkbox" required/><span>I understand this is an appointment request, subject to confirmation. Vehicle and space will be verified before work; private service photos document the condition and completed work.</span></label>
       <button className="vr-button" disabled={busy}>{busy ? 'Sending…' : 'Request appointment'}</button><p className="vr-full" role="status">{result}</p>
     </form>}
