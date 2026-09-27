@@ -20,18 +20,19 @@ export default function FindParkingPage() {
       <article className="location-card surface-card"><div className="surface-visual"><span>EXPRESS PARKING</span><strong>11</strong><small>ORANGE STREET</small><i>P</i></div><div className="location-content"><div className="location-kicker"><span>SURFACE LOT</span><small>11 Orange Street</small></div><h2>11 Orange Street Surface Lot</h2><p>11 Orange Street, New Haven, CT</p><div className="location-facts"><span><CheckIcon />Open surface lot</span><span><CheckIcon />Daily parking</span><span><CheckIcon />Monthly parking</span></div><div className="rate-grid rate-grid-two"><div><small>DAILY</small><strong>$10</strong><span>per day</span></div><div><small>MONTHLY</small><strong>$100</strong><span>per month</span></div></div><p className="rate-note">Availability is subject to posted signs and lot conditions. Contact Express for monthly parking enrollment.</p><div className="button-row"><Link className="button button-primary" href="/contact">Ask about monthly parking <ArrowIcon /></Link><a className="button button-quiet" href="https://www.google.com/maps/search/?api=1&query=11+Orange+Street+New+Haven+CT" target="_blank" rel="noreferrer">Get directions</a></div></div></article>
     </section>
 
-    <section id="coach-parking" className="section shell">
-      <div className="section-heading split-heading">
-        <div><span className="eyebrow"><span className="eyebrow-line" />96 Orange Street / New Haven</span><h2>Tour &amp; coach bus parking.</h2></div>
-        <p>Advance-reservation parking for tour groups, Yale campus visits, athletic trips and other group travel. Every coach booking requires vehicle-fit and access confirmation.</p>
+    <section id="coach-parking" className="section shell coach-parking-section">
+      <div className="coach-parking-card">
+        <span className="coach-kicker">96 ORANGE STREET / NEW HAVEN</span>
+        <h2>Tour &amp; coach buses.<br />Park overnight. Refresh for the road.</h2>
+        <p className="coach-lead">For operators bringing groups to New Haven tours, Yale campus visits, athletic trips and other group events.</p>
+        <div className="coach-service-grid">
+          <article><h3>Overnight Coach Parking</h3><p>Advance reservations with confirmed vehicle fit, space, and arrival/departure arrangements. Coach parking is separately quoted.</p></article>
+          <article><h3>Parking + Cabin Refresh</h3><p>Add trash collection, aisle and floor cleaning, accessible surfaces, and interior glass while the coach is parked.</p></article>
+          <article><h3>Additional Coach Cleaning</h3><p>Upholstery spots, luggage compartments, and suitable exterior cleaning are quoted separately after assessment.</p></article>
+        </div>
+        <p className="coach-note">Provide bus count, length, width, total height including roof equipment, arrival/departure times, and cleaning needs. Every booking requires fit and access confirmation. No walk-in coach availability is guaranteed.</p>
+        <div className="button-row"><Link className="coach-button" href="/contact">Request Coach Parking <ArrowIcon /></Link></div>
       </div>
-      <div className="parking-sector-grid">
-        <article className="parking-sector-card"><span className="parking-sector-number">01</span><h3>Overnight Coach Parking</h3><p>Reserved space with confirmed bus dimensions, arrival and departure arrangements, and garage access planning.</p></article>
-        <article className="parking-sector-card"><span className="parking-sector-number">02</span><h3>Parking + Cabin Refresh</h3><p>Add trash collection, aisle and floor cleaning, accessible-surface wipe-down and interior glass while the coach is parked.</p></article>
-        <article className="parking-sector-card"><span className="parking-sector-number">03</span><h3>Additional Coach Cleaning</h3><p>Upholstery spots, luggage compartments and suitable exterior cleaning are available by separate quote after assessment.</p></article>
-      </div>
-      <p>Provide bus count, length, width, total height including roof equipment, arrival/departure times and cleaning needs. No walk-in coach availability is guaranteed.</p>
-      <div className="button-row"><Link className="button button-primary" href="/contact">Request Coach Parking <ArrowIcon /></Link></div>
     </section>
 
     <section className="parking-note"><div className="shell"><div><span className="eyebrow light"><span className="eyebrow-line" />Before you park</span><h2>Rates and access made clear.</h2></div><div><p>Posted facility signs and on-site instructions govern parking. Rates and operating hours may change for holidays, special events, or operational needs.</p><Link className="button button-light" href="/contact">Contact Express <ArrowIcon /></Link></div></div></section>
