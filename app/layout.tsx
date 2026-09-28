@@ -20,9 +20,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <header className="site-header">
           <div className="shell nav-wrap">
             <Link className="brand" href="/" aria-label="Express Parking home"><img className="brand-x" src="/images/express-x-logo.png" alt="" /><span><b>EXPRESS</b><small>PARKING &amp; MOBILITY</small></span></Link>
-            <nav aria-label="Primary navigation"><Link href="/find-parking">Find Parking</Link><Link href="/parking-management">Parking</Link><Link href="/property-care">Property Care</Link><Link href="/velor">Velor</Link><Link href="/about">Company</Link><Link href="/contact">Contact</Link></nav>
+            <nav aria-label="Primary navigation"><Link href="/find-parking">Find Parking</Link><Link href="/parking-management">Parking</Link><Link href="/property-care">Property Care</Link><Link href="/velor">Velor Car Care</Link><Link href="/about">Company</Link><Link href="/contact">Contact</Link></nav>
             <Link className="nav-cta" href="/contact">Partner with Express</Link>
-            <details className="mobile-menu"><summary>Menu</summary><div><Link href="/find-parking">Find Parking</Link><Link href="/parking-management">Parking</Link><Link href="/property-care">Property Care</Link><Link href="/velor">Velor</Link><Link href="/about">Company</Link><Link href="/contact">Contact</Link><Link className="mobile-nav-cta" href="/contact">Partner with Express</Link></div></details>
+            <details className="mobile-menu"><summary>Menu</summary><div><Link href="/find-parking">Find Parking</Link><Link href="/parking-management">Parking</Link><Link href="/property-care">Property Care</Link><Link href="/velor">Velor Car Care</Link><Link href="/about">Company</Link><Link href="/contact">Contact</Link><Link className="mobile-nav-cta" href="/contact">Partner with Express</Link></div></details>
           </div>
         </header>
         {children}
