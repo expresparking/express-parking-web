@@ -32,13 +32,13 @@ export async function POST(request: Request) {
     console.info("Clover Velor webhook received", { type, status, hasCheckoutSessionId: Boolean(checkoutSessionId), checkoutSessionSuffix: checkoutSessionId ? checkoutSessionId.slice(-6) : "" });
     if (!checkoutSessionId || type !== "PAYMENT") {
       console.warn("Clover Velor webhook ignored", { type, status, hasCheckoutSessionId: Boolean(checkoutSessionId) });
-      console.info("Clover Velor booking update attempted", { checkoutSessionSuffix: checkoutSessionId.slice(-6), status: update.status });
-    return NextResponse.json({ received: true });
+      return NextResponse.json({ received: true });
     }
 
     const update = status === "APPROVED"
       ? { status: "paid", paid_at: new Date().toISOString(), clover_payment_id: String(event.Id || event.id || ""), updated_at: new Date().toISOString() }
       : { status: "declined", updated_at: new Date().toISOString() };
+    console.info("Clover Velor booking update attempted", { checkoutSessionSuffix: checkoutSessionId.slice(-6), status: update.status });
     await supabaseRequest(`velor_bookings?clover_checkout_session_id=eq.${encodeURIComponent(checkoutSessionId)}`, {
       method: "PATCH",
       headers: { Prefer: "return=minimal" },
