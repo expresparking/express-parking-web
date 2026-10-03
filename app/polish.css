@@ -35,3 +35,6 @@ h1,h2,h3{text-wrap:balance}p{text-wrap:pretty}.eyebrow{color:#69717a!important;f
 
 .parking-home .hero-garage-exterior{min-height:0;aspect-ratio:3/2;align-self:center}
 .parking-home .hero-garage-exterior>img{object-position:right center}
+
+.parking-home .hero-garage-exterior::after{background:none}
+.parking-home .hero-garage-exterior .hero-photo-label,.parking-home .hero-garage-exterior .parking-mark{display:none}
