@@ -7,12 +7,6 @@ export const metadata: Metadata = {
   description: "Commercial garage, healthcare, hospitality, residential, university, municipal, event, and mixed-use parking operations from Express Parking & Mobility.",
 };
 
-const garageServices = [
-  ["Garage Operations", "Daily facility oversight, opening and closing procedures, traffic flow, access control, staffing, and customer support."],
-  ["Daily & Monthly Parking", "Transient parking, commuter programs, monthly permits, validations, and tenant parking administration."],
-  ["Payments & Revenue Control", "Pay systems, mobile payment, access systems, reconciliation, exception review, and documented owner reporting."],
-];
-
 const sectors = [
   ["01", "Class A Office", "High-capacity garage operations, tenant commuter programs, and executive monthly passes.", "office"],
   ["02", "Commercial & Mixed-Use", "Transient rate management, mobile pay setups, and customer validation workflows.", "mixed-use"],
@@ -36,7 +30,7 @@ const capabilities = [
 export default function ParkingLandingPage() {
   return <main>
     <section className="parking-landing-hero refined-parking-hero">
-      <div className="shell parking-landing-grid refined-parking-hero-grid">
+      <div className="shell parking-landing-grid refined-parking-hero-grid" style={{ gridTemplateColumns: "minmax(0, 1fr)" }}>
         <div className="refined-parking-hero-copy">
           <span className="parking-hero-kicker">Parking Management &amp; Services</span>
           <h1>Parking operations built around the property.</h1>
@@ -45,22 +39,6 @@ export default function ParkingLandingPage() {
             <Link className="button button-primary" href="/contact">Partner with Express <ArrowIcon /></Link>
             <Link className="button button-quiet" href="/find-parking">Find Parking Locations <ArrowIcon /></Link>
           </div>
-        </div>
-        <div className="parking-command parking-command-photo refined-parking-photo" aria-label="Commercial parking garage">
-          <img src="/images/modern-garage-exterior.jpg" alt="Express Parking commercial garage facility" />
-        </div>
-      </div>
-    </section>
-
-    <section className="section shell garage-management-highlight" id="services">
-      <div className="section-heading split-heading">
-        <div><span className="eyebrow"><span className="eyebrow-line" />Garage Management</span><h2>Operate the garage. Serve the parker. Protect the revenue.</h2></div>
-        <p>Commercial garage management remains a core Express capability, supported by disciplined field operations, parking programs, and revenue controls.</p>
-      </div>
-      <div className="garage-highlight-grid">
-        <div className="garage-highlight-image"><img src="/images/modern-garage-interior.jpg" alt="Commercial parking garage interior" /></div>
-        <div className="garage-highlight-services">
-          {garageServices.map(([title,copy],index)=><article key={title}><span>0{index+1}</span><h3>{title}</h3><p>{copy}</p></article>)}
         </div>
       </div>
     </section>

@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { ArrowIcon, CheckIcon } from "./ui";
 
-const industries = ["Commercial buildings", "Office campuses", "Hospitals", "Hotels", "Universities", "Municipalities", "Residential communities", "Shopping centers", "Special events", "Airports"];
-
 export default function Home() {
   return <main className="parking-home">
     <section className="hero shell">
@@ -32,21 +30,6 @@ export default function Home() {
         </div>
       </div>
     </section>
-
-    <section className="section shell featured-location-section">
-      <div className="section-heading"><span className="eyebrow"><span className="eyebrow-line" />Featured Operating Location</span><h2>96 Orange Street Garage.</h2><p>Downtown New Haven • Covered garage • Daily and monthly parking.</p></div>
-      <div className="featured-location-card"><img src="/images/96-orange-interior.jpeg" alt="96 Orange Street parking garage interior" /><div><span>DOWNTOWN NEW HAVEN</span><h3>A real operating location behind the Express brand.</h3><p>See current parking details, rates and access information on the Find Parking page.</p><Link className="button button-quiet" href="/find-parking">View Parking Details <ArrowIcon /></Link></div></div>
-    </section>
-
-    <section className="section shell division-section" id="services">
-      <div className="section-heading"><span className="eyebrow"><span className="eyebrow-line" />Additional Property Services</span><h2>Support beyond the parking operation.</h2><p>Two focused service lines are available without competing with the core parking-management message.</p></div>
-      <div className="supporting-service-grid">
-        <article className="division-card division-property" style={{"--division-accent":"#3B82F6","--division-image":"url(/images/property-care-building.jpg)"} as React.CSSProperties}><div className="division-card-content"><span className="division-label">EXPRESS PROPERTY CARE</span><h3>Properties Run Better.</h3><p>Local keyholding, site checks, minor upkeep, vendor access, visual reporting and emergency dispatch.</p><Link href="/property-care">Explore Property Care <ArrowIcon /></Link></div></article>
-        <article className="division-card division-velor velor-booking-card"><div className="velor-booking-content"><span className="division-label">VELOR CAR CARE</span><small>WHILE YOU PARK</small><h3>Vehicle care without the extra trip.</h3><div className="velor-included velor-included-full"><strong>Included with every visit</strong><span>✓ Exterior care from $39</span><span>✓ Care tailored to your vehicle</span><span>✓ Before-and-after photos</span><span>✓ Completion notification</span></div><Link className="velor-book-button" href="/velor">Explore Velor <ArrowIcon /></Link></div></article>
-      </div>
-    </section>
-
-    <section className="section shell industries-section"><div className="section-heading"><span className="eyebrow"><span className="eyebrow-line" />Industries we serve</span><h2>Parking operations for properties with real vehicle-access demands.</h2></div><div className="industry-grid">{industries.map((industry,index)=><div key={industry}><span>{String(index+1).padStart(2,"0")}</span>{industry}</div>)}</div></section>
 
     <section className="section shell cta-panel"><div><span className="eyebrow"><span className="eyebrow-line" />Parking Management</span><h2>Need a stronger parking operation?</h2></div><div><p>Talk with Express about garage management, daily and monthly parking, vehicle access, payment controls or valet operations.</p><Link className="button button-primary" href="/contact">Get a Management Quote <ArrowIcon /></Link></div></section>
   </main>;
