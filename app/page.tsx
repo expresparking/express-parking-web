@@ -23,7 +23,7 @@ export default function Home() {
     <section className="section shell garage-hero-feature" id="garage-management">
       <div className="section-heading"><span className="eyebrow"><span className="eyebrow-line" />Garage Management</span><h2>Big-facility discipline. Local operating control.</h2><p>Express Parking manages the day-to-day systems that keep commercial garages moving: access, staffing, payments, monthly programs, customer service and revenue accountability.</p></div>
       <div className="garage-feature-grid">
-        <article className="garage-feature-photo"><img src="/images/modern-garage-interior.jpg" alt="Commercial garage managed by Express Parking" /><div><span>COMMERCIAL GARAGE OPERATIONS</span><h3>Parking is our core business.</h3><p>Hands-on field management for owners who want direct accountability and practical operating control.</p></div></article>
+        <article className="garage-feature-photo"><img src="/images/garage-pay-station.webp" alt="Illustrative large modern parking garage with a pay station at the entrance" /><div><span>COMMERCIAL GARAGE OPERATIONS</span><h3>Parking is our core business.</h3><p>Hands-on field management for owners who want direct accountability and practical operating control.</p></div></article>
         <div className="garage-feature-services">
           <article><span>01</span><h3>Garage Operations</h3><p>Opening and closing procedures, traffic flow, staffing, customer support and on-site controls.</p></article>
           <article><span>02</span><h3>Daily + Monthly Parking</h3><p>Commuter programs, permits, validations and recurring access management.</p></article>
