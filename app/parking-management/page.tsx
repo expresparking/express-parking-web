@@ -28,9 +28,9 @@ const capabilities = [
 ];
 
 export default function ParkingLandingPage() {
-  return <main>
+  return <main className="parking-management-page">
     <section className="parking-landing-hero refined-parking-hero">
-      <div className="shell parking-landing-grid refined-parking-hero-grid" style={{ gridTemplateColumns: "minmax(0, 1fr)" }}>
+      <div className="shell parking-landing-grid refined-parking-hero-grid">
         <div className="refined-parking-hero-copy">
           <span className="parking-hero-kicker">Parking Management &amp; Services</span>
           <h1>Parking operations built around the property.</h1>
@@ -40,6 +40,7 @@ export default function ParkingLandingPage() {
             <Link className="button button-quiet" href="/find-parking">Find Parking Locations <ArrowIcon /></Link>
           </div>
         </div>
+        <div className="management-self-pay-photo"><img src="/images/garage-pay-station.webp" alt="Illustrative modern parking garage with a self-pay station at the entrance" width={1086} height={1448} fetchPriority="high" /></div>
       </div>
     </section>
 
@@ -61,7 +62,6 @@ export default function ParkingLandingPage() {
     </section>
 
     <section className="section shell parking-local-proof" id="locations">
-      <div className="parking-local-photo"><img src="/images/96-orange-interior.jpeg" alt="Express Parking operating location at 96 Orange Street in New Haven" /></div>
       <div className="parking-local-copy"><span className="eyebrow"><span className="eyebrow-line" />Express in Operation</span><h2>Local experience, not a remote operating model.</h2><p>Express Parking has operated in Connecticut since 2004. Our approach combines hands-on local accountability with the operating controls property owners expect from a professional parking manager.</p><div className="parking-local-facts"><span><b>20+</b> Years operating</span><span><b>CT</b> Local accountability</span><span><b>96</b> Orange Street</span></div><Link className="button button-quiet" href="/find-parking">View operating locations <ArrowIcon /></Link></div>
     </section>
   </main>;

@@ -43,3 +43,18 @@ h1,h2,h3{text-wrap:balance}p{text-wrap:pretty}.eyebrow{color:#69717a!important;f
 @media(min-width:961px){.parking-home .hero{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:40px!important}.parking-home .hero h1{font-size:clamp(48px,4.4vw,64px)!important}.parking-home .hero-garage-exterior{aspect-ratio:4/3}}
 
 .parking-home .garage-feature-photo h3{color:#fff!important}
+
+/* Larger photography and readable sector cards on the management page. */
+.parking-management-page .refined-parking-hero-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:48px!important}
+.management-self-pay-photo{overflow:hidden;border-radius:18px;aspect-ratio:4/5;box-shadow:0 14px 34px rgba(15,23,42,.12)}
+.management-self-pay-photo img{display:block;width:100%;height:100%;object-fit:cover}
+.parking-management-page .refined-parking-hero-copy>p{font-size:20px!important}
+.parking-management-page .parking-sector-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px}
+.parking-management-page .parking-sector-card-copy{padding:32px}
+.parking-management-page .parking-sector-card h3{font-size:30px!important;line-height:1.2!important}
+.parking-management-page .parking-sector-card p{font-size:18px!important;line-height:1.65!important}
+.parking-management-page .parking-sector-number{font-size:46px!important}
+.parking-management-page .parking-local-proof{grid-template-columns:1fr}
+.parking-management-page .parking-local-copy{padding:42px!important}
+@media(max-width:960px){.parking-management-page .refined-parking-hero-grid{grid-template-columns:1fr!important}.management-self-pay-photo{width:min(100%,580px);justify-self:center}}
+@media(max-width:660px){.parking-management-page .parking-sector-grid{grid-template-columns:1fr;gap:24px}.parking-management-page .parking-sector-card-copy{padding:26px}.parking-management-page .parking-sector-card h3{font-size:27px!important}.parking-management-page .refined-parking-hero-copy>p{font-size:18px!important}.parking-management-page .parking-local-copy{padding:28px!important}}
