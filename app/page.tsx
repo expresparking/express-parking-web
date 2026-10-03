@@ -13,8 +13,8 @@ export default function Home() {
         <div className="button-row"><Link className="button button-primary" href="/contact">Get a Management Quote <ArrowIcon /></Link><Link className="button button-quiet" href="/find-parking">Find Monthly Parking <ArrowIcon /></Link></div>
         <div className="trust-row"><span><CheckIcon />Established 2004</span><span><CheckIcon />Daily &amp; monthly programs</span><span><CheckIcon />Local operating accountability</span></div>
       </div>
-      <div className="hero-visual hero-photo reveal reveal-delay">
-        <img src="/images/modern-garage-interior.jpg" alt="Clean, well-lit commercial parking garage" />
+      <div className="hero-visual hero-photo hero-garage-exterior reveal reveal-delay">
+        <img src="/images/modern-garage-hero.webp" alt="Illustrative modern multi-level parking garage with wide entrance and exit lanes" />
         <div className="hero-photo-label"><span>EXPRESS PARKING</span><strong>Parking operations built around access, revenue and service.</strong><small>Garages • Payments • Monthly parking • Valet</small></div>
         <div className="parking-mark"><b>P</b><span>GARAGE<br />OPERATIONS</span></div>
       </div>

@@ -32,3 +32,6 @@ h1,h2,h3{text-wrap:balance}p{text-wrap:pretty}.eyebrow{color:#69717a!important;f
 .parking-sector-photo{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover}
 .parking-sector-card-copy{padding:28px 24px}
 @media(max-width:660px){.parking-sector-card-copy{padding:24px}}
+
+.parking-home .hero-garage-exterior{min-height:0;aspect-ratio:3/2;align-self:center}
+.parking-home .hero-garage-exterior>img{object-position:right center}
