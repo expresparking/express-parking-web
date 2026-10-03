@@ -58,3 +58,10 @@ h1,h2,h3{text-wrap:balance}p{text-wrap:pretty}.eyebrow{color:#69717a!important;f
 .parking-management-page .parking-local-copy{padding:42px!important}
 @media(max-width:960px){.parking-management-page .refined-parking-hero-grid{grid-template-columns:1fr!important}.management-self-pay-photo{width:min(100%,580px);justify-self:center}}
 @media(max-width:660px){.parking-management-page .parking-sector-grid{grid-template-columns:1fr;gap:24px}.parking-management-page .parking-sector-card-copy{padding:26px}.parking-management-page .parking-sector-card h3{font-size:27px!important}.parking-management-page .refined-parking-hero-copy>p{font-size:18px!important}.parking-management-page .parking-local-copy{padding:28px!important}}
+
+/* Keep management-page sections close enough to read as one continuous page. */
+.parking-management-page .refined-parking-hero{padding-block:48px!important}
+.parking-management-page .section{padding-block:48px!important}
+.parking-management-page .parking-sector-heading{margin-bottom:32px}
+.parking-management-page .parking-local-proof{margin-top:0!important;margin-bottom:48px!important;padding:0!important}
+@media(max-width:660px){.parking-management-page .refined-parking-hero,.parking-management-page .section{padding-block:36px!important}.parking-management-page .parking-local-proof{padding:0!important;margin-bottom:36px!important}.parking-management-page .parking-sector-heading{margin-bottom:24px}}
