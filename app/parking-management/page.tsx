@@ -14,14 +14,14 @@ const garageServices = [
 ];
 
 const sectors = [
-  ["01", "Class A Office", "High-capacity garage operations, tenant commuter programs, and executive monthly passes."],
-  ["02", "Commercial & Mixed-Use", "Transient rate management, mobile pay setups, and customer validation workflows."],
-  ["03", "Healthcare & Clinics", "Dedicated parking solutions serving clinic patients, employees, and daily visitors."],
-  ["04", "Hospitality & Valet", "Professional front-door greeting, uniformed attendants, and special event coordination."],
-  ["05", "Residential & Condos", "Resident permit tracking, visitor access enforcement, and controlled keycard entry programs."],
-  ["06", "Universities & Education", "Campus perimeter management, event traffic direction, and student permit oversight."],
-  ["07", "Municipal & District", "Transparent accounting, city lot management, district compliance, and public access."],
-  ["08", "Events & Venues", "High-volume arrival management, staff direction, and rapid payment processing."],
+  ["01", "Class A Office", "High-capacity garage operations, tenant commuter programs, and executive monthly passes.", "office"],
+  ["02", "Commercial & Mixed-Use", "Transient rate management, mobile pay setups, and customer validation workflows.", "mixed-use"],
+  ["03", "Healthcare & Clinics", "Dedicated parking solutions serving clinic patients, employees, and daily visitors.", "healthcare"],
+  ["04", "Hospitality & Valet", "Professional front-door greeting, uniformed attendants, and special event coordination.", "hospitality"],
+  ["05", "Residential & Condos", "Resident permit tracking, visitor access enforcement, and controlled keycard entry programs.", "residential"],
+  ["06", "Universities & Education", "Campus perimeter management, event traffic direction, and student permit oversight.", "university"],
+  ["07", "Municipal & District", "Transparent accounting, city lot management, district compliance, and public access.", "municipal"],
+  ["08", "Events & Venues", "High-volume arrival management, staff direction, and rapid payment processing.", "events"],
 ];
 
 const capabilities = [
@@ -72,7 +72,7 @@ export default function ParkingLandingPage() {
           <h2>Parking expertise across the sectors we serve.</h2>
         </div>
         <div className="parking-sector-grid">
-          {sectors.map(([number,title,copy]) => <article className="parking-sector-card" key={title}><span className="parking-sector-number">{number}</span><h3>{title}</h3><p>{copy}</p></article>)}
+          {sectors.map(([number,title,copy,image]) => <article className="parking-sector-card parking-sector-card-with-photo" key={title}><img className="parking-sector-photo" src={`/images/sector-${image}.webp`} alt={`Illustrative ${title.toLowerCase()} parking environment`} width={1536} height={1024} loading="lazy" decoding="async" /><div className="parking-sector-card-copy"><span className="parking-sector-number">{number}</span><h3>{title}</h3><p>{copy}</p></div></article>)}
         </div>
       </div>
     </section>
