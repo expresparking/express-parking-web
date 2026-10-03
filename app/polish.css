@@ -38,3 +38,6 @@ h1,h2,h3{text-wrap:balance}p{text-wrap:pretty}.eyebrow{color:#69717a!important;f
 
 .parking-home .hero-garage-exterior::after{background:none}
 .parking-home .hero-garage-exterior .hero-photo-label,.parking-home .hero-garage-exterior .parking-mark{display:none}
+
+/* Give the homepage garage photograph more space on desktop. */
+@media(min-width:961px){.parking-home .hero{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:40px!important}.parking-home .hero h1{font-size:clamp(48px,4.4vw,64px)!important}.parking-home .hero-garage-exterior{aspect-ratio:4/3}}
