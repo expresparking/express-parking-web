@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { randomUUID } from "node:crypto";
 import { GRANT_GARAGE, normalizePhone, normalizePlate, normalizeSpaceNumber, optionByCode } from "../../../lib/self-pay";
 import { hasParkingDatabase, supabaseRequest } from "../../../lib/supabase-rest";
+import { PARKING_SMS_DISCLOSURE_VERSION, recordWebSmsOptIn } from "../../../lib/sms-consent";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -14,7 +15,7 @@ export async function POST(request: Request) {
     const spaceNumber = normalizeSpaceNumber(String(body.spaceNumber || ""));
     const email = String(body.email || "").trim().toLowerCase();
     const notificationMethod = body.notificationMethod === "sms" ? "sms" : "email";
-    const smsConsentVerified = body.smsConsent === true && body.smsConsentDisclosureVersion === "express-parking-sms-2026-11-07";
+    const smsConsentVerified = body.smsConsent === true && body.smsConsentDisclosureVersion === PARKING_SMS_DISCLOSURE_VERSION;
     const phone = normalizePhone(String(body.phone || ""));
     const option = optionByCode(String(body.option || ""));
     if (body.location !== GRANT_GARAGE.code || plate.length < 2 || !plateState || !spaceNumber || !/^\S+@\S+\.\S+$/.test(email) || (notificationMethod === "sms" && phone.length < 10) || !option) {
@@ -53,6 +54,27 @@ export async function POST(request: Request) {
         status: "pending",
       }),
     });
+
+    // Record the optional SMS opt-in against this pending parking session.
+    // If audit storage fails, downgrade to email without blocking Clover checkout.
+    if (notificationMethod === "sms") {
+      try {
+        await recordWebSmsOptIn({
+          phone,
+          program: "express_parking",
+          sourceForm: "parking",
+          serviceReference: id,
+          disclosureVersion: PARKING_SMS_DISCLOSURE_VERSION,
+        });
+      } catch (auditError) {
+        console.error("Unable to record parking SMS consent", auditError);
+        await supabaseRequest(`parking_sessions?id=eq.${id}`, {
+          method: "PATCH",
+          headers: { Prefer: "return=minimal" },
+          body: JSON.stringify({ notification_method: "email", phone: null }),
+        });
+      }
+    }
 
     const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.expresparking.com").replace(/\/$/, "");
     const cloverBase = (process.env.CLOVER_API_BASE_URL || "https://api.clover.com").replace(/\/$/, "");
