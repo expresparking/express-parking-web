@@ -14,10 +14,15 @@ export async function POST(request: Request) {
     const spaceNumber = normalizeSpaceNumber(String(body.spaceNumber || ""));
     const email = String(body.email || "").trim().toLowerCase();
     const notificationMethod = body.notificationMethod === "sms" ? "sms" : "email";
+    const smsConsentVerified = body.smsConsent === true && body.smsConsentDisclosureVersion === "express-parking-sms-2026-11-07";
     const phone = normalizePhone(String(body.phone || ""));
     const option = optionByCode(String(body.option || ""));
     if (body.location !== GRANT_GARAGE.code || plate.length < 2 || !plateState || !spaceNumber || !/^\S+@\S+\.\S+$/.test(email) || (notificationMethod === "sms" && phone.length < 10) || !option) {
       return NextResponse.json({ error: "That parking selection is no longer available. Please review your information." }, { status: 400 });
+    }
+
+    if (notificationMethod === "sms" && !smsConsentVerified) {
+      return NextResponse.json({ error: "SMS reminders require your optional consent. You can select email reminders instead." }, { status: 400 });
     }
 
     const merchantId = process.env.CLOVER_MERCHANT_ID;
