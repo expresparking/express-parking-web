@@ -30,7 +30,7 @@ function validateTwilioRequest(request: Request, params: URLSearchParams): boole
 
 function phoneNumber(value: string): string | null {
   // US SMS scope only.
-  return /^\\+1[2-9]\\d{9}$/.test(value) ? value : null;
+  return /^\+1[2-9]\d{9}$/.test(value) ? value : null;
 }
 
 /**
