@@ -34,13 +34,13 @@ export default function VelorBooking() {
     setBusy(true); setResult('');
     try {
       const response = await fetch('/api/contact/request', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
-        smsConsent: data.get('sms_consent') === 'yes', smsConsentDisclosureVersion: 'velor-service-sms-2026-11-07',
+        requestKind: 'velor_booking', smsConsent: data.get('sms_consent') === 'yes', smsConsentDisclosureVersion: 'velor-service-sms-2026-11-07',
         name: data.get('name'), email: data.get('email'), phone: data.get('phone'), property: '96 Orange Street Garage', service: mode === 'monthly' ? `Velor monthly plan — ${planService === 0 ? 'Exterior Care' : 'Complete Care'}` : `Velor appointment request — ${packages[service].name}`,
         message: [`Booking type: ${mode === 'monthly' ? 'Monthly plan — two visits per month' : 'One-time care'}`, `Vehicle: ${sizes[size].name}`, `Package: ${mode === 'monthly' ? (planService === 0 ? 'Exterior Care monthly plan' : 'Complete Care monthly plan') : packages[service].name}`, `Add-ons: ${mode === 'monthly' ? 'Not included in plan selection' : (extras.map(i => addons[i].name).join(', ') || 'None')}`, `Menu total: $${total}${mode === 'monthly' ? '/month' : ''}; parking separate unless location benefit confirmed`, ...Array.from(data.entries()).filter(([key]) => !['name','email','phone'].includes(key)).map(([key,value]) => `${key}: ${value}`), 'Confirm availability, service window, access and final price before payment.'].join('\n'),
       }) });
       const body = await response.json();
       if (!response.ok) throw new Error(body.error || 'Unable to send. Please call 203-941-0954.');
-      setSent(true); setResult(`Request received — ${body.reference}. Your appointment is not yet confirmed. We will contact you to confirm the service window, access and price before payment.`);
+      setSent(true); setResult(`Request received — ${body.reference}. Your appointment is not yet confirmed. We will contact you to confirm the service window, access and price before payment.${data.get('sms_consent') === 'yes' && !body.smsConsentRecorded ? ' SMS notifications are not enabled for this request; we will contact you by email or phone.' : ''}`);
     } catch (error) { setResult(error instanceof Error ? error.message : 'Please call 203-941-0954.'); }
     finally { setBusy(false); }
   }
