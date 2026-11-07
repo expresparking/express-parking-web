@@ -31,7 +31,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <div className="footer-brand-column"><Link className="brand footer-brand" href="/"><img className="brand-x" src="/images/express-x-logo.png" alt="" /><span><b>EXPRESS</b><small>PARKING &amp; MOBILITY</small></span></Link><p>Commercial parking operations, daily and monthly parking, and local property care from one Connecticut operating company.</p></div>
             <div><h3>PARKING OPERATIONS</h3><Link href="/find-parking">Find Parking</Link><Link href="/parking-management">Garage Management</Link><Link href="/parking-management#locations">96 Orange St Garage</Link></div>
             <div><h3>PROPERTY &amp; CARE</h3><Link href="/property-care">Property Care</Link><Link href="/property-care/report">Report an Issue</Link><Link href="/velor">Velor Car Care</Link></div>
-            <div><h3>COMPANY</h3><Link href="/about">About Express</Link><Link className="footer-partner-link" href="/contact">Partner with Express</Link></div>
+            <div><h3>COMPANY</h3><Link href="/about">About Express</Link><Link className="footer-partner-link" href="/contact">Partner with Express</Link><Link href="/privacy">Privacy Policy</Link><Link href="/sms-terms">SMS Terms &amp; Conditions</Link></div>
           </div>
           <div className="shell footer-phone-panel">
             <div><span>CALL EXPRESS</span><a href="tel:+12039410954">203-941-0954</a></div>
