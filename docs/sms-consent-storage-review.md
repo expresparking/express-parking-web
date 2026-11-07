@@ -1,6 +1,6 @@
 # Task 05.03 — SMS Consent Storage: Review Checklist
 
-Status: Database table created and verified in Supabase on November 7, 2026. Website integration and SMS sending are NOT deployed.
+Status: Database table created and verified in Supabase on November 7, 2026. Draft form-to-database integration is committed on the separate GitHub branch; SMS sending is NOT deployed.
 
 ## Blocker discovered
 The connected Supabase project was restored and verified ACTIVE_HEALTHY on November 7, 2026. `public.sms_consent_events` has now been created there. Existing parking, Velor, and payment tables were not altered.
@@ -38,4 +38,4 @@ revoke all on public.sms_consent_events from anon, authenticated;
 -- No broad public client policies. Use server-side approved credentials only.
 ```
 
-Applied via the Supabase add_restricted_sms_consent_events migration on November 7, 2026. Verified: RLS true; anon and authenticated cannot select or insert; service_role can select/insert but cannot update/delete; zero events. Website forms do not yet write to it. Twilio opt-out webhook, policy review, retention, and end-to-end tests remain open.
+Applied via the Supabase add_restricted_sms_consent_events migration on November 7, 2026. Verified: RLS true; anon and authenticated cannot select or insert; service_role can select/insert but cannot update/delete; zero events. Draft Express parking and Velor booking APIs now attempt server-side writes to it. Parking downgrades to email if consent storage fails; Velor booking reports that SMS was not enabled when its write fails. Neither path is deployed or end-to-end tested. Twilio opt-out webhook, policy review, retention, and end-to-end tests remain open.
