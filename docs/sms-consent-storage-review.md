@@ -1,9 +1,9 @@
 # Task 05.03 — SMS Consent Storage: Review Checklist
 
-Status: DESIGN ONLY — not deployed or applied. November 7, 2026.
+Status: Database table created and verified in Supabase on November 7, 2026. Website integration and SMS sending are NOT deployed.
 
 ## Blocker discovered
-The connected Supabase project `expresparking's Project` currently reports INACTIVE, and a read-only table listing failed ("Database is possibly not accessible"). Do not make schema changes or rely on consent database writes until the project is available and the actual production database/project is confirmed. No database changes were performed.
+The connected Supabase project was restored and verified ACTIVE_HEALTHY on November 7, 2026. `public.sms_consent_events` has now been created there. Existing parking, Velor, and payment tables were not altered.
 
 ## Security and proof requirements
 - Keep an append-only `sms_consent_events` audit ledger (opt-in, opt-out), never treat a phone number or a selected radio option alone as consent.
@@ -19,7 +19,7 @@ The connected Supabase project `expresparking's Project` currently reports INACT
 - Existing draft code only captures a Velor consent Boolean and email audit timestamp and checks parking SMS consent; it is NOT yet secure persistent consent history.
 - Confirm actual live opt-in URL before providing Twilio campaign proof. Review policy drafts against actual practice prior to publishing.
 
-## Proposed table (not executed)
+## Archived proposal (the actual applied schema additionally includes channel, phone-format validation, restricted service-role grants, and an index)
 ```sql
 create table public.sms_consent_events (
   id uuid primary key default gen_random_uuid(),
@@ -38,4 +38,4 @@ revoke all on public.sms_consent_events from anon, authenticated;
 -- No broad public client policies. Use server-side approved credentials only.
 ```
 
-Do not treat this as a ready-to-run migration until the target project, data flow, operational retention, Twilio opt-out synchronization, and tests have been reviewed.
+Applied via the Supabase add_restricted_sms_consent_events migration on November 7, 2026. Verified: RLS true; anon and authenticated cannot select or insert; service_role can select/insert but cannot update/delete; zero events. Website forms do not yet write to it. Twilio opt-out webhook, policy review, retention, and end-to-end tests remain open.
