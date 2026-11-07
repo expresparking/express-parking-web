@@ -1,8 +1,8 @@
 import Link from "next/link";
-export const metadata = { title: "SMS Terms & Conditions | Express Parking & Mobility" };
+export const metadata = { title: "Terms & Conditions | Express Parking & Mobility" };
 export default function SmsTerms() {
  return <main className="shell" style={{maxWidth:850,paddingBlock:64,lineHeight:1.7}}>
- <h1>SMS Terms &amp; Conditions</h1><p>Last updated: November 7, 2026</p>
+ <h1>Terms &amp; Conditions</h1><h2>SMS Terms &amp; Conditions</h2><p>Last updated: November 7, 2026</p>
  <p>Express Parking &amp; Mobility, including Velor Car Care, offers optional service-related text messages to customers who provide express consent through our website.</p>
  <h2>Types of messages</h2><p>Depending on your requested service, messages may include parking confirmations, session expiration reminders, extension updates, Velor booking updates and service completion notifications. This program is for service notifications, not promotional advertising.</p>
  <h2>How to sign up</h2><p>You may opt in by selecting the separate, unchecked SMS consent box when submitting an eligible parking or Velor service request. Signing up for SMS is optional and not a condition of purchase. Only forms that display the opt-in checkbox collect SMS consent.</p>
