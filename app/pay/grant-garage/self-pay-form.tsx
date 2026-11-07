@@ -16,6 +16,7 @@ export function SelfPayForm() {
   const [email, setEmail] = useState("");
   const [notificationMethod, setNotificationMethod] = useState<"email" | "sms">("email");
   const [phone, setPhone] = useState("");
+  const [smsConsent, setSmsConsent] = useState(false);
   const [selected, setSelected] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -33,6 +34,10 @@ export function SelfPayForm() {
       setError("Enter your license plate, state, space number, email, and parking option.");
       return;
     }
+    if (REMINDERS_ENABLED && notificationMethod === "sms" && !smsConsent) {
+      setError("Please opt in to text reminders, or select email reminders to continue without SMS.");
+      return;
+    }
     if (notificationMethod === "sms" && cleanPhone.length < 10) {
       setError("Enter a valid mobile number for text reminders.");
       return;
@@ -42,7 +47,7 @@ export function SelfPayForm() {
       const response = await fetch("/api/self-pay/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plate: cleanPlate, state, spaceNumber: cleanSpaceNumber, email, notificationMethod, phone: notificationMethod === "sms" ? cleanPhone : "", option: selected, location: GRANT_GARAGE.code }),
+        body: JSON.stringify({ plate: cleanPlate, state, spaceNumber: cleanSpaceNumber, email, notificationMethod, phone: notificationMethod === "sms" ? cleanPhone : "", smsConsent: REMINDERS_ENABLED && notificationMethod === "sms" && smsConsent, smsConsentDisclosureVersion: "express-parking-sms-2026-11-07", option: selected, location: GRANT_GARAGE.code }),
       });
       const result = await response.json();
       if (!response.ok || !result.checkoutUrl) throw new Error(result.error || "Unable to start checkout.");
@@ -105,7 +110,13 @@ export function SelfPayForm() {
                       <input type="tel" value={phone} onChange={(event) => setPhone(event.target.value)} autoComplete="tel" inputMode="tel" placeholder="2035550123" required />
                     </label>
                   ) : null}
-                  <small className="self-pay-reminder-note">We will use your choice only for parking expiration and extension reminders.</small>
+                  {notificationMethod === "sms" ? (
+                    <label className="self-pay-agreement">
+                      <input type="checkbox" checked={smsConsent} onChange={(event) => setSmsConsent(event.target.checked)} />
+                      <span>I agree to receive parking-related text messages from Express Parking &amp; Mobility, including parking expiration and extension reminders. Message frequency varies. Message and data rates may apply. Reply STOP to opt out or HELP for assistance. Consent is not required to purchase parking. <a href="/privacy">Privacy Policy</a> | <a href="/sms-terms">SMS Terms</a>.</span>
+                    </label>
+                  ) : null}
+                  <small className="self-pay-reminder-note">SMS is optional. You can always choose email reminders and complete your parking purchase without texting.</small>
                 </>
               ) : null}
             </fieldset>
