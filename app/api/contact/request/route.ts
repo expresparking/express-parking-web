@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, phone, property, service, message } = body ?? {};
+    const { name, email, phone, property, service, message, smsConsent, smsConsentDisclosureVersion } = body ?? {};
 
     if (!name || !email || !service) {
       return NextResponse.json({ error: "Please complete the required fields." }, { status: 400 });
@@ -27,6 +27,13 @@ export async function POST(request: Request) {
       `Service: ${service}`,
       "",
       `Message: ${message || "Not provided"}`,
+      ...(typeof smsConsent === "boolean" ? [
+        "",
+        `SMS consent: ${smsConsent ? "YES" : "NO"}`,
+        `SMS consent disclosure: ${smsConsentDisclosureVersion === "velor-service-sms-2026-11-07" ? smsConsentDisclosureVersion : "Unverified"}`,
+        `SMS consent received at (server UTC): ${new Date().toISOString()}`,
+        "SMS source: Velor website booking request",
+      ] : []),
     ].join("\n");
 
     const response = await fetch("https://api.resend.com/emails", {
