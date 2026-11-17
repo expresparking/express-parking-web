@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { randomUUID } from "node:crypto";
 import { GRANT_GARAGE, normalizePhone, normalizePlate, normalizeSpaceNumber, optionByCode } from "../../../lib/self-pay";
 import { hasParkingDatabase, supabaseRequest } from "../../../lib/supabase-rest";
+import { PARKING_SMS_DISCLOSURE_VERSION, recordWebSmsOptIn } from "../../../lib/sms-consent";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -16,7 +17,10 @@ export async function POST(request: Request) {
     const notificationMethod = body.notificationMethod === "sms" ? "sms" : "email";
     const phone = normalizePhone(String(body.phone || ""));
     const option = optionByCode(String(body.option || ""));
-    if (body.location !== GRANT_GARAGE.code || plate.length < 2 || !plateState || !spaceNumber || !/^\S+@\S+\.\S+$/.test(email) || (notificationMethod === "sms" && phone.length < 10) || !option) {
+    const validPhone = phone.length === 10 || (phone.length === 11 && phone.startsWith("1"));
+    const validEmail = /^\S+@\S+\.\S+$/.test(email);
+    const smsAuthorized = body.smsConsent === true && body.smsDisclosureVersion === PARKING_SMS_DISCLOSURE_VERSION;
+    if (body.location !== GRANT_GARAGE.code || plate.length < 2 || !plateState || !spaceNumber || (notificationMethod === "email" && !validEmail) || (notificationMethod === "sms" && (!validPhone || !smsAuthorized)) || !option) {
       return NextResponse.json({ error: "That parking selection is no longer available. Please review your information." }, { status: 400 });
     }
 
@@ -37,7 +41,7 @@ export async function POST(request: Request) {
         plate,
         plate_state: plateState,
         space_number: spaceNumber,
-        email,
+        email: notificationMethod === "email" ? email : null,
         phone: notificationMethod === "sms" ? phone : null,
         notification_method: notificationMethod,
         parking_option: option.code,
@@ -48,6 +52,10 @@ export async function POST(request: Request) {
         status: "pending",
       }),
     });
+
+    if (notificationMethod === "sms") {
+      await recordWebSmsOptIn({ phone, program: "express_parking", sourceForm: "parking", serviceReference: id, disclosureVersion: PARKING_SMS_DISCLOSURE_VERSION });
+    }
 
     const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.expresparking.com").replace(/\/$/, "");
     const cloverBase = (process.env.CLOVER_API_BASE_URL || "https://api.clover.com").replace(/\/$/, "");
@@ -61,7 +69,7 @@ export async function POST(request: Request) {
       },
       body: JSON.stringify({
         pageConfigUuid: process.env.CLOVER_PAGE_CONFIG_UUID || "B1SEXQJM5TXGP",
-        customer: { email },
+        ...(notificationMethod === "email" ? { customer: { email } } : {}),
         shoppingCart: { lineItems: [{ name: `${GRANT_GARAGE.name} — ${option.label}`, note: `Plate ${plateState} ${plate} · Space ${spaceNumber}`, price: option.amountCents, unitQty: 1 }] },
         redirectUrls: {
           success: `${siteUrl}/pay/confirmation?session=${id}`,
