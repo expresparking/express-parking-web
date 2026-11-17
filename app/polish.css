@@ -65,3 +65,10 @@ h1,h2,h3{text-wrap:balance}p{text-wrap:pretty}.eyebrow{color:#69717a!important;f
 .parking-management-page .parking-sector-heading{margin-bottom:32px}
 .parking-management-page .parking-local-proof{margin-top:0!important;margin-bottom:48px!important;padding:0!important}
 @media(max-width:660px){.parking-management-page .refined-parking-hero,.parking-management-page .section{padding-block:36px!important}.parking-management-page .parking-local-proof{padding:0!important;margin-bottom:36px!important}.parking-management-page .parking-sector-heading{margin-bottom:24px}}
+
+/* Parking checkout: keep the header out of the form while scrolling and align contact choices. */
+body:has(.self-pay-page) .site-header{position:relative}
+.self-pay-reminder-choice{display:flex;flex-wrap:wrap;align-items:center;column-gap:22px;row-gap:12px;margin:0 0 16px}
+.self-pay-reminder-choice>span{flex-basis:100%;font-size:15px;font-weight:750;color:#16181c}
+.self-pay-form .self-pay-reminder-choice>label{display:inline-flex;align-items:center;gap:8px;margin:0;cursor:pointer}
+.self-pay-reminder-choice input[type=radio]{width:18px;height:18px;margin:0;accent-color:#ff5a00}
