@@ -44,3 +44,17 @@ create index if not exists idx_parking_sessions_reminder_due
   on parking_sessions(status, expires_at, reminder_sent_at);
 
 alter table parking_session_extensions enable row level security;
+
+-- Email-or-phone checkout migration (apply only with the matching checkout release).
+-- Existing email-only parking sessions remain valid.
+-- The application must validate contact formats and verify SMS opt-in.
+alter table public.parking_sessions alter column email drop not null;
+
+alter table public.parking_sessions
+  drop constraint if exists parking_sessions_contact_required_check;
+alter table public.parking_sessions
+  add constraint parking_sessions_contact_required_check
+  check (
+    nullif(btrim(email), '') is not null
+    or nullif(btrim(phone), '') is not null
+  );
