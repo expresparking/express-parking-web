@@ -5,7 +5,7 @@ export const GRANT_GARAGE = {
   timeZone: "America/New_York",
 } as const;
 
-export type ParkingOptionCode = "one-hour" | "two-hours" | "three-hours" | "daily-max" | "evening" | "overnight";
+export type ParkingOptionCode = "one-hour" | "two-hours" | "three-hours" | "daily-max" | "day-evening" | "evening" | "overnight";
 
 export type ParkingOption = {
   code: ParkingOptionCode;
@@ -69,50 +69,85 @@ function easternDate(parts: LocalParts, hour: number, minute = 0, addDays = 0) {
   return new Date(rough.getTime() - offset * 60_000);
 }
 
+// Rates remain separate: daytime $5/hour ($20 maximum), evening $10,
+// and overnight $20 through 9 AM. Times use the garage's local timezone.
 export function getParkingOptions(now = new Date()): ParkingOption[] {
   const parts = localParts(now);
-  if (parts.weekday === 0) return [];
-
   const time = parts.hour * 60 + parts.minute;
-  const dayStart = 6 * 60;
   const eveningStart = 17 * 60;
-  const weekdayClose = 21 * 60;
-  const lateClose = 24 * 60 + 2 * 60;
+  const eveningEnd = (parts.weekday === 5 || parts.weekday === 6)
+    ? easternDate(parts, 2, 0, 1)
+    : easternDate(parts, 21);
+  const morningEnd = easternDate(parts, 9);
+  const dayEnd = easternDate(parts, 17);
 
-  if (time < dayStart) return [];
-
-  if (time < eveningStart) {
-    const dayEnd = easternDate(parts, 17);
-    const remainingMinutes = Math.max(0, Math.floor((dayEnd.getTime() - now.getTime()) / 60_000));
+  // Before 9 AM, the overnight tariff includes the remaining morning hours.
+  // Early Saturday/Sunday mornings retain Friday/Saturday's 2 AM evening cutoff.
+  if (time < 9 * 60) {
+    const afterLateEvening = time >= 2 * 60 || (parts.weekday !== 0 && parts.weekday !== 6);
     const options: ParkingOption[] = [];
-    if (remainingMinutes >= 60) options.push({ code: "one-hour", label: "1 Hour", detail: "Park for one hour", amountCents: 500, expiresAt: new Date(now.getTime() + 60 * 60_000).toISOString() });
-    if (remainingMinutes >= 120) options.push({ code: "two-hours", label: "2 Hours", detail: "Park for two hours", amountCents: 1000, expiresAt: new Date(now.getTime() + 120 * 60_000).toISOString() });
-    if (remainingMinutes >= 180) options.push({ code: "three-hours", label: "3 Hours", detail: "Park for three hours", amountCents: 1500, expiresAt: new Date(now.getTime() + 180 * 60_000).toISOString() });
-    options.push({ code: "daily-max", label: "Until 5 PM", detail: "Day parking maximum", amountCents: 2000, expiresAt: dayEnd.toISOString() });
+    if (!afterLateEvening && time < 2 * 60) {
+      options.push({
+        code: "evening", label: "Evening",
+        detail: "Exit by 2 AM", amountCents: 1000,
+        expiresAt: easternDate(parts, 2).toISOString(),
+      });
+    }
+    options.push({
+      code: "overnight", label: "Overnight",
+      detail: "Exit by 9 AM", amountCents: 2000,
+      expiresAt: morningEnd.toISOString(),
+    });
     return options;
   }
 
-  const closeMinutes = parts.weekday <= 4 ? weekdayClose : lateClose;
-  const close = closeMinutes > 24 * 60 ? easternDate(parts, closeMinutes - 24 * 60, 0, 1) : easternDate(parts, closeMinutes / 60);
-  if (now >= close) return [];
-
-  const options: ParkingOption[] = [{
-    code: "evening",
-    label: "Evening",
-    detail: parts.weekday <= 4 ? "Exit by 9 PM" : "Exit by 2 AM",
-    amountCents: 1000,
-    expiresAt: close.toISOString(),
-  }];
-
-  if (parts.weekday >= 1 && parts.weekday <= 5) {
+  if (time < eveningStart) {
+    const remainingMinutes = Math.max(0, Math.floor((dayEnd.getTime() - now.getTime()) / 60_000));
+    const options: ParkingOption[] = [];
+    for (const hours of [1, 2, 3] as const) {
+      if (remainingMinutes >= hours * 60) {
+        const code = hours === 1 ? "one-hour" : hours === 2 ? "two-hours" : "three-hours";
+        options.push({
+          code, label: `${hours} Hour${hours > 1 ? "s" : ""}`,
+          detail: `Park for ${hours} hour${hours > 1 ? "s" : ""}`,
+          amountCents: hours * 500,
+          expiresAt: new Date(now.getTime() + hours * 60 * 60_000).toISOString(),
+        });
+      }
+    }
     options.push({
-      code: "overnight",
-      label: "Overnight",
-      detail: "Exit by 9 AM",
-      amountCents: 2000,
-      expiresAt: easternDate(parts, 9, 0, 1).toISOString(),
+      code: "daily-max", label: "Until 5 PM",
+      detail: "Day parking maximum", amountCents: 2000,
+      expiresAt: dayEnd.toISOString(),
+    });
+    // Customers who span the 5 PM boundary pay daytime plus the evening rate.
+    // Round a partial daytime hour up; cap daytime at $20.
+    const daytimeHours = Math.ceil((dayEnd.getTime() - now.getTime()) / 3_600_000);
+    const eveningDeparture = (parts.weekday === 5 || parts.weekday === 6)
+      ? easternDate(parts, 2, 0, 1)
+      : easternDate(parts, 21);
+    options.push({
+      code: "day-evening", label: "Day + Evening",
+      detail: `Daytime plus $10 evening; exit by ${parts.weekday === 5 || parts.weekday === 6 ? "2 AM" : "9 PM"}`,
+      amountCents: Math.min(2000, daytimeHours * 500) + 1000,
+      expiresAt: eveningDeparture.toISOString(),
+    });
+    return options;
+  }
+
+  const options: ParkingOption[] = [];
+  if (now < eveningEnd) {
+    options.push({
+      code: "evening", label: "Evening",
+      detail: parts.weekday === 5 || parts.weekday === 6 ? "Exit by 2 AM" : "Exit by 9 PM",
+      amountCents: 1000, expiresAt: eveningEnd.toISOString(),
     });
   }
+  options.push({
+    code: "overnight", label: "Overnight",
+    detail: "Exit by 9 AM tomorrow", amountCents: 2000,
+    expiresAt: easternDate(parts, 9, 0, 1).toISOString(),
+  });
   return options;
 }
 
@@ -120,35 +155,17 @@ export function getExtensionOptions(currentExpiresAt: string, now = new Date()):
   const currentExpiry = new Date(currentExpiresAt);
   if (Number.isNaN(currentExpiry.getTime()) || currentExpiry <= now) return [];
 
-  const parts = localParts(currentExpiry);
-  if (parts.weekday === 0) return [];
-
-  const expiryMinutes = parts.hour * 60 + parts.minute;
-  const dayEndMinutes = 17 * 60;
-
-  // Daytime hourly sessions can be extended only up to the 5 PM day-parking cutoff.
-  // Evening and overnight options already run to their permitted exit time.
-  if (expiryMinutes >= dayEndMinutes) return [];
-
-  const dayEnd = easternDate(parts, 17);
-  const choices = [
-    { code: "plus-one-hour" as const, minutes: 60, label: "+1 Hour", amountCents: 500 },
-    { code: "plus-two-hours" as const, minutes: 120, label: "+2 Hours", amountCents: 1000 },
-    { code: "plus-three-hours" as const, minutes: 180, label: "+3 Hours", amountCents: 1500 },
-  ];
-
-  return choices
-    .map((choice) => {
-      const expiresAt = new Date(currentExpiry.getTime() + choice.minutes * 60_000);
-      return {
-        code: choice.code,
-        label: choice.label,
-        detail: `New expiration: ${new Intl.DateTimeFormat("en-US", { timeZone: GRANT_GARAGE.timeZone, timeStyle: "short" }).format(expiresAt)}`,
-        amountCents: choice.amountCents,
-        expiresAt: expiresAt.toISOString(),
-      };
-    })
-    .filter((choice) => new Date(choice.expiresAt) <= dayEnd);
+  // Extensions can be purchased at any hour, including Sundays and across midnight.
+  return ([1, 2, 3] as const).map((hours) => {
+    const expiresAt = new Date(currentExpiry.getTime() + hours * 3_600_000);
+    return {
+      code: (hours === 1 ? "plus-one-hour" : hours === 2 ? "plus-two-hours" : "plus-three-hours") as ParkingExtensionOptionCode,
+      label: `+${hours} Hour${hours > 1 ? "s" : ""}`,
+      detail: `New expiration: ${new Intl.DateTimeFormat("en-US", { timeZone: GRANT_GARAGE.timeZone, dateStyle: "short", timeStyle: "short" }).format(expiresAt)}`,
+      amountCents: hours * 500,
+      expiresAt: expiresAt.toISOString(),
+    };
+  });
 }
 
 export function normalizePlate(value: string) {
