@@ -65,12 +65,13 @@ export function SelfPayForm() {
           <span className="self-pay-kicker">EXPRESS SELF-PAY PARKING</span>
           <h1>Pay &amp; start parking</h1>
           <p><strong>{GRANT_GARAGE.name}</strong><br />{GRANT_GARAGE.address}</p>
+          <p>Self-pay parking available 24/7, including Sundays. Select your parking period below.</p>
         </div>
 
         {!mounted ? <div className="self-pay-notice">Checking today&apos;s parking options…</div> : options.length === 0 ? (
           <div className="self-pay-closed" role="status">
             <strong>Self-pay is currently closed</strong>
-            <p>Grant Garage opens Monday–Saturday at 6:00 AM. Sunday is closed.</p>
+            <p>Parking options are temporarily unavailable. Please refresh or contact the garage.</p>
           </div>
         ) : (
           <form className="self-pay-form" onSubmit={submit}>
